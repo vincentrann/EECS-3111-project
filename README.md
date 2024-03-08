@@ -1,5 +1,4 @@
-# EECS-3111-project
-YorkU Library Management Java App
+# EECS-3311-project
 
-
-m
+containts client class using builder pattern
+(main.java contains an example on how to use program)
