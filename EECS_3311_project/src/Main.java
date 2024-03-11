@@ -10,7 +10,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-// test
+import java.util.Vector;
+
 public class Main extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -53,23 +54,52 @@ public class Main extends JFrame {
 		registerPage.setBorder(BorderFactory.createEmptyBorder(30,30,10,30));
 		registerPage.setLayout(new GridLayout(15, 1));
 		
+		Vector<String> regNames = new Vector<String>();
+		regNames.add("Student");
+		regNames.add("Faculty Member");
+		regNames.add("Non-Faculty staff");
+		regNames.add("Visitors");
+		
 		JLabel regLabel = new JLabel("register");
-		JLabel email = new JLabel("email");
-		JLabel password = new JLabel("password");
-		JTextField emailField = new JTextField(11);
-		JTextField passField = new JTextField(11);
-		regLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		email.setAlignmentX(Component.CENTER_ALIGNMENT);
-		password.setAlignmentX(Component.CENTER_ALIGNMENT);
+		JLabel remail = new JLabel("email");
+		JLabel rpassword = new JLabel("password");
+		JTextField remailField = new JTextField(11);
+		JTextField rpassField = new JTextField(11);
+		JButton regButton = new JButton("register");
+		JComboBox<String> regTypeList = new JComboBox<String>(regNames);
+		JButton regBackButton = new JButton("back");
 		
 		registerPage.add(regLabel);
-		registerPage.add(email);
-		registerPage.add(emailField);
-		registerPage.add(password);	
-		registerPage.add(passField);
+		registerPage.add(remail);
+		registerPage.add(remailField);
+		registerPage.add(rpassword);	
+		registerPage.add(rpassField);
+		registerPage.add(regTypeList);
+		registerPage.add(regButton);
+		registerPage.add(regBackButton);
+		
 		
 		//login page
 		JPanel loginPage = new JPanel();
+		loginPage.setBorder(BorderFactory.createEmptyBorder(30,30,10,30));
+		loginPage.setLayout(new GridLayout(15, 1));
+		
+		JLabel logLabel = new JLabel("login");
+		JLabel logemail = new JLabel("email");
+		JTextField logemailField = new JTextField(11);
+		JLabel logpass = new JLabel("password");
+		JTextField logpassField = new JTextField(11);
+		JButton logButton = new JButton("login");
+		JButton logBackButton = new JButton("back");
+		
+		loginPage.add(logLabel);
+		loginPage.add(logemail);
+		loginPage.add(logemailField);
+		loginPage.add(logpass);
+		loginPage.add(logpassField);
+		loginPage.add(logButton);
+		loginPage.add(logBackButton);
+
 	
 		// add panels
 		cardJPanel.add(registerPage, "register"); 
@@ -77,7 +107,8 @@ public class Main extends JFrame {
 		cardJPanel.add(firstPage, "first"); 
 		cardLayout.show(cardJPanel, "first"); 
 		setContentPane(cardJPanel);
-		
+
+		//register page actions
 		register.addActionListener(new ActionListener() {
 			
 			@Override
@@ -85,11 +116,32 @@ public class Main extends JFrame {
 				cardLayout.show(cardJPanel, "register");
 			}
 		});
+		regBackButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cardLayout.show(cardJPanel, "first");
+				
+			}
+		});
 		
-		
-		
-		
-		
+		//login page actions
+		loginButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cardLayout.show(cardJPanel, "login");
+				
+			}
+		});
+		logBackButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cardLayout.show(cardJPanel, "first");
+				
+			}
+		});	
 		
 	}
 	
