@@ -1,3 +1,6 @@
+package appUI;
+
+
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -12,19 +15,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 
-public class Main extends JFrame {
+public class MainUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private static Main instance;
+	private static MainUI instance;
 
-	public static Main getInstance() {
+	public static MainUI getInstance() {
 		if (instance == null)
-			instance = new Main();
+			instance = new MainUI();
 
 		return instance;
 	}
 	
-	private Main() {
+	private MainUI() {
 		// Set window title
 		super("YorkU Library Management app");
 		
@@ -147,7 +150,7 @@ public class Main extends JFrame {
 	
 	public static void main(String[] args) {
 
-		JFrame frame = Main.getInstance();
+		JFrame frame = MainUI.getInstance();
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame.setPreferredSize(new Dimension(900, 600));
 		frame.pack();
