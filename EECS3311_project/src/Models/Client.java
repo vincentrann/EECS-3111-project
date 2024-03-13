@@ -30,6 +30,10 @@ public class Client implements ObserverPattern.PhysicalItemObserver{
 		this.userID = userID;
 	}
 	
+	public String getType() {
+		return this.type;
+	}
+	
 	/*
 	 * Updates physical item status for client
 	 */

@@ -51,8 +51,21 @@ public class PhysicalItem{
             rentedBooks.put(bookTitle, dueDateTime);
             addObserver(client);
             notifyObservers(bookTitle, dueDateTime);
+            copies--;
         } else {
+        	
+        	SystemNotification noBooks = new SystemNotification();
+            noBooks.unavailableTextbook();
+            
+            // this is used for now
             System.out.println("Sorry, all copies of the book are already rented.");
+        	
+            // this can change based on how book procure
+        	if (client.getType().equals("FacultyMember")) {
+        		ManagementTeam team = new ManagementTeam();
+        		team.pocureBook(bookTitle);
+        	} 
+        	
         }
     }
 
@@ -61,9 +74,10 @@ public class PhysicalItem{
      */
     public void returnPhysicalItem(String bookTitle, Client client) {
     	if (rentedBooks.containsKey(bookTitle)) {
-    		notifyObservers(bookTitle, null); // Pass null as due date to indicate book return
             rentedBooks.remove(bookTitle);
+            notifyObservers(bookTitle, null); // Pass null as due date to indicate book return
             removeObserver(client); // Remove the client from observers
+            copies++;
             //notifyObservers(bookTitle, null); // Pass null as due date to indicate book return
         } else {
             System.out.println("The book " + bookTitle + " is not currently rented.");

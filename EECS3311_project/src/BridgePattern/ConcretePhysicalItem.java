@@ -2,6 +2,7 @@ package BridgePattern;
 
 
 import Models.Client;
+import Models.SystemNotification;
 import ObserverPattern.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -62,7 +63,13 @@ public class ConcretePhysicalItem extends ConcreteItem{
             rentedBooks.put(bookTitle, dueDateTime);
             addObserver(client);
             notifyObservers(bookTitle, dueDateTime);
+            copies--;
         } else {
+        	
+        	SystemNotification noBooks = new SystemNotification();
+        	noBooks.unavailableTextbook();
+        	
+        	// can remove this based on how it's used
             System.out.println("Sorry, all copies of the book are already rented.");
         }
     }
@@ -72,9 +79,10 @@ public class ConcretePhysicalItem extends ConcreteItem{
      */
     public void returnPhysicalItem(String bookTitle, Client client) {
     	if (rentedBooks.containsKey(bookTitle)) {
-    		notifyObservers(bookTitle, null); // Pass null as due date to indicate book return
             rentedBooks.remove(bookTitle);
+            notifyObservers(bookTitle, null); // Pass null as due date to indicate book return
             removeObserver(client); // Remove the client from observers
+            copies++;
             //notifyObservers(bookTitle, null); // Pass null as due date to indicate book return
         } else {
             System.out.println("The book " + bookTitle + " is not currently rented.");

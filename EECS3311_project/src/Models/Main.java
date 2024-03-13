@@ -3,6 +3,7 @@ package Models;
 import java.time.LocalDateTime;
 
 
+
 // import packages here
 import BuilderPattern.*;
 import FlyweightPattern.*;
@@ -33,16 +34,16 @@ public class Main {
 		//System.out.println(visitorClient); //prints details of client
 		
 		// create items
-		PhysicalItem physicalItem = new PhysicalItem(10, "someLibrary1", true); 
+		PhysicalItem physicalItem = new PhysicalItem(3, "someLibrary1", true); 
 		
 		
 		// client rent physical item
-		physicalItem.rentPhysicalItem("book1", LocalDateTime.now().plusDays(14), visitorClient);
-		physicalItem.rentPhysicalItem("book2", LocalDateTime.now().plusDays(1), visitorClient);
+		physicalItem.rentPhysicalItem("IBN123", LocalDateTime.now().plusDays(14), visitorClient);
+		physicalItem.rentPhysicalItem("IBN456", LocalDateTime.now().plusDays(1), visitorClient);
 		//physicalItem.rentPhysicalItem("book2", LocalDateTime.now().minusDays(2), visitorClient);
 		
 		//visitorClient.displayRentedBooks(); //prints all rented book for client + due date warning
-		physicalItem.returnPhysicalItem("book1", visitorClient);
+		physicalItem.returnPhysicalItem("IBN456", visitorClient);
 		//visitorClient.displayRentedBooks(); //print all rented book for client + due date warning
 		
 		
