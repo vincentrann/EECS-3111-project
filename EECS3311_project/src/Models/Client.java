@@ -1,6 +1,7 @@
 package Models;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ public class Client implements ObserverPattern.PhysicalItemObserver{
 	private String password;
 	private String userID;
 	private Map<String, LocalDateTime> rentedPhysicalItems = new HashMap<>(); // Stores all physical Items rented
+	private ArrayList<Newsletter> subscribtions = new ArrayList<Newsletter>();
 	
 	public Client(String type, String email, String password, String userID) {
 		this.type = type;
@@ -54,6 +56,22 @@ public class Client implements ObserverPattern.PhysicalItemObserver{
 		for (Map.Entry<String, LocalDateTime> entry : rentedPhysicalItems.entrySet()) {
             System.out.println("Book: " + entry.getKey() + ", Due Date: " + entry.getValue());
         }
+		
+	}
+	
+	public void subscribe(Newsletter newsletter) {
+		subscribtions.add(newsletter);
+	}
+	
+	public boolean unsubscribe(String newsletter) {
+		boolean exist = false; // display that subscription doesn't exist
+		for (int i = 0; i < subscribtions.size(); i++) {
+			if (subscribtions.get(i).getName().equals(newsletter)) {
+				exist = true; // display that subscription exists and is removed
+				subscribtions.remove(i);
+			}
+		}
+		return exist; 
 		
 	}
 	

@@ -15,4 +15,8 @@ public class Newsletter{
         this.discount = discount;
         this.monthlyCost = monthlyCost;
     }
+    
+    public String getName() {
+    	return name;
+    }
 }

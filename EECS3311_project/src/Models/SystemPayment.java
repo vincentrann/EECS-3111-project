@@ -13,18 +13,17 @@ public class SystemPayment {
 		idCounter++;
 	}
 
-	public void subscribe(Newsletter newsletter) {
-		// TODO Auto-generated method stub
-		
+	public void subscribe(Client client, Newsletter newsletter) {
+		client.subscribe(newsletter);
 	}
 
 	public void discount(PhysicalItem item) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	public void payment(String type) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
