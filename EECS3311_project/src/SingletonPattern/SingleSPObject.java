@@ -1,8 +1,6 @@
 package SingletonPattern;
 
-import Models.Newsletter;
-import Models.PhysicalItem;
-import Models.SystemPayment;
+import Models.*;
 
 public class SingleSPObject {
 	private static SingleSPObject instance;
@@ -19,8 +17,8 @@ public class SingleSPObject {
 		return systemPayment;
 	}
 	
-	public void subscribe(Newsletter newsletter) {
-		this.systemPayment.subscribe(newsletter);
+	public void subscribe(Client client, Newsletter newsletter) {
+		this.systemPayment.subscribe(client, newsletter);
 	}
 	
 	public void discount(PhysicalItem item) {
