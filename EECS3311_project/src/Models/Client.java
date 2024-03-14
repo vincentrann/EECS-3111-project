@@ -51,12 +51,12 @@ public class Client implements ObserverPattern.PhysicalItemObserver{
 	/*
 	 * Prints list of rented physical items for client
 	 */
-	public Map<String, LocalDateTime> displayRentedBooks() {
-		//System.out.println("Currently rented books:");
-		//for (Map.Entry<String, LocalDateTime> entry : rentedPhysicalItems.entrySet()) {
-        //    System.out.println("Book: " + entry.getKey() + ", Due Date: " + entry.getValue());
-       // }
-		return rentedPhysicalItems;
+	public void displayRentedBooks() {
+		System.out.println("Currently rented books:");
+		for (Map.Entry<String, LocalDateTime> entry : rentedPhysicalItems.entrySet()) {
+            System.out.println("Book: " + entry.getKey() + ", Due Date: " + entry.getValue());
+        }
+		
 	}
 	
 	public void subscribe(Newsletter newsletter) {
