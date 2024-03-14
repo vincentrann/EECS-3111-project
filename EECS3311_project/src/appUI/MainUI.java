@@ -3,6 +3,8 @@ package appUI;
 
 
 import java.awt.BorderLayout;
+
+
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -14,8 +16,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
+import java.util.UUID;
+import BuilderPattern.*;
+
+import Models.*;
+import SingletonPattern.SingleDBObject;
 
 public class MainUI extends JFrame {
+	
+	SingleDBObject database = SingleDBObject.getInstance();
 
 	private static final long serialVersionUID = 1L;
 	private static MainUI instance;
@@ -116,7 +125,7 @@ public class MainUI extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				cardLayout.show(cardJPanel, "register");
+				cardLayout.show(cardJPanel, "register");	
 			}
 		});
 		regBackButton.addActionListener(new ActionListener() {
@@ -125,6 +134,41 @@ public class MainUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				cardLayout.show(cardJPanel, "first");
 				
+			}
+		});
+		regButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ClientBuilder builder;
+				ClientDirector director;
+				
+				String email= remailField.getText();
+				String password= rpassField.getText();
+				String id = UUID.randomUUID().toString();
+				String type = String.valueOf(regTypeList.getSelectedItem());
+				
+				if (type.equals("Student")) {
+					builder = new StudentBuilder();
+				}
+				else if (type.equals("Visitor")) {
+					builder = new VisitorBuilder();
+				}
+				else if (type.equals("Faculty Member")) {
+					builder = new FacultyMemberBuilder();
+				}
+				else {
+					builder = new NonFacultyMemberBuilder();
+				}
+				
+				director = new ClientDirector(builder);
+				
+				director.construct(email, password, id);
+				Client client = director.getProduct();
+				database.addClient(client);
+				
+				new MainLibraryFront();
+				dispose();
 			}
 		});
 		
@@ -145,6 +189,14 @@ public class MainUI extends JFrame {
 				
 			}
 		});	
+		logButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new MainLibraryFront();
+				dispose();
+			}
+		});
 		
 	}
 	
