@@ -29,8 +29,8 @@ public class Main {
 		String somePassword = "123";
 		String someID = "ID2";
 
-		Visitor visitor = new Visitor(someEmail, somePassword, someID);
-		Client visitorClient = visitor.getClient();
+		FacultyMember member = new FacultyMember(someEmail, somePassword, someID);
+		Client facultyMemberClient = member.getClient();
 		//System.out.println(visitorClient); //prints details of client
 		
 		// create items
@@ -38,12 +38,12 @@ public class Main {
 		
 		
 		// client rent physical item
-		physicalItem.rentPhysicalItem("IBN123", LocalDateTime.now().plusDays(14), visitorClient);
-		physicalItem.rentPhysicalItem("IBN456", LocalDateTime.now().plusDays(1), visitorClient);
+		physicalItem.rentPhysicalItem("IBN123", LocalDateTime.now().plusDays(14), facultyMemberClient);
+		physicalItem.rentPhysicalItem("IBN456", LocalDateTime.now().plusDays(1), facultyMemberClient);
 		//physicalItem.rentPhysicalItem("book2", LocalDateTime.now().minusDays(2), visitorClient);
 		
 		//visitorClient.displayRentedBooks(); //prints all rented book for client + due date warning
-		physicalItem.returnPhysicalItem("IBN456", visitorClient);
+		physicalItem.returnPhysicalItem("IBN456", facultyMemberClient);
 		//visitorClient.displayRentedBooks(); //print all rented book for client + due date warning
 		
 		

@@ -22,6 +22,10 @@ public class SystemNotification {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public String registrationFailed() {
+		return null;
+	}
 
 
 }

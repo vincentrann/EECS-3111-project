@@ -1,22 +1,21 @@
 package Models;
 
+import BuilderPattern.StudentBuilder;
 import BuilderPattern.ClientDirector;
-
 import BuilderPattern.FacultyMemberBuilder;
 
-
-public class FacultyMember {
-	private ClientDirector facultyMemberDirector;
+public class Student {
+	private ClientDirector studentDirector;
 	private String[] courses;
 	private String[] previousBooks;
 	
 	
-	public FacultyMember(String email, String password, String userID) {
+	public Student(String email, String password, String userID) {
 		ManagementTeam team = new ManagementTeam();
 		boolean validation = team.furthervalidation();
 		if (validation==true) {
-			this.facultyMemberDirector = new ClientDirector(new FacultyMemberBuilder());
-			this.facultyMemberDirector.construct(email, password, userID);
+			this.studentDirector = new ClientDirector(new StudentBuilder());
+			this.studentDirector.construct(email, password, userID);
 		} else {
 			SystemNotification noti = new SystemNotification();
 			noti.registrationFailed();
@@ -26,7 +25,7 @@ public class FacultyMember {
 	}
 	
 	public Client getClient() {
-		return this.facultyMemberDirector.getProduct(); 
+		return this.studentDirector.getProduct(); 
 	}
 	
 	// Additional functionalities
