@@ -2,7 +2,9 @@ package Models;
 
 import BuilderPattern.ClientDirector;
 
+
 import BuilderPattern.FacultyMemberBuilder;
+import SingletonPattern.SingleSNObject;
 
 
 public class FacultyMember {
@@ -18,10 +20,8 @@ public class FacultyMember {
 			this.facultyMemberDirector = new ClientDirector(new FacultyMemberBuilder());
 			this.facultyMemberDirector.construct(email, password, userID);
 		} else {
-			SystemNotification noti = new SystemNotification();
-			noti.registrationFailed();
-			System.out.println("failed");
-	        // redo registration
+
+			SingleSNObject.getInstance().registrationFailed();
 		}
 	}
 	

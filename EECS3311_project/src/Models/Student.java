@@ -1,8 +1,9 @@
 package Models;
 
 import BuilderPattern.StudentBuilder;
+import SingletonPattern.SingleMTObject;
+import SingletonPattern.SingleSNObject;
 import BuilderPattern.ClientDirector;
-import BuilderPattern.FacultyMemberBuilder;
 
 public class Student {
 	private ClientDirector studentDirector;
@@ -11,16 +12,13 @@ public class Student {
 	
 	
 	public Student(String email, String password, String userID) {
-		ManagementTeam team = new ManagementTeam();
-		boolean validation = team.furthervalidation();
+		boolean validation = SingleMTObject.getInstance().furtherValidation();
 		if (validation==true) {
 			this.studentDirector = new ClientDirector(new StudentBuilder());
 			this.studentDirector.construct(email, password, userID);
 		} else {
-			SystemNotification noti = new SystemNotification();
-			noti.registrationFailed();
-			System.out.println("failed");
-	        // redo registration
+			
+			SingleSNObject.getInstance().registrationFailed();
 		}
 	}
 	

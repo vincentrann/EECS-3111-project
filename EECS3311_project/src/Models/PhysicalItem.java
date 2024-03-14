@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import ObserverPattern.*;
+import SingletonPattern.SingleSNObject;
 
 public class PhysicalItem{
     private int copies;
@@ -54,12 +55,8 @@ public class PhysicalItem{
             copies--;
         } else {
         	
-        	SystemNotification noBooks = new SystemNotification();
-            noBooks.unavailableTextbook();
-            
-            // this is used for now
-            System.out.println("Sorry, all copies of the book are already rented.");
-        	
+            SingleSNObject.getInstance().unavailableTextbook();
+                   	
             // this can change based on how book procure
         	if (client.getType().equals("FacultyMember")) {
         		ManagementTeam team = new ManagementTeam();

@@ -29,5 +29,9 @@ public class SingleSNObject {
 	public String priority() {
 		return systemNotification.priority();
 	}
+	
+	public String registrationFailed() {
+		return systemNotification.registrationFailed();
+	}
 
 }
