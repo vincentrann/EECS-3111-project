@@ -3,6 +3,7 @@ package Models;
 import java.util.Random;
 
 public class ManagementTeam{
+	private static ManagementTeam instance;
     public ManagementTeam() {}
 
     public boolean furthervalidation(){
@@ -17,6 +18,15 @@ public class ManagementTeam{
             return true;
         }
         
+    }
+    
+    //USE THIS WHEN INSTANTIATING OR USING METHODS
+    
+    public ManagementTeam getInstance() {
+    	if(instance == null) {
+    		this.instance = new ManagementTeam();
+    	}
+    	return instance;
     }
 
     public void procureBook(PhysicalItem item) {

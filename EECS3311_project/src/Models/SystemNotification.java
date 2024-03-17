@@ -1,6 +1,15 @@
 package Models;
 
 public class SystemNotification {
+	
+	private static SystemNotification instance;
+	
+	public SystemNotification getInstance() {
+		if(instance == null){
+			this.instance = new SystemNotification();
+		}
+		return this.instance;
+	}
 
 	public String returnWarning() {
 		// TODO Auto-generated method stub
