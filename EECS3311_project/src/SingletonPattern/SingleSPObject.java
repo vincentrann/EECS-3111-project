@@ -4,11 +4,10 @@ import Models.*;
 
 public class SingleSPObject {
 	private static SingleSPObject instance;
-	private SystemPayment systemPayment;
 	
-	public static SingleSPObject getInstance() {
+	public static SystemPayment getInstance() {
 		if(instance == null) {
-			instance = new SingleSPObject();
+			instance = new SystemPayment();
 		}
 		return instance;
 	}

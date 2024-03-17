@@ -6,14 +6,14 @@ public class SystemPayment {
 	private static int idCounter = 0;
 	private static SystemPayment instance;
 	
-	public SystemPayment getInstance() {
+	public static SystemPayment getInstance() {
 		if(instance == null){
-			this.instance = new SystemPayment();
+			instance = new SystemPayment();
 		}
-		return this.instance;
+		return instance;
 	}
 	
-	public SystemPayment() {}
+	private SystemPayment() {}
 	
 	public SystemPayment(String paymentType) {
 		this.paymentType = paymentType;

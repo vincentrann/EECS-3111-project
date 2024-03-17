@@ -4,9 +4,9 @@ import java.util.Random;
 
 public class ManagementTeam{
 	private static ManagementTeam instance;
-    public ManagementTeam() {}
+    private ManagementTeam() {}
 
-    public boolean furthervalidation(){
+    public boolean furtherValidation(){
     	Random random = new Random();
         int randomNumber = random.nextInt(100);
         int failureThreshold = 5;
@@ -22,9 +22,9 @@ public class ManagementTeam{
     
     //USE THIS WHEN INSTANTIATING OR USING METHODS
     
-    public ManagementTeam getInstance() {
+    public static ManagementTeam getInstance() {
     	if(instance == null) {
-    		this.instance = new ManagementTeam();
+    		instance = new ManagementTeam();
     	}
     	return instance;
     }

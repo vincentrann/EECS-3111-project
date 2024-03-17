@@ -4,12 +4,14 @@ public class SystemNotification {
 	
 	private static SystemNotification instance;
 	
-	public SystemNotification getInstance() {
+	public static SystemNotification getInstance() {
 		if(instance == null){
-			this.instance = new SystemNotification();
+			instance = new SystemNotification();
 		}
-		return this.instance;
+		return instance;
 	}
+	
+	private SystemNotification() {}
 
 	public String returnWarning() {
 		// TODO Auto-generated method stub

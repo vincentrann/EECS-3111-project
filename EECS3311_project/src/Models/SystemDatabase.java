@@ -7,14 +7,14 @@ public class SystemDatabase {
 	private ArrayList<Item> libraryItems;
 	private static SystemDatabase instance;
 	
-	public SystemDatabase getInstance() {
+	public static SystemDatabase getInstance() {
 		if(instance == null){
-			this.instance = new SystemDatabase();
+			instance = new SystemDatabase();
 		}
-		return this.instance;
+		return instance;
 	}
 	
-	public SystemDatabase() {}
+	private SystemDatabase() {}
 	
 	public void addClient(Client client) {
 		

@@ -4,12 +4,11 @@ import Models.SystemNotification;
 
 public class SingleSNObject {
 	
-	private static SingleSNObject instance;
-	private SystemNotification systemNotification;
+	private static SystemNotification instance;
 	
-	public static SingleSNObject getInstance() {
+	public static SystemNotification getInstance() {
 		if(instance == null) {
-			instance = new SingleSNObject();
+			instance = new SystemNotification();
 		}
 		return instance;
 	}
@@ -29,6 +28,7 @@ public class SingleSNObject {
 	public String priority() {
 		return systemNotification.priority();
 	}
+	
 	
 	public String registrationFailed() {
 		return systemNotification.registrationFailed();

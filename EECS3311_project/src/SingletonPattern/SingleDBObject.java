@@ -5,17 +5,11 @@ import Models.Item;
 import Models.SystemDatabase;
 
 public class SingleDBObject {
-	private static SingleDBObject instance;
-	
-	private SystemDatabase database;
-	
-	private SingleDBObject() {
-		this.database = new SystemDatabase();
-	}
+	private static SystemDatabase instance;
 	
 	public static SingleDBObject getInstance() {
 		if (instance == null) {
-			instance = new SingleDBObject();
+			instance = new SystemDatabase();
 		}
 		return instance;
 	}
