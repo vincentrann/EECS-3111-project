@@ -5,6 +5,14 @@ import java.util.ArrayList;
 public class SystemDatabase {
 	private ArrayList<Client> registeredClients;
 	private ArrayList<Item> libraryItems;
+	private static SystemDatabase instance;
+	
+	public SystemDatabase getInstance() {
+		if(instance == null){
+			this.instance = new SystemDatabase();
+		}
+		return this.instance;
+	}
 	
 	public SystemDatabase() {}
 	
