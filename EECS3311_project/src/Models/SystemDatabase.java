@@ -24,6 +24,8 @@ public class SystemDatabase {
 		
 	}
 	
+	public void add
+	
 	public Client getClient (String userID) {
 		return null;
 	}
