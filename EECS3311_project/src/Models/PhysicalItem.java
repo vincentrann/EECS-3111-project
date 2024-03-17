@@ -9,9 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 import ObserverPattern.*;
+import SingletonPattern.SingleMTObject;
 import SingletonPattern.SingleSNObject;
 
-public class PhysicalItem{
+public class PhysicalItem extends Item{
     private int copies;
     private String locationInLibrary;
     private boolean canBePurchased;
@@ -28,6 +29,14 @@ public class PhysicalItem{
 
     public String getLocation(){
         return this.locationInLibrary;
+    }
+    
+    public int getCopies() {
+    	return this.copies;
+    }
+    
+    protected void addCopy() {
+    	this.copies++;
     }
     
     /*
@@ -57,12 +66,20 @@ public class PhysicalItem{
         	
             SingleSNObject.getInstance().unavailableTextbook();
                    	
-            // this can change based on how book procure
-        	if (client.getType().equals("FacultyMember")) {
-        		ManagementTeam team = new ManagementTeam();
-        		team.pocureBook(bookTitle);
-        	} 
-        	
+            // display button with option "procure book?" - with yes or no
+        	// if yes
+//            SingleMTObject.getInstance().procureBook(this);
+//            if (rentedBooks.size() < copies) {
+//                rentedBooks.put(bookTitle, dueDateTime);
+//                addObserver(client);
+//                notifyObservers(bookTitle, dueDateTime);
+//                copies--;
+//            } else {
+//                SingleSNObject.getInstance().unavailableTextbook();
+//            }
+            //if no, nothing should happen
+	 
+    
         }
     }
 

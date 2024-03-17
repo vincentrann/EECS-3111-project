@@ -2,6 +2,7 @@ package SingletonPattern;
 
 import Models.Item;
 import Models.ManagementTeam;
+import Models.PhysicalItem;
 
 public class SingleMTObject{
     private static SingleMTObject instance;
@@ -27,11 +28,19 @@ public class SingleMTObject{
     	return this.managementTeam.furthervalidation();
     }
     
-    public void pocureBook(String book) {
-    	this.managementTeam.pocureBook(book);
+    public void procureBook(PhysicalItem item) {
+    	this.managementTeam.procureBook(item);
     }
     
-    public void changeItem(Item item) {
-    	this.managementTeam.changeItem(item);
+//    public void changeItem(Item item) {
+//    	this.managementTeam.changeItem(item);
+//    }
+    
+    public void enableItem(Item item) {
+    	this.managementTeam.enableItem(item);
+    }
+    
+    public void disableItem(Item item) {
+    	this.managementTeam.disableItem(item);
     }
 }

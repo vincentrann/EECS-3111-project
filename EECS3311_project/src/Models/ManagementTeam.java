@@ -19,17 +19,25 @@ public class ManagementTeam{
         
     }
 
-    public void pocureBook(String book) {
-    	System.out.println("hello");
+    public void procureBook(PhysicalItem item) {
+    	if(item.getCopies() < 20) {
+    		addItem(item);
+    	}
 	}
     
-    public void changeItems(Item item){}
-
-
-
-	public void changeItem(Item item) {
-		
-		// TODO Auto-generated method stub
-		
+//	public void changeItem(Item item) {
+//		//update item in csv(?)
+//	}
+	
+	private void addItem(PhysicalItem item) {
+		item.addCopy();
+	}
+	
+	public void enableItem(Item item) {
+		item.enable();
+	}
+	
+	public void disableItem(Item item) {
+		item.disable();
 	}
 }
