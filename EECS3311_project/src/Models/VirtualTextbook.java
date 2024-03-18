@@ -1,6 +1,6 @@
 package Models;//package ...
 
-public class VirtualTextbook{
+public class VirtualTextbook extends Item{
     private String edition;
     private boolean availability;
     private double priority;

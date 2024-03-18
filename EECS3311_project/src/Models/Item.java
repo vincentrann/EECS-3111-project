@@ -24,5 +24,7 @@ public class Item extends ConcreteItem{
     protected boolean isEnabled() {
     	return enabled;
     }
-   
+    public String getName() {
+		return this.name;
+	}
 }

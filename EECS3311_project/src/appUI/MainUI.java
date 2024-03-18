@@ -24,7 +24,7 @@ import SingletonPattern.SingleDBObject;
 
 public class MainUI extends JFrame {
 	
-	SystemDatabase database = new SystemDatabase();
+	SystemDatabase database = SystemDatabase.getInstance();
 
 	private static final long serialVersionUID = 1L;
 	private static MainUI instance;
@@ -173,7 +173,7 @@ public class MainUI extends JFrame {
 					Client client = director.getProduct();
 					database.addClient(client);
 					
-					new MainLibraryFront();
+					new MainLibraryFront(client, database);
 					dispose();
 				}
 			}
@@ -204,7 +204,8 @@ public class MainUI extends JFrame {
 				String password = logpassField.getText();
 				
 				if (database.clientLogin(email, password)) {
-					new MainLibraryFront();
+					//TODO: need to pass client and database instances
+					//new MainLibraryFront();
 					dispose();
 				}
 				else {
