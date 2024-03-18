@@ -1,0 +1,4 @@
+name,uniqueID,type,status,location
+item1,1,cd,enabled,back
+item2,2,book ,enabled,front
+item3,3,magazine,enabled,middle

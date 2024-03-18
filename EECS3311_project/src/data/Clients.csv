@@ -1,1 +1,2 @@
-name,uniqueID,type
+email,password,type,userID
+test,test,Student,32ee65ec-0498-4c98-8199-c3e6bfb3d9e6

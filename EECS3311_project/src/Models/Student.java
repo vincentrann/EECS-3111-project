@@ -8,7 +8,7 @@ import BuilderPattern.ClientDirector;
 public class Student {
 	private ClientDirector studentDirector;
 	private String[] courses;
-	private String[] previousBooks;
+	private String[] textbooks;
 	
 	
 	public Student(String email, String password, String userID) {
