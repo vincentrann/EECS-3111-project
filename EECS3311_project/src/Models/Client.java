@@ -1,8 +1,10 @@
 package Models;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Client implements ObserverPattern.PhysicalItemObserver{
@@ -60,14 +62,29 @@ public class Client implements ObserverPattern.PhysicalItemObserver{
 	}
 	
 	/*
-	 * Prints list of rented physical items for client
+	 *  Added: list of rented physical items for client
 	 */
-	public void displayRentedBooks() {
-		System.out.println("Currently rented books:");
-		for (Map.Entry<String, LocalDateTime> entry : rentedPhysicalItems.entrySet()) {
-            System.out.println("Book: " + entry.getKey() + ", Due Date: " + entry.getValue());
-        }
-		
+	public Map<String, LocalDateTime> displayRentedBooks() {
+		return rentedPhysicalItems;
+	}
+	
+	/*
+	 *  Added: returns a list of notifications for overdue books.
+	 */
+	public List<String> notifyDueDate() {
+	    List<String> dueDateNotifications = new ArrayList<>();
+	    LocalDateTime now = LocalDateTime.now();
+	    for (Map.Entry<String, LocalDateTime> entry : rentedPhysicalItems.entrySet()) {
+	        LocalDateTime dueDateTime = entry.getValue();
+	        Duration duration = Duration.between(now, dueDateTime);
+	        long hoursLeft = duration.toHours();
+	        if ((hoursLeft <= 24) && (hoursLeft >= 0)) {
+	            dueDateNotifications.add("Warning: Less than 24hrs left until the due date for book " + entry.getKey());
+	        } else if (duration.isNegative()) {
+	            dueDateNotifications.add("Warning: The due date for book " + entry.getKey() + " has passed.");
+	        }
+	    }
+	    return dueDateNotifications; 
 	}
 	
 	public void subscribe(Newsletter newsletter) {

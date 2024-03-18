@@ -9,7 +9,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.csvreader.*;
 
 
@@ -115,7 +114,17 @@ public class SystemDatabase {
 		}
 	
 	}
-	
+	public void addSubscription(String userID, Newsletter newsletter) {
+	    try (CSVWriter writer = new CSVWriter(new FileWriter(newsletterSubscriberCSV, true))) {
+	        String[] data = {newsletter.getName(), userID}; // Assuming 'name' uniquely identifies a newsletter
+	        writer.writeNext(data);
+	    } catch (IOException e) {
+	        System.err.println("An error occurred while writing to the file: " + e.getMessage());
+	        e.printStackTrace();
+	    }
+	}
+	//TODO: Might need to use this one instead of the one above
+	/**
 	public void addSubscription(String userID, String name) {
 
 
@@ -127,7 +136,44 @@ public class SystemDatabase {
             e.printStackTrace();
         }
     }
-	
+	*/
+	public void cancelSubscription(String userID, Newsletter newsletter) {
+	    String csvFile = newsletterSubscriberCSV;
+	    String tempFile = "temp.csv";
+
+	    try (CSVReader reader = new CSVReader(new FileReader(csvFile));
+	         CSVWriter writer = new CSVWriter(new FileWriter(tempFile))) {
+
+	        String[] nextLine;
+	        while ((nextLine = reader.readNext()) != null) {
+	            // Skip the line that matches both the newsletter name and the user ID
+	            if (nextLine.length >= 2 && nextLine[0].equals(newsletter.getName()) && nextLine[1].equals(userID)) {
+	                continue; // Skip this record, effectively deleting it from the list
+	            }
+	            writer.writeNext(nextLine); // Write other records normally
+	        }
+
+	    } catch (IOException e) {
+	        System.err.println("An error occurred while removing the subscription: " + e.getMessage());
+	        e.printStackTrace();
+	        return;
+	    }
+
+	    // Replace the old file with the updated one
+	    File oldFile = new File(csvFile);
+	    File newFile = new File(tempFile);
+	    if (!oldFile.delete()) {
+	        System.err.println("Could not delete the original file.");
+	        return;
+	    }
+	    if (!newFile.renameTo(oldFile)) {
+	        System.err.println("Could not rename the temporary file to the original file.");
+	    }
+	}
+
+	    
+	//TODO: Might need to use this one instead of the one above    
+	/**
 	public void cancelSubscription(String userID, String name) {
         String csvFile = newsletterSubscriberCSV;
         String tempFile = "temp.csv";
@@ -160,7 +206,30 @@ public class SystemDatabase {
             System.err.println("Could not rename the temporary file to the original file.");
         }
     }
-	
+    */
+	  
+	//Added to use Newsletters instead of strings.
+	public List<Newsletter> viewAvailableNewsletters(String userID) {
+	    List<Newsletter> subscribedNewsletters = new ArrayList<>();
+
+	    try (CSVReader reader = new CSVReader(new FileReader(newsletterSubscriberCSV))) {
+	        String[] nextLine;
+	        while ((nextLine = reader.readNext()) != null) {
+	            if (nextLine.length >= 3 && nextLine[2].equals(userID)) { // Assuming the userID is in the third column
+	                String newsletterName = nextLine[0];
+	                String newsletterURL = nextLine[1]; // Assuming the URL is in the second column
+	                subscribedNewsletters.add(new Newsletter(newsletterName, newsletterURL)); // Now passing both name and URL
+	            }
+	        }
+	    } catch (IOException e) {
+	        System.err.println("An error occurred while reading the subscriptions: " + e.getMessage());
+	        e.printStackTrace();
+	    }
+
+	    return subscribedNewsletters;
+	}
+	//TODO: Might need to use this one instead of the one above  
+	/**
 	public List<String> viewAvailableNewsletters(String userID) {
         String csvFile = newsletterSubscriberCSV;
         List<String> subscribedNewsletters = new ArrayList<String>();
@@ -179,6 +248,7 @@ public class SystemDatabase {
 
         return subscribedNewsletters;
     }
+	*/
 	
 	public double getMonthlyCost(String uniqueID) {
         String csvFile = clientCSV;
@@ -249,16 +319,34 @@ public class SystemDatabase {
 	public Client getClient (String userID) {
 		return null;
 	}
-	
+	//TODO: needed for OpenVirtualBooks page
 	public Item getVirtualItem (String itemID) {
 		return null;
 	}
-	
+	//TODO: needed for RentBook page
 	public Item getPhysicalItem (String itemID) {
 		return null;
 	}
 	
-	public ArrayList<Newsletter> getNewsletterList () {
-		return null;
+	public List<Newsletter> getNewsletterList() {
+	    String csvFile = newsletterCSV;
+	    List<Newsletter> newsletters = new ArrayList<>();
+
+	    try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
+	        String[] nextLine;
+	        while ((nextLine = reader.readNext()) != null) {
+	            if (nextLine.length >= 2) { 
+	                String name = nextLine[0];
+	                String link = nextLine[1];
+	                Newsletter newsletter = new Newsletter(name, link);
+	                newsletters.add(newsletter);
+	            }
+	        }
+	    } catch (IOException e) {
+	        System.err.println("An error occurred while reading the newsletters: " + e.getMessage());
+	        e.printStackTrace();
+	    }
+
+	    return newsletters;
 	}
 }
