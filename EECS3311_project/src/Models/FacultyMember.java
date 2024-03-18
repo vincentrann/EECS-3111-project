@@ -14,8 +14,8 @@ public class FacultyMember {
 	
 	
 	public FacultyMember(String email, String password, String userID) {
-		ManagementTeam team = new ManagementTeam();
-		boolean validation = team.furthervalidation();
+		ManagementTeam team = ManagementTeam.getInstance();
+		boolean validation = team.furtherValidation();
 		if (validation==true) {
 			this.facultyMemberDirector = new ClientDirector(new FacultyMemberBuilder());
 			this.facultyMemberDirector.construct(email, password, userID);

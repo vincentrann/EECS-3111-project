@@ -12,7 +12,7 @@ public class Student {
 	
 	
 	public Student(String email, String password, String userID) {
-		boolean validation = SingleMTObject.getInstance().furtherValidation();
+		boolean validation = ManagementTeam.getInstance().furtherValidation();
 		if (validation==true) {
 			this.studentDirector = new ClientDirector(new StudentBuilder());
 			this.studentDirector.construct(email, password, userID);

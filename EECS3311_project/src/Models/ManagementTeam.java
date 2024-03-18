@@ -3,9 +3,10 @@ package Models;
 import java.util.Random;
 
 public class ManagementTeam{
-    public ManagementTeam() {}
+	private static ManagementTeam instance;
+    private ManagementTeam() {}
 
-    public boolean furthervalidation(){
+    public boolean furtherValidation(){
     	Random random = new Random();
         int randomNumber = random.nextInt(100);
         int failureThreshold = 5;
@@ -17,6 +18,15 @@ public class ManagementTeam{
             return true;
         }
         
+    }
+    
+    //USE THIS WHEN INSTANTIATING OR USING METHODS
+    
+    public static ManagementTeam getInstance() {
+    	if(instance == null) {
+    		instance = new ManagementTeam();
+    	}
+    	return instance;
     }
 
     public void procureBook(PhysicalItem item) {

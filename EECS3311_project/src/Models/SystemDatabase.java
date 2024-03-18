@@ -10,6 +10,7 @@ import com.csvreader.*;
 
 
 public class SystemDatabase {
+
 	private String clientCSV= "src\\data\\Clients.csv";
 	private String physicalCSV = "src\\data\\PhysicalItems.csv";
 	private String virtualCSV = "src\\data\\VirtualItems.csv";
@@ -17,8 +18,18 @@ public class SystemDatabase {
 	private String studentCSV = "src\\data\\StudentData.csv";
 	private String clientItemsCSV = "src\\data\\userItems.csv";
 	private String newsletterCSV = "src\\data\\NewsletterItems.csv";
+
+	private static SystemDatabase instance;
+
 	
-	public SystemDatabase() {}
+	public static SystemDatabase getInstance() {
+		if(instance == null){
+			instance = new SystemDatabase();
+		}
+		return instance;
+	}
+	
+	private SystemDatabase() {}
 	
 	public boolean clientExists(String email, String type) {
 		try {
@@ -79,7 +90,7 @@ public class SystemDatabase {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public Client getClient (String userID) {
 		return null;
 	}

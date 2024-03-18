@@ -7,21 +7,11 @@ import Models.PhysicalItem;
 public class SingleMTObject{
     private static SingleMTObject instance;
     
-    private ManagementTeam managementTeam;
-    
-    private SingleMTObject() {
-    	this.managementTeam = new ManagementTeam();
-    }
-    
-    public static SingleMTObject getInstance() {
+    public static ManagementTeam getInstance() {
     	if(instance == null) {
-    		instance = new SingleMTObject();
+    		instance = new ManagementTeam();
     	}
     	return instance;
-    }
-    
-    public ManagementTeam getManagementTeam() {
-    	return managementTeam;
     }
     
     public boolean furtherValidation() {
