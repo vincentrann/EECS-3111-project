@@ -1,7 +1,0 @@
-name,uniqueID,type
-book1,1,physicalItem
-book2,2,physicalItem
-book3,3,physicalItem
-text1,4,virtualTextbook
-text2,5,virtualTextbook
-text3,6,virtualTextbook

@@ -20,6 +20,22 @@ public class Client implements ObserverPattern.PhysicalItemObserver{
 		this.userID = userID;
 	}
 	
+	public String getEmail() {
+		return email;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+	
+	public String getUserID(){
+		return userID;
+	}
+	
+	public String getType() {
+		return this.type;
+	}
+	
 	public void setEmail(String email) {
 		this.email = email;
 	}
@@ -31,11 +47,6 @@ public class Client implements ObserverPattern.PhysicalItemObserver{
 	public void setUserID(String userID) {
 		this.userID = userID;
 	}
-	
-	public String getType() {
-		return this.type;
-	}
-	
 	/*
 	 * Updates physical item status for client
 	 */

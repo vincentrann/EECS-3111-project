@@ -24,7 +24,7 @@ import SingletonPattern.SingleDBObject;
 
 public class MainUI extends JFrame {
 	
-	SingleDBObject database = SingleDBObject.getInstance();
+	SystemDatabase database = new SystemDatabase();
 
 	private static final long serialVersionUID = 1L;
 	private static MainUI instance;
@@ -148,27 +148,34 @@ public class MainUI extends JFrame {
 				String id = UUID.randomUUID().toString();
 				String type = String.valueOf(regTypeList.getSelectedItem());
 				
-				if (type.equals("Student")) {
-					builder = new StudentBuilder();
+				if(database.clientExists(email, type)) {
+					System.out.println("user already exists, try new email");
 				}
-				else if (type.equals("Visitor")) {
-					builder = new VisitorBuilder();
-				}
-				else if (type.equals("Faculty Member")) {
-					builder = new FacultyMemberBuilder();
-				}
+				
 				else {
-					builder = new NonFacultyMemberBuilder();
+					
+					if (type.equals("Student")) {
+						builder = new StudentBuilder();
+					}
+					else if (type.equals("Visitor")) {
+						builder = new VisitorBuilder();
+					}
+					else if (type.equals("Faculty Member")) {
+						builder = new FacultyMemberBuilder();
+					}
+					else {
+						builder = new NonFacultyMemberBuilder();
+					}
+					
+					director = new ClientDirector(builder);
+					
+					director.construct(email, password, id);
+					Client client = director.getProduct();
+					database.addClient(client);
+					
+					new MainLibraryFront();
+					dispose();
 				}
-				
-				director = new ClientDirector(builder);
-				
-				director.construct(email, password, id);
-				Client client = director.getProduct();
-				database.addClient(client);
-				
-				new MainLibraryFront();
-				dispose();
 			}
 		});
 		
@@ -193,8 +200,16 @@ public class MainUI extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new MainLibraryFront();
-				dispose();
+				String email = logemailField.getText();
+				String password = logpassField.getText();
+				
+				if (database.clientLogin(email, password)) {
+					new MainLibraryFront();
+					dispose();
+				}
+				else {
+					System.out.println("email or password is wrong try again");
+				}
 			}
 		});
 		
