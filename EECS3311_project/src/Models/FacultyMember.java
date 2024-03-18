@@ -9,9 +9,6 @@ import SingletonPattern.SingleSNObject;
 
 public class FacultyMember {
 	private ClientDirector facultyMemberDirector;
-	private String[] courses;
-	private String[] previousBooks;
-	
 	
 	public FacultyMember(String email, String password, String userID) {
 		ManagementTeam team = ManagementTeam.getInstance();
@@ -29,6 +26,17 @@ public class FacultyMember {
 		return this.facultyMemberDirector.getProduct(); 
 	}
 	
-	// Additional functionalities
+	public void addTextbook(String textbook) {
+		SystemDatabase.getInstance().addTextbook(textbook, facultyMemberDirector.getEmail());
+		
+	}
+	
+	public void addCourse(String course) {
+		SystemDatabase.getInstance().addCourse(course, facultyMemberDirector.getEmail());
+	}
+	
+	public void remvoeCourse(String course) {
+		SystemDatabase.getInstance().removeCourse(course, facultyMemberDirector.getEmail());
+	}
 
 }

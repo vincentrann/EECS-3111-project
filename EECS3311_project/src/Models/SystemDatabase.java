@@ -23,6 +23,8 @@ public class SystemDatabase {
 	private String clientItemsCSV = "src\\data\\userItems.csv";
 	private String newsletterCSV = "src\\data\\NewsletterItems.csv";
 	private String newsletterSubscriberCSV = "src\\data\\NewsletterSubscriber.csv";
+	private String FacultyTextbooks = "src\\data\\FacultyTextbooks.csv";
+	private String FacultyCourse = "src\\data\\FacultyCourse.csv";
 
 	private static SystemDatabase instance;
 
@@ -96,40 +98,16 @@ public class SystemDatabase {
 		}
 	}
 	
-	public boolean newsLetter(String email, String type) {
-		try {
-			CsvReader clientReader = new CsvReader(clientCSV);
-			clientReader.readHeaders();
-			while (clientReader.readRecord()) {
-				String emailString = clientReader.get(0);
-				String typeString = clientReader.get(2);
-				
-				if(emailString.equals(email) && typeString.equals(type)) {
-					clientReader.close();
-					return true;
-				}
-			}
-			clientReader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
-	
 	
 	
 	public void addNewsletter(Newsletter newsletter) {
 		String name = newsletter.getName();
-	    String uniqueId = newsletter.getUniqueId();
-	    double discount = newsletter.getDiscount();
-	    int monthlyCost = newsletter.getMonthlyCost();
+	    String url = newsletter.getUrl();
 	    
 	    try {
 			CsvWriter clientWriter = new CsvWriter(new FileWriter(clientCSV, true), ',');
 			clientWriter.write(name);
-			clientWriter.write(uniqueId);
-			clientWriter.write(String.valueOf(discount));
-			clientWriter.write(String.valueOf(monthlyCost));
+			clientWriter.write(url);
 			
 			clientWriter.close();
 		} catch (IOException e) {
@@ -138,11 +116,11 @@ public class SystemDatabase {
 	
 	}
 	
-	public void addSubscription(String userID, String uniqueId) {
+	public void addSubscription(String userID, String name) {
 
 
         try (CSVWriter writer = new CSVWriter(new FileWriter(newsletterSubscriberCSV, true))) {
-            String[] data = {uniqueId, userID};
+            String[] data = {name, userID};
             writer.writeNext(data);
         } catch (IOException e) {
             System.err.println("An error occurred while writing to the file: " + e.getMessage());
@@ -150,7 +128,7 @@ public class SystemDatabase {
         }
     }
 	
-	public void cancelSubscription(String userID, String uniqueId) {
+	public void cancelSubscription(String userID, String name) {
         String csvFile = newsletterSubscriberCSV;
         String tempFile = "temp.csv";
 
@@ -160,7 +138,7 @@ public class SystemDatabase {
             String[] nextLine;
             while ((nextLine = reader.readNext()) != null) {
 
-                if (nextLine.length >= 2 && nextLine[0].equals(uniqueId) && nextLine[1].equals(userID)) {
+                if (nextLine.length >= 2 && nextLine[0].equals(name) && nextLine[1].equals(userID)) {
                     continue;
                 }
                 writer.writeNext(nextLine);
@@ -216,6 +194,56 @@ public class SystemDatabase {
         }
         return -1;
     }
+	
+	public void addTextbook(String textbook, String email) {
+		String csvFile = FacultyTextbooks;
+		
+		try (CSVWriter writer = new CSVWriter(new FileWriter(csvFile, true))) {
+            String[] data = {textbook, email};
+            writer.writeNext(data);
+        } catch (IOException e) {
+            System.err.println("An error occurred while writing to the file: " + e.getMessage());
+            e.printStackTrace();
+        }
+		
+		
+		
+	}
+	
+	public void addCourse(String course, String email) {
+		String csvFile = FacultyCourse;
+		
+		try (CSVWriter writer = new CSVWriter(new FileWriter(csvFile, true))) {
+            String[] data = {textbook, email};
+            writer.writeNext(data);
+        } catch (IOException e) {
+            System.err.println("An error occurred while writing to the file: " + e.getMessage());
+            e.printStackTrace();
+        }
+		
+	}
+	
+	public void removeCourse(String course, String email) {
+		String csvFile = FacultyCourse;
+        File tempFile = new File("temp.csv");
+
+        try (CSVReader reader = new CSVReader(new FileReader(csvFile));
+             CSVWriter writer = new CSVWriter(new FileWriter(tempFile))) {
+            String[] line;
+            while ((line = reader.readNext()) != null) {
+                if (!line[0].equals(course) || !line[1].equals(email)) {
+                    writer.writeNext(line);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("An error occurred while reading/writing the file: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        if (!tempFile.renameTo(new File(csvFile))) {
+            System.err.println("Error occurred while renaming the file.");
+        }
+	}
 
 	
 	public Client getClient (String userID) {

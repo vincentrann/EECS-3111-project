@@ -4,36 +4,25 @@ import java.util.List;
 
 public class Newsletter{
     private String name;
-    private String uniqueId;
-    private double discount;
-    private int monthlyCost;
+    private String url;
     
 
 
     public Newsletter(){}
 
-    public Newsletter(String name, String uniqueId, double discount, int monthlyCost){
+    public Newsletter(String name, String url){
         this.name = name;
-        this.uniqueId = uniqueId;
-        this.discount = discount;
-        this.monthlyCost = monthlyCost;
+        this.url = url;
     }
     
     public String getName() {
     	return name;
     }
     
-    public String getUniqueId() {
-    	return this.uniqueId;
+    public String url() {
+    	return this.url;
     }
-    
-    public int getMonthlyCost() {
-    	return this.monthlyCost;
-    }
-    
-    public double getDiscount() {
-    	return this.discount;
-    }
+   
     
     public void addSubscription(String userID, String uniqueID) {
     	SystemDatabase.getInstance().addSubscription(userID, uniqueID);
@@ -47,4 +36,8 @@ public class Newsletter{
     public double getMonthlyCost(String uniqueID) {
     	return SystemDatabase.getInstance().getMonthlyCost(uniqueID);
     }
+
+	public String getUrl() {
+		return this.url;
+	}
 }
