@@ -24,13 +24,13 @@ public class Newsletter{
     }
    
     
-    public void addSubscription(String userID, String uniqueID) {
-    	SystemDatabase.getInstance().addSubscription(userID, uniqueID);
+    public void addSubscription(String userID, Newsletter newsletter) {
+    	SystemDatabase.getInstance().addSubscription(userID, newsletter);
     }
-    public void cancelSubscription(String userID, String uniqueID) {
-    	SystemDatabase.getInstance().cancelSubscription(userID, uniqueID);
+    public void cancelSubscription(String userID, Newsletter newsletter) {
+    	SystemDatabase.getInstance().cancelSubscription(userID, newsletter);
     }
-    public List<String> viewAvailableNewsletters(String userID) {
+    public List<Newsletter> viewAvailableNewsletters(String userID) {
     	return SystemDatabase.getInstance().viewAvailableNewsletters(userID);
     }
     public double getMonthlyCost(String uniqueID) {
