@@ -87,7 +87,7 @@ public class SystemDatabase {
 		
 		
 		try {
-			CsvWriter clientWriter = new CsvWriter(new FileWriter(newsletterCSV, true), ',');
+			CsvWriter clientWriter = new CsvWriter(new FileWriter(clientCSV, true), ',');
 			clientWriter.write(email);
 			clientWriter.write(password);
 			clientWriter.write(type);
@@ -106,7 +106,7 @@ public class SystemDatabase {
 	    String url = newsletter.getUrl();
 	    
 	    try {
-			CsvWriter clientWriter = new CsvWriter(new FileWriter(clientCSV, true), ',');
+			CsvWriter clientWriter = new CsvWriter(new FileWriter(newsletterCSV, true), ',');
 			clientWriter.write(name);
 			clientWriter.write(url);
 			
@@ -465,6 +465,10 @@ public class SystemDatabase {
               sb.append(c);
            }
            return sb.toString();
+	}
+	
+	private void addBookRequest(String name, String type) {
+		
 	}
 
 }
