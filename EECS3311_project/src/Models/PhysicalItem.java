@@ -19,7 +19,9 @@ public class PhysicalItem extends Item{
     private List<PhysicalItemObserver> observers; //list of clients borrowing
     private Map<String, LocalDateTime> rentedBooks; //list of rented books
 
-    public PhysicalItem(int copies, String library, boolean canBe){
+    public PhysicalItem(String name, String id, int copies, String library, boolean canBe){
+    	this.setName(name);
+    	this.setUniqueID(id);
         this.copies = copies;
         this.locationInLibrary = library;
         this.canBePurchased = canBe;

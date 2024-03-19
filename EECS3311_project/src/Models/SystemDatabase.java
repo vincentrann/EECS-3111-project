@@ -148,7 +148,7 @@ public class SystemDatabase {
 							String dueString = userItemsReader.get(3);
 							DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 							LocalDateTime dateTime = LocalDateTime.parse(dueString, formatter);
-							// update to use flyweight
+							
 							client.addRentedItem(itemString, dateTime);
 						}
 					}
@@ -163,7 +163,8 @@ public class SystemDatabase {
 							String newsLetter = userNewsLetterReader.get(0);
 							String newsLink = userNewsLetterReader.get(2);
 							
-							Newsletter news = new Newsletter(newsLetter, newsLink); //update to use flyweight 
+	
+							Newsletter news = NewsletterFactory.getNewsletter(newsLetter, newsLink);
 							client.addSubsciption(news);
 						}
 						
@@ -171,21 +172,60 @@ public class SystemDatabase {
 					userNewsLetterReader.close();
 					
 					
-					
+					return client;
 				}
 			}
-			clientReader.close();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
 	//TODO: needed for OpenVirtualBooks page
-	public Item getVirtualItem (String itemID) {
+	public Item getVirtualItem (String name) {
+		try {
+			CsvReader virtualReader = new CsvReader(virtualCSV);
+			virtualReader.readHeaders();
+			while (virtualReader.readRecord()) {
+				String nameString = virtualReader.get(0);
+				if (name.equals(nameString)) {
+					String text = virtualReader.get(1);
+					String editionString = virtualReader.get(2);
+					Boolean availbilityString = Boolean.parseBoolean(virtualReader.get(3));
+					
+					VirtualItem item = VirtualItemFactory.getVirtualBook(nameString, editionString, availbilityString);
+					item.addText(text);
+					virtualReader.close();
+					return item;
+				}
+			}
+			virtualReader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 	//TODO: needed for RentBook page
 	public Item getPhysicalItem (String itemID) {
+		try {
+			CsvReader physicalReader = new CsvReader(physicalCSV);
+			physicalReader.readHeaders();
+			while(physicalReader.readRecord()) {
+				String id = physicalReader.get(1);
+				if(id.equals(itemID)) {
+					String nameString = physicalReader.get(0);
+					Boolean statusString = Boolean.parseBoolean(physicalReader.get(4));
+					String locationString = physicalReader.get(3);
+					int copiesString = Integer.parseInt(physicalReader.get(2));
+					
+					physicalReader.close();
+					return PhysicalItemFactory.getPhysicalItem(nameString, id, copiesString, locationString, statusString);
+				}
+			}
+			physicalReader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 	

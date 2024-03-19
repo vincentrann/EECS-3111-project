@@ -1,34 +1,32 @@
 package FlyweightPattern;
 
 
-import Models.PhysicalItem;
-import Models.SystemDatabase;
-import Models.VirtualTextbook;
-
 import java.util.HashMap;
 import java.util.Map;
 
+import Models.VirtualItem;
+
 public class VirtualItemFactory {
-    private static Map<String, VirtualTextbook> virtualItemsMap;
+    private static final Map<String, VirtualItem> virtualItemsMap = new HashMap<String, VirtualItem>();
 
-    private VirtualItemFactory(){
-        this.virtualItemsMap = new HashMap<String, VirtualTextbook>();
-    }
-
-    public static VirtualTextbook getVirtualItem(String name){
-        VirtualTextbook existingItem = virtualItemsMap.get(name);
-
-        if(existingItem != null){
-            return existingItem;
+    public static VirtualItem getVirtualBook(String name, String edition, boolean availability){
+        String key = name;
+        VirtualItem item = virtualItemsMap.get(key);
+        
+        if (item != null) {
+        	return item;
         }
-        else{
-            VirtualTextbook newTextbook = CreateVirtualTextbookFromDatabase(name); //get textbook from database
-            virtualItemsMap.put(name, newTextbook);
-            return newTextbook;
+        else {
+        	if(edition.equals("")) { //indicates its a book, create book
+        		item = new VirtualItem(name);
+        	}
+        	else { //indicates textbook, create textbook
+        		item = new VirtualItem(name, edition, availability);
+        	}
         }
+        virtualItemsMap.put(key, item);
+        return item;
     }
     
-    private static VirtualTextbook CreateVirtualTextbookFromDatabase(String name) { 
-    	return SystemDatabase.getInstance().getVirtualTextbook(name);
-    }
+    
 }

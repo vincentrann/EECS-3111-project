@@ -213,7 +213,11 @@ public class MainUI extends JFrame {
 				
 				if (database.clientLogin(email, password)) {
 					Client client = database.getClient(email);
-					new MainLibraryFront(client, database);
+					try {
+						new MainLibraryFront(client, database);
+					} catch (CsvValidationException e1) {
+						e1.printStackTrace();
+					}
 					dispose();
 				}
 				else {
