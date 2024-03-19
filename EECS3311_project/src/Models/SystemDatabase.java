@@ -307,7 +307,7 @@ public class SystemDatabase {
 	
 	public void removeCourse(String course, String email) throws CsvValidationException {
 		String csvFile = FacultyCourseCSV;
-        File tempFile = new File("temp.csv");
+        File tempFile = new File("src\\data\\" + "temp.csv");
 
         try (CSVReader reader = new CSVReader(new FileReader(csvFile));
              CSVWriter writer = new CSVWriter(new FileWriter(tempFile))) {
@@ -321,7 +321,12 @@ public class SystemDatabase {
             System.err.println("An error occurred while reading/writing the file: " + e.getMessage());
             e.printStackTrace();
         }
-
+        
+        File oldFile = new File(csvFile);
+	    if (!oldFile.delete()) {
+	        System.err.println("Could not delete the original file.");
+	        return;
+	    }
         if (!tempFile.renameTo(new File(csvFile))) {
             System.err.println("Error occurred while renaming the file.");
         }
@@ -482,6 +487,52 @@ public class SystemDatabase {
             System.err.println("An error occurred while reading/writing the file: " + e.getMessage());
             e.printStackTrace();
         }
+	}
+	
+	public ArrayList<String> getCourses(String name) throws FileNotFoundException, IOException, CsvValidationException{
+		String csvFile = FacultyCourseCSV;
+		ArrayList<String> teacherCourses = new ArrayList<String>();
+		
+		try (CSVReader reader = new CSVReader(new FileReader(csvFile))){
+			String[] nextLine;
+			while((nextLine = reader.readNext()) != null) {
+				String Course =  nextLine[0];
+				String Teacher = nextLine[1];
+				
+				if(name.equals(Teacher)) {
+					teacherCourses.add(Course);
+				}
+			}
+		} catch (IOException e) {
+	        System.err.println("An error occurred while reading the Courses: " + e.getMessage());
+	        e.printStackTrace();
+	    }
+		
+		return teacherCourses;
+
+	}
+	
+	public ArrayList<String> getTextbooks(String name) throws FileNotFoundException, IOException, CsvValidationException{
+		String csvFile = FacultyTextbooksCSV;
+		ArrayList<String> teacherTextbooks = new ArrayList<String>();
+		
+		try (CSVReader reader = new CSVReader(new FileReader(csvFile))){
+			String[] nextLine;
+			while((nextLine = reader.readNext()) != null) {
+				String Textbook =  nextLine[0];
+				String Teacher = nextLine[1];
+				
+				if(name.equals(Teacher)) {
+					teacherTextbooks.add(Textbook);
+				}
+			}
+		} catch (IOException e) {
+	        System.err.println("An error occurred while reading the Courses: " + e.getMessage());
+	        e.printStackTrace();
+	    }
+		
+		return teacherTextbooks;
+
 	}
 
 }
