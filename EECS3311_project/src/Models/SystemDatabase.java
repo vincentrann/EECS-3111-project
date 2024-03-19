@@ -420,6 +420,48 @@ public class SystemDatabase {
 
 	    return newsletters;
 	}
+
+	/*
+	 * Return list of book titles that are similar to given
+	 */
+	public ArrayList<String> recommend(String bookTitle) {
+	    ArrayList<String> similarTitles = new ArrayList<>();
+
+	    try (CSVReader reader = new CSVReader(new FileReader(physicalCSV))) {
+	        String[] nextLine;
+	        while ((nextLine = reader.readNext()) != null) {
+	        	String title = nextLine[0];
+
+	        	String similar1 = areSimilar(title);
+	        	String similar2 = areSimilar(bookTitle);
+
+	        	if (similar1.equals(similar2)) {
+	        		similarTitles.add(title);
+	        	}
+	        	
+	        }
+	    } catch (IOException e) {
+	        System.err.println("An error occurred while reading the subscriptions: " + e.getMessage());
+	        e.printStackTrace();
+	    }
+
+	    return similarTitles;
+	    
+	}
 	
+	
+	/*
+	 * Gets the book similarity based on book title
+	 */
+	private String areSimilar(String title) {
+	   StringBuilder sb = new StringBuilder();
+           for (char c : title.toCharArray()) {
+              if (Character.isDigit(c)) {
+                 break;
+              }
+              sb.append(c);
+           }
+           return sb.toString();
+	}
 
 }
