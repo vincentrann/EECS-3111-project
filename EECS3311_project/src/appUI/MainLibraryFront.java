@@ -1,6 +1,10 @@
 package appUI;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+
 import javax.swing.*;
 
 import com.opencsv.exceptions.CsvValidationException;
@@ -8,7 +12,8 @@ import com.opencsv.exceptions.CsvValidationException;
 import Models.Client;
 import Models.SystemDatabase;
 import java.time.LocalDateTime; 
-import java.util.Map; 
+import java.util.Map;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainLibraryFront extends JFrame {
@@ -137,7 +142,12 @@ public class MainLibraryFront extends JFrame {
             // For now, just close the dialog
             String bookName = bookNameField.getText();
             String bookType = (String)bookTypeCombo.getSelectedItem();
-            // Implement request submission logic here
+            try {
+				SystemDatabase.getInstance().addBookRequest(bookName, bookType);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
             JOptionPane.showMessageDialog(requestDialog, "Request submitted: " + bookName + ", " + bookType);
             requestDialog.dispose();
         });
@@ -150,10 +160,46 @@ public class MainLibraryFront extends JFrame {
     private void setupUserSpecificButtons(Client client, Box buttonBox) {
     	// TODO: Implement user specific features
         if ("FacultyMember".equals(client.getType())) {
-            JButton trackCourses = new JButton("Track Courses/Books");
-            trackCourses.addActionListener(e -> JOptionPane.showMessageDialog(this, "Tracking Courses and Books."));
+            JButton trackTextbooks = new JButton("Track TextBooks");
+            trackTextbooks.addActionListener(new ActionListener() {
+            	@Override
+            	public void actionPerformed(ActionEvent e) {
+            		ArrayList<String> facultyTextbooks = new ArrayList<String>();
+            		
+            		try {
+            			facultyTextbooks = SystemDatabase.getInstance().getTextbooks(client.getEmail());
+            		}
+            		catch (CsvValidationException | IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+            		textBooksPage textbooksPage = new textBooksPage(client.getEmail(), facultyTextbooks);
+            		textbooksPage.setVisible(true);
+            	}
+            });
             buttonBox.add(Box.createVerticalStrut(10));
-            buttonBox.add(trackCourses);
+            buttonBox.add(trackTextbooks);
+            
+            JButton addCourse = new JButton("Track Courses");
+            addCourse.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Create and display the CoursesPage
+                    ArrayList<String> facultyCourses = new ArrayList<String>();
+					try {
+						facultyCourses = SystemDatabase.getInstance().getCourses(client.getEmail());
+					} catch (CsvValidationException | IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} // You need to have a list of courses for the faculty member
+                    
+                    CoursesPage coursesPage = new CoursesPage(facultyCourses, client.getEmail());
+                    coursesPage.setVisible(true);
+                }
+            });
+            buttonBox.add(Box.createVerticalStrut(10));
+            buttonBox.add(addCourse);
+            
         } else if ("Student".equals(client.getType())) {
             JButton accessTextbooks = new JButton("Access Textbooks");
             accessTextbooks.addActionListener(e -> JOptionPane.showMessageDialog(this, "Accessing Textbooks."));

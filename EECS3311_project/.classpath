@@ -8,5 +8,11 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="C:/Users/andre/Downloads/opencsv-5.9 (1).jar"/>
 	<classpathentry kind="lib" path="C:/Users/andre/Desktop/javacsv.jar"/>
+	<classpathentry kind="lib" path="C:/Users/andre/Downloads/commons-lang3-3.14.0-bin.zip"/>
+	<classpathentry kind="lib" path="C:/Users/andre/Desktop/commons-lang3-3.14.0/commons-lang3-3.14.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/andre/Desktop/commons-lang3-3.14.0/commons-lang3-3.14.0-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/andre/Desktop/commons-lang3-3.14.0/commons-lang3-3.14.0-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/andre/Desktop/commons-lang3-3.14.0/commons-lang3-3.14.0-tests.jar"/>
+	<classpathentry kind="lib" path="C:/Users/andre/Desktop/commons-lang3-3.14.0/commons-lang3-3.14.0-test-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
