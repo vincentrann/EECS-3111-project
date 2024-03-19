@@ -2,6 +2,7 @@ package FlyweightPattern;
 
 
 import Models.Newsletter;
+import Models.SystemDatabase;
 import Models.VirtualTextbook;
 
 import java.util.HashMap;
@@ -21,10 +22,14 @@ public class NewsletterFactory {
             return existingItem;
         }
         else{
-            Newsletter newTextbook = null; //get textbook from database
+            Newsletter newTextbook = createNewsletterFromDatabase(name); //get textbook from database
             newsletterMap.put(name, newTextbook);
             return newTextbook;
         }
+    }
+    
+    private static Newsletter createNewsletterFromDatabase(String name) { 
+    	return SystemDatabase.getInstance().getNewsletter(name);
     }
     
 }

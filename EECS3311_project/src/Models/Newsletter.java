@@ -1,5 +1,7 @@
 package Models;//package ...
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 
 public class Newsletter{
@@ -40,4 +42,5 @@ public class Newsletter{
 	public String getUrl() {
 		return this.url;
 	}
+	
 }

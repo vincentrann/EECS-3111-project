@@ -9,20 +9,18 @@ public class ClientDirector {
 		this.clientBuilder = clientBuilder;
 	}
 	
-	public void construct(String email, String password) {
+	public void construct(String email, String password, String userID) {
 		clientBuilder.setEmail(email);
 		clientBuilder.setPassword(password);
+		clientBuilder.setUserID(userID);
 	}
 	
 	public Client getProduct() {
 		return clientBuilder.build();
 	}
-<<<<<<< HEAD
 	
 	public String getEmail() {
 		return clientBuilder.build().getEmail();
 	}
-=======
 
->>>>>>> 26122ca680675c30330aa89624ce9d9bd1853713
 }

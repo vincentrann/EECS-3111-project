@@ -320,13 +320,78 @@ public class SystemDatabase {
 		return null;
 	}
 	//TODO: needed for OpenVirtualBooks page
-	public Item getVirtualItem (String itemID) {
+	public VirtualTextbook getVirtualTextbook (String itemID) {
 		return null;
 	}
 	//TODO: needed for RentBook page
-	public Item getPhysicalItem (String itemID) {
+	public PhysicalItem getPhysicalItem (String itemID) {
 		return null;
 	}
+	
+	//TODO: needed for RentBook page
+		public Newsletter getNewsletter (String name) {
+			return null;
+		}
+	
+	
+	
+	/*THESE ARE THE TODOS IMPLEMENTED JUST NOT COMPLETELY AS IT NEEDS TO RETURN THE ACTUAL ITEM*/
+	
+	/*
+	
+	public VirtualTextbook getVirtualItem(String name) {
+		
+		String csvFile = virtualCSV;
+		try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
+	        String[] nextLine;
+	        while ((nextLine = reader.readNext()) != null) {
+	            if (nextLine[0].equals(name)) {
+	            	return new VirtualTextbook(nextLine[0], nextLine[1]); //this should create a virtual item and return it
+	            }
+	        }
+	    } catch (IOException e) {
+	        System.err.println("An error occurred while reading the virtualItems: " + e.getMessage());
+	        e.printStackTrace();
+	    }
+	}
+	*/
+	/*
+	
+	public PhysicalItem getPhysicalItem(String name) {
+		
+		String csvFile = physicalCSV;
+		try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
+	        String[] nextLine;
+	        while ((nextLine = reader.readNext()) != null) {
+	            if (nextLine[0].equals(name)) {
+	            	return new Physicalitem(nextLine[0], nextLine[1]); //this should create a physical item and return it
+	            }
+	        }
+	    } catch (IOException e) {
+	        System.err.println("An error occurred while reading the virtualItems: " + e.getMessage());
+	        e.printStackTrace();
+	    }
+	}
+	*/
+	/*
+	
+	public PhysicalItem getNewsletter(String name) {
+		
+		String csvFile = physicalCSV;
+		try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
+	        String[] nextLine;
+	        while ((nextLine = reader.readNext()) != null) {
+	            if (nextLine[0].equals(name)) {
+	            	return new Newsletter(nextLine[0], nextLine[1]); //this should create a physical item and return it
+	            }
+	        }
+	    } catch (IOException e) {
+	        System.err.println("An error occurred while reading the virtualItems: " + e.getMessage());
+	        e.printStackTrace();
+	    }
+	}
+	*/
+	
 	
 	public List<Newsletter> getNewsletterList() {
 	    String csvFile = newsletterCSV;
@@ -349,5 +414,6 @@ public class SystemDatabase {
 
 	    return newsletters;
 	}
+	
 
 }
