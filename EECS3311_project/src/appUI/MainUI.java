@@ -23,6 +23,7 @@ import java.util.UUID;
 import BuilderPattern.*;
 
 import Models.*;
+import appUI.MainLibraryFront;
 
 
 public class MainUI extends JFrame {

@@ -201,10 +201,25 @@ public class MainLibraryFront extends JFrame {
             buttonBox.add(addCourse);
             
         } else if ("Student".equals(client.getType())) {
-            JButton accessTextbooks = new JButton("Access Textbooks");
-            accessTextbooks.addActionListener(e -> JOptionPane.showMessageDialog(this, "Accessing Textbooks."));
+        	JButton trackTextbooks = new JButton("Track TextBooks");
+            trackTextbooks.addActionListener(new ActionListener() {
+            	@Override
+            	public void actionPerformed(ActionEvent e) {
+            		ArrayList<String> facultyTextbooks = new ArrayList<String>();
+            		
+            		try {
+            			facultyTextbooks = SystemDatabase.getInstance().getTextbooks(client.getEmail());
+            		}
+            		catch (CsvValidationException | IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+            		textBooksPage textbooksPage = new textBooksPage(client.getEmail(), facultyTextbooks);
+            		textbooksPage.setVisible(true);
+            	}
+            });
             buttonBox.add(Box.createVerticalStrut(10));
-            buttonBox.add(accessTextbooks);
+            buttonBox.add(trackTextbooks);
         }
     }
 }
