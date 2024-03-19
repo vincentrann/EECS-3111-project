@@ -24,7 +24,7 @@ import SingletonPattern.SingleDBObject;
 
 public class MainUI extends JFrame {
 	
-	SystemDatabase database = new SystemDatabase();
+	SystemDatabase database = SystemDatabase.getInstance();
 
 	private static final long serialVersionUID = 1L;
 	private static MainUI instance;

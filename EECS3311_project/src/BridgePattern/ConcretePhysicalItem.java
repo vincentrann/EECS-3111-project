@@ -66,7 +66,7 @@ public class ConcretePhysicalItem extends ConcreteItem{
             copies--;
         } else {
         	
-        	SystemNotification noBooks = new SystemNotification();
+        	SystemNotification noBooks = SystemNotification.getInstance();
         	noBooks.unavailableTextbook();
         	
         	// can remove this based on how it's used

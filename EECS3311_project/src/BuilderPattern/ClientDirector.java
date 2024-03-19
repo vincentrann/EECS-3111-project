@@ -18,4 +18,8 @@ public class ClientDirector {
 	public Client getProduct() {
 		return clientBuilder.build();
 	}
+	
+	public String getEmail() {
+		return clientBuilder.build().getEmail();
+	}
 }
