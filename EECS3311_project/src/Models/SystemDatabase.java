@@ -117,14 +117,17 @@ public class SystemDatabase {
 	
 	}
 	public void addSubscription(String userID, Newsletter newsletter) {
-	    try (CSVWriter writer = new CSVWriter(new FileWriter(newsletterSubscriberCSV, true))) {
-	        String[] data = {newsletter.getName(), userID}; // Assuming 'name' uniquely identifies a newsletter
-	        writer.writeNext(data);
-	    } catch (IOException e) {
-	        System.err.println("An error occurred while writing to the file: " + e.getMessage());
-	        e.printStackTrace();
-	    }
-	}
+        try {
+            CsvWriter writer = new CsvWriter(new FileWriter(newsletterSubscriberCSV, true), ',');
+            writer.write(userID);
+            writer.write(newsletter.getName());
+            writer.endRecord();
+            writer.close();
+        } catch (IOException e) {
+            System.err.println("An error occurred while writing to the file: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 	//TODO: Might need to use this one instead of the one above
 	/**
 	public void addSubscription(String userID, String name) {
@@ -424,7 +427,7 @@ public class SystemDatabase {
 	/*
 	 * Return list of book titles that are similar to given
 	 */
-	public ArrayList<String> recommend(String bookTitle) {
+	public ArrayList<String> recommend(String bookTitle) throws CsvValidationException {
 	    ArrayList<String> similarTitles = new ArrayList<>();
 
 	    try (CSVReader reader = new CSVReader(new FileReader(physicalCSV))) {
