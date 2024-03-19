@@ -1,6 +1,9 @@
 package appUI;
 
 import javax.swing.*;
+
+import com.opencsv.exceptions.CsvValidationException;
+
 import java.awt.*;
 import java.util.Map;
 import java.util.List;
@@ -15,7 +18,7 @@ public class SubscriptionPage extends JPanel {
     private JPanel availableNewslettersPanel;
     private Client client;
 
-    public SubscriptionPage(CardLayout cardLayout, JPanel mainPanel, Client client) {
+    public SubscriptionPage(CardLayout cardLayout, JPanel mainPanel, Client client) throws CsvValidationException {
         this.client = client;
         setLayout(new BorderLayout());
 
@@ -46,7 +49,7 @@ public class SubscriptionPage extends JPanel {
         updateSubscriptionList(); // This will update the panel to show user subscriptions and available newsletters
     }
 
-    private void updateSubscriptionList() {
+    private void updateSubscriptionList() throws CsvValidationException {
         userSubscriptionsPanel.removeAll();
         availableNewslettersPanel.removeAll();
 
@@ -63,7 +66,12 @@ public class SubscriptionPage extends JPanel {
             openButton.addActionListener(e -> openWebPage(newsletter.getUrl()));
             cancelButton.addActionListener(e -> {
                 client.unsubscribe(newsletter.getName());
-                updateSubscriptionList();
+                try {
+					updateSubscriptionList();
+				} catch (CsvValidationException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
             });
             subPanel.add(openButton);
             subPanel.add(cancelButton);
@@ -76,7 +84,14 @@ public class SubscriptionPage extends JPanel {
             
             if (!userSubscriptions.contains(newsletter)) {
                 JButton subscribeButton = new JButton("Subscribe");
-                subscribeButton.addActionListener(e -> initiateSubscription(newsletter));
+                subscribeButton.addActionListener(e -> {
+					try {
+						initiateSubscription(newsletter);
+					} catch (CsvValidationException | NumberFormatException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				});
                 subPanel.add(subscribeButton);
             }
             availableNewslettersPanel.add(subPanel);
@@ -88,7 +103,7 @@ public class SubscriptionPage extends JPanel {
         availableNewslettersPanel.repaint();
     }
 
-    private void initiateSubscription(Newsletter newsletter) {
+    private void initiateSubscription(Newsletter newsletter) throws CsvValidationException, NumberFormatException {
         double paymentAmount = newsletter.getMonthlyCost(newsletter.getName()); //Get the monthly cost of the newsletter
         
         //Setting up the payment panel
@@ -127,7 +142,12 @@ public class SubscriptionPage extends JPanel {
                 paymentDialog.dispose();
 
                 client.subscribe(newsletter);
-                updateSubscriptionList();
+                try {
+					updateSubscriptionList();
+				} catch (CsvValidationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 

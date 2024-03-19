@@ -19,6 +19,7 @@ import FlyweightPattern.*;
 
 
 
+
 public class SystemDatabase {
 
 	private String clientCSV= "src\\data\\Clients.csv";
@@ -29,8 +30,9 @@ public class SystemDatabase {
 	private String clientItemsCSV = "src\\data\\userItems.csv";
 	private String newsletterCSV = "src\\data\\NewsletterItems.csv";
 	private String newsletterSubscriberCSV = "src\\data\\NewsletterSubscriber.csv";
-	private String FacultyTextbooks = "src\\data\\FacultyTextbooks.csv";
-	private String FacultyCourse = "src\\data\\FacultyCourse.csv";
+	private String FacultyTextbooksCSV = "src\\data\\FacultyTextbooks.csv";
+	private String FacultyCourseCSV = "src\\data\\FacultyCourse.csv";
+	private String BookRequestsCSV = "src\\data\\BookRequests.csv";
 
 	private static SystemDatabase instance;
 
@@ -92,11 +94,13 @@ public class SystemDatabase {
 		
 		
 		try {
-			CsvWriter clientWriter = new CsvWriter(new FileWriter(newsletterCSV, true), ',');
+			CsvWriter clientWriter = new CsvWriter(new FileWriter(clientCSV, true), ',');
 			clientWriter.write(email);
 			clientWriter.write(password);
 			clientWriter.write(type);
 			clientWriter.write(id);
+			
+			clientWriter.endRecord();
 			
 			clientWriter.close();
 		} catch (IOException e) {
@@ -111,7 +115,7 @@ public class SystemDatabase {
 	    String url = newsletter.getUrl();
 	    
 	    try {
-			CsvWriter clientWriter = new CsvWriter(new FileWriter(clientCSV, true), ',');
+			CsvWriter clientWriter = new CsvWriter(new FileWriter(newsletterCSV, true), ',');
 			clientWriter.write(name);
 			clientWriter.write(url);
 			
@@ -186,14 +190,17 @@ public class SystemDatabase {
 	}
 	
 	public void addSubscription(String userID, Newsletter newsletter) {
-	    try (CSVWriter writer = new CSVWriter(new FileWriter(newsletterSubscriberCSV, true))) {
-	        String[] data = {newsletter.getName(), userID}; // Assuming 'name' uniquely identifies a newsletter
-	        writer.writeNext(data);
-	    } catch (IOException e) {
-	        System.err.println("An error occurred while writing to the file: " + e.getMessage());
-	        e.printStackTrace();
-	    }
-	}
+        try {
+            CsvWriter writer = new CsvWriter(new FileWriter(newsletterSubscriberCSV, true), ',');
+            writer.write(userID);
+            writer.write(newsletter.getName());
+            writer.endRecord();
+            writer.close();
+        } catch (IOException e) {
+            System.err.println("An error occurred while writing to the file: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 	//TODO: Might need to use this one instead of the one above
 	/**
 	public void addSubscription(String userID, String name) {
@@ -207,8 +214,9 @@ public class SystemDatabase {
             e.printStackTrace();
         }
     }
+	 * @throws CsvValidationException 
 	*/
-	public void cancelSubscription(String userID, Newsletter newsletter) {
+	public void cancelSubscription(String userID, Newsletter newsletter) throws CsvValidationException {
 	    String csvFile = newsletterSubscriberCSV;
 	    String tempFile = "temp.csv";
 
@@ -282,10 +290,11 @@ public class SystemDatabase {
             System.err.println("Could not rename the temporary file to the original file.");
         }
     }
+	 * @throws CsvValidationException 
     */
 	  
 	//Added to use Newsletters instead of strings.
-	public List<Newsletter> viewAvailableNewsletters(String userID) {
+	public List<Newsletter> viewAvailableNewsletters(String userID) throws CsvValidationException {
 	    List<Newsletter> subscribedNewsletters = new ArrayList<>();
 
 	    try (CSVReader reader = new CSVReader(new FileReader(newsletterSubscriberCSV))) {
@@ -329,9 +338,11 @@ public class SystemDatabase {
 
         return subscribedNewsletters;
     }
+	 * @throws NumberFormatException 
+	 * @throws CsvValidationException 
 	*/
 	
-	public double getMonthlyCost(String uniqueID) {
+	public double getMonthlyCost(String uniqueID) throws CsvValidationException, NumberFormatException {
         String csvFile = clientCSV;
         try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
             String[] nextLine;
@@ -355,7 +366,7 @@ public class SystemDatabase {
     }
 	
 	public void addTextbook(String textbook, String email) {
-		String csvFile = FacultyTextbooks;
+		String csvFile = FacultyTextbooksCSV;
 		
 		try (CSVWriter writer = new CSVWriter(new FileWriter(csvFile, true))) {
             String[] data = {textbook, email};
@@ -370,7 +381,7 @@ public class SystemDatabase {
 	}
 	
 	public void addCourse(String course, String email) {
-		String csvFile = FacultyCourse;
+		String csvFile = FacultyCourseCSV;
 		
 		try (CSVWriter writer = new CSVWriter(new FileWriter(csvFile, true))) {
             String[] data = {course, email};
@@ -382,8 +393,8 @@ public class SystemDatabase {
 		
 	}
 	
-	public void removeCourse(String course, String email) {
-		String csvFile = FacultyCourse;
+	public void removeCourse(String course, String email) throws CsvValidationException {
+		String csvFile = FacultyCourseCSV;
         File tempFile = new File("temp.csv");
 
         try (CSVReader reader = new CSVReader(new FileReader(csvFile));
@@ -409,7 +420,72 @@ public class SystemDatabase {
         }
 	}
 	
-	public List<Newsletter> getNewsletterList() {
+	//TODO: 
+		public Item getNewsletter (String name) {
+			return null;
+		}
+	
+	
+	
+	/*THESE ARE THE TODOS IMPLEMENTED JUST NOT COMPLETELY AS IT NEEDS TO RETURN THE ACTUAL ITEM*/
+	
+	/*
+	
+	public VirtualTextbook getVirtualItem(String name) {
+		
+		String csvFile = virtualCSV;
+		try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
+	        String[] nextLine;
+	        while ((nextLine = reader.readNext()) != null) {
+	            if (nextLine[0].equals(name)) {
+	            	return new VirtualTextbook(nextLine[0], nextLine[1]); //this should create a virtual item and return it
+	            }
+	        }
+	    } catch (IOException e) {
+	        System.err.println("An error occurred while reading the virtualItems: " + e.getMessage());
+	        e.printStackTrace();
+	    }
+	}
+	*/
+	/*
+	
+	public PhysicalItem getPhysicalItem(String name) {
+		
+		String csvFile = physicalCSV;
+		try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
+	        String[] nextLine;
+	        while ((nextLine = reader.readNext()) != null) {
+	            if (nextLine[0].equals(name)) {
+	            	return new Physicalitem(nextLine[0], nextLine[1]); //this should create a physical item and return it
+	            }
+	        }
+	    } catch (IOException e) {
+	        System.err.println("An error occurred while reading the virtualItems: " + e.getMessage());
+	        e.printStackTrace();
+	    }
+	}
+	*/
+	/*
+	
+	public PhysicalItem getNewsletter(String name) {
+		
+		String csvFile = physicalCSV;
+		try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
+	        String[] nextLine;
+	        while ((nextLine = reader.readNext()) != null) {
+	            if (nextLine[0].equals(name)) {
+	            	return new Newsletter(nextLine[0], nextLine[1]); //this should create a physical item and return it
+	            }
+	        }
+	    } catch (IOException e) {
+	        System.err.println("An error occurred while reading the virtualItems: " + e.getMessage());
+	        e.printStackTrace();
+	    }
+	}
+	*/
+	
+	
+	public List<Newsletter> getNewsletterList() throws CsvValidationException {
 	    String csvFile = newsletterCSV;
 	    List<Newsletter> newsletters = new ArrayList<>();
 
@@ -435,4 +511,62 @@ public class SystemDatabase {
 
 	    return newsletters;
 	}
+
+	/*
+	 * Return list of book titles that are similar to given
+	 */
+	public ArrayList<String> recommend(String bookTitle) throws CsvValidationException {
+	    ArrayList<String> similarTitles = new ArrayList<>();
+
+	    try (CSVReader reader = new CSVReader(new FileReader(physicalCSV))) {
+	        String[] nextLine;
+	        while ((nextLine = reader.readNext()) != null) {
+	        	String title = nextLine[0];
+
+	        	String similar1 = areSimilar(title);
+	        	String similar2 = areSimilar(bookTitle);
+
+	        	if (similar1.equals(similar2)) {
+	        		similarTitles.add(title);
+	        	}
+	        	
+	        }
+	    } catch (IOException e) {
+	        System.err.println("An error occurred while reading the subscriptions: " + e.getMessage());
+	        e.printStackTrace();
+	    }
+
+	    return similarTitles;
+	    
+	}
+	
+	
+	/*
+	 * Gets the book similarity based on book title
+	 */
+	private String areSimilar(String title) {
+	   StringBuilder sb = new StringBuilder();
+           for (char c : title.toCharArray()) {
+              if (Character.isDigit(c)) {
+                 break;
+              }
+              sb.append(c);
+           }
+           return sb.toString();
+	}
+	
+	public void addBookRequest(String name, String type) throws IOException {
+		String csvFile = BookRequestsCSV;
+		
+		try (CSVWriter writer = new CSVWriter(new FileWriter(csvFile, true))){
+			String[] data = {name, type};
+            writer.writeNext(data);
+			
+		}
+		catch (IOException e) {
+            System.err.println("An error occurred while reading/writing the file: " + e.getMessage());
+            e.printStackTrace();
+        }
+	}
+
 }
