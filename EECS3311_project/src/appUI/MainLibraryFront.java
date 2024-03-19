@@ -125,6 +125,8 @@ public class MainLibraryFront extends JFrame {
         // Method to display request popup
         JDialog requestDialog = new JDialog(this, "Request New Book", true);
         requestDialog.setLayout(new GridLayout(4, 2));
+        String requestPriority;
+        
 
         JComboBox<String> bookTypeCombo = new JComboBox<>(new String[]{"Textbooks for Teaching", "Self-Improvement"});
         JTextField bookNameField = new JTextField();
@@ -142,13 +144,25 @@ public class MainLibraryFront extends JFrame {
             // For now, just close the dialog
             String bookName = bookNameField.getText();
             String bookType = (String)bookTypeCombo.getSelectedItem();
+            String priority = "Low priority";
+            
             try {
-				SystemDatabase.getInstance().addBookRequest(bookName, bookType);
+            	if(bookType.equals("Textbooks for Teaching")) {
+            		priority = "High priority";
+            		SystemDatabase.getInstance().addBookRequest(bookName, bookType, priority);
+            	}
+            	else {
+            		SystemDatabase.getInstance().addBookRequest(bookName, bookType, priority);
+            	}
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-            JOptionPane.showMessageDialog(requestDialog, "Request submitted: " + bookName + ", " + bookType);
+            
+            
+            JOptionPane.showMessageDialog(requestDialog, priority + " request submitted: " + bookName + ", " + bookType);
+            
+            
             requestDialog.dispose();
         });
 

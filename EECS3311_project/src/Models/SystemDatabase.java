@@ -603,11 +603,11 @@ public class SystemDatabase {
            return sb.toString();
 	}
 	
-	public void addBookRequest(String name, String type) throws IOException {
+	public void addBookRequest(String name, String type, String priority) throws IOException {
 		String csvFile = BookRequestsCSV;
 		
 		try (CSVWriter writer = new CSVWriter(new FileWriter(csvFile, true))){
-			String[] data = {name, type};
+			String[] data = {name, type, priority};
             writer.writeNext(data);
 			
 		}
