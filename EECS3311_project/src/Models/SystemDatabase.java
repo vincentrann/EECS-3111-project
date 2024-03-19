@@ -663,4 +663,28 @@ public class SystemDatabase {
 
 	}
 
+	public void addPhysicalItem(String name, String aisle) throws FileNotFoundException, IOException, CsvValidationException {
+		String csvFile = physicalCSV;
+		int id = 0;
+		
+		try(CSVReader reader = new CSVReader(new FileReader(csvFile))){
+			String[] nextLine;
+			nextLine = reader.readNext();
+			while((nextLine = reader.readNext()) != null){
+				id = Integer.parseInt(nextLine[1]) + 1;			
+			}
+		}
+		
+		try (CSVWriter writer = new CSVWriter(new FileWriter(csvFile, true))){
+			String[] data = {name, String.valueOf(id), "20", aisle, "TRUE"};
+			writer.writeNext(data);
+		}
+		
+	}
+
+	public void addVirtualItem(String name, String aisle) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

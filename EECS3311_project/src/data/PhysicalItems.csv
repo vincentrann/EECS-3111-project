@@ -2,3 +2,4 @@ name,uniqueID,copies,location,status
 musicCD,1,20,music aisle ,TRUE
 fantasyBook,2,20,fantasy aisle,TRUE
 newsMagazine,3,20,new aisle,TRUE
+"awgaw","4","20","awaw","TRUE"

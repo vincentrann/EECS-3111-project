@@ -63,7 +63,6 @@ public class MainUI extends JFrame {
 		firstPage.add(register);
 		firstPage.add(Box.createVerticalStrut(10));
 		firstPage.add(loginButton);
-		firstPage.add(Box.createVerticalGlue());
 		
 		//register page
 		JPanel registerPage = new JPanel();
@@ -233,7 +232,66 @@ public class MainUI extends JFrame {
 			}
 		});
 		
+
+		JButton managementTeamButton = new JButton("Management Team");
+
+
+		managementTeamButton.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+			    JFrame loginFrame = new JFrame("Management Team Login");
+			    loginFrame.setLayout(new GridLayout(3, 2));
+
+			    JLabel usernameLabel = new JLabel("Username:");
+			    JTextField usernameField = new JTextField();
+
+			    JLabel passwordLabel = new JLabel("Password:");
+			    JPasswordField passwordField = new JPasswordField();
+
+			    JButton submitButton = new JButton("Submit");
+			    JButton backButton = new JButton("Back");
+
+			    loginFrame.add(usernameLabel);
+			    loginFrame.add(usernameField);
+			    loginFrame.add(passwordLabel);
+			    loginFrame.add(passwordField);
+			    loginFrame.add(submitButton);
+			    loginFrame.add(backButton);
+
+			    submitButton.addActionListener(new ActionListener() {
+			        @Override
+			        public void actionPerformed(ActionEvent e) {
+			            String username = usernameField.getText();
+			            String password = new String(passwordField.getPassword());
+			            // Check if username and password are correct
+			            if (username.equals("admin") && password.equals("admin")) {
+			                // If correct, navigate to ManagementTeamPage
+			                ManagementTeamPage managementTeamPage = new ManagementTeamPage();
+			                loginFrame.dispose();
+			            } else {
+			                JOptionPane.showMessageDialog(loginFrame, "Invalid username or password. Please try again.");
+			            }
+			        }
+			    });
+			    backButton.addActionListener(new ActionListener() {
+			        @Override
+			        public void actionPerformed(ActionEvent e) {
+			            loginFrame.dispose(); // Close the login window
+			        }
+			    });
+
+			    loginFrame.pack();
+			    loginFrame.setVisible(true);
+			    loginFrame.setLocationRelativeTo(null);
+		    }
+		});
+		firstPage.add(Box.createVerticalStrut(10));
+		firstPage.add(managementTeamButton);
+		firstPage.add(Box.createVerticalGlue());
+		
 	}
+	
+	
 	
 	public static void main(String[] args) {
 
@@ -244,4 +302,6 @@ public class MainUI extends JFrame {
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
 	}
+	
+	
 }
