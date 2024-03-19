@@ -206,14 +206,14 @@ public class SystemDatabase {
 		return null;
 	}
 	//TODO: needed for RentBook page
-	public Item getPhysicalItem (String itemID) {
+	public Item getPhysicalItem (String name) {
 		try {
 			CsvReader physicalReader = new CsvReader(physicalCSV);
 			physicalReader.readHeaders();
 			while(physicalReader.readRecord()) {
+				String nameString = physicalReader.get(0);
 				String id = physicalReader.get(1);
-				if(id.equals(itemID)) {
-					String nameString = physicalReader.get(0);
+				if(nameString.equals(name)) {
 					Boolean statusString = Boolean.parseBoolean(physicalReader.get(4));
 					String locationString = physicalReader.get(3);
 					int copiesString = Integer.parseInt(physicalReader.get(2));
@@ -229,6 +229,9 @@ public class SystemDatabase {
 		return null;
 	}
 	
+	public void rentItem(Item item) {
+		
+	}
 	public void addSubscription(String userID, Newsletter newsletter) {
         try {
             CsvWriter writer = new CsvWriter(new FileWriter(newsletterSubscriberCSV, true), ',');
