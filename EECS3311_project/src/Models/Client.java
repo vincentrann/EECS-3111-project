@@ -61,6 +61,13 @@ public class Client implements ObserverPattern.PhysicalItemObserver{
         }
 	}
 	
+	public void addRentedItem(String name, LocalDateTime dueDate) {
+		rentedPhysicalItems.put(name, dueDate);
+	}
+	
+	public void addSubsciption(Newsletter newsletter) {
+		subscribtions.add(newsletter);
+	}
 	/*
 	 *  Added: list of rented physical items for client
 	 */
