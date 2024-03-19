@@ -12,6 +12,9 @@ import java.awt.GridBagLayout;
 
 
 import javax.swing.*;
+
+import com.opencsv.exceptions.CsvValidationException;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -173,7 +176,12 @@ public class MainUI extends JFrame {
 					Client client = director.getProduct();
 					database.addClient(client);
 					
-					new MainLibraryFront(client, database);
+					try {
+						new MainLibraryFront(client, database);
+					} catch (CsvValidationException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					dispose();
 				}
 			}

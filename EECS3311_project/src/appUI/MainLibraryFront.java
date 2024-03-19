@@ -3,6 +3,8 @@ package appUI;
 import java.awt.*;
 import javax.swing.*;
 
+import com.opencsv.exceptions.CsvValidationException;
+
 import Models.Client;
 import Models.SystemDatabase;
 import java.time.LocalDateTime; 
@@ -17,7 +19,7 @@ public class MainLibraryFront extends JFrame {
     private JPanel rentedBooksPanel;
     private JPanel notificationsPanel;
     
-    public MainLibraryFront(Client client, SystemDatabase database) {
+    public MainLibraryFront(Client client, SystemDatabase database) throws CsvValidationException {
     	//Set window title and layout
         super("YorkU Library Front");
         

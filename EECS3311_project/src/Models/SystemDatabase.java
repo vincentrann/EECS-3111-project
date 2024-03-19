@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import com.csvreader.*;
+import com.opencsv.*;
+import com.opencsv.exceptions.CsvValidationException;
 
 
 public class SystemDatabase {
@@ -136,8 +138,9 @@ public class SystemDatabase {
             e.printStackTrace();
         }
     }
+	 * @throws CsvValidationException 
 	*/
-	public void cancelSubscription(String userID, Newsletter newsletter) {
+	public void cancelSubscription(String userID, Newsletter newsletter) throws CsvValidationException {
 	    String csvFile = newsletterSubscriberCSV;
 	    String tempFile = "temp.csv";
 
@@ -206,10 +209,11 @@ public class SystemDatabase {
             System.err.println("Could not rename the temporary file to the original file.");
         }
     }
+	 * @throws CsvValidationException 
     */
 	  
 	//Added to use Newsletters instead of strings.
-	public List<Newsletter> viewAvailableNewsletters(String userID) {
+	public List<Newsletter> viewAvailableNewsletters(String userID) throws CsvValidationException {
 	    List<Newsletter> subscribedNewsletters = new ArrayList<>();
 
 	    try (CSVReader reader = new CSVReader(new FileReader(newsletterSubscriberCSV))) {
@@ -248,9 +252,11 @@ public class SystemDatabase {
 
         return subscribedNewsletters;
     }
+	 * @throws NumberFormatException 
+	 * @throws CsvValidationException 
 	*/
 	
-	public double getMonthlyCost(String uniqueID) {
+	public double getMonthlyCost(String uniqueID) throws CsvValidationException, NumberFormatException {
         String csvFile = clientCSV;
         try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
             String[] nextLine;
@@ -284,7 +290,7 @@ public class SystemDatabase {
 		String csvFile = FacultyCourse;
 		
 		try (CSVWriter writer = new CSVWriter(new FileWriter(csvFile, true))) {
-            String[] data = {textbook, email};
+            String[] data = {course, email};
             writer.writeNext(data);
         } catch (IOException e) {
             System.err.println("An error occurred while writing to the file: " + e.getMessage());
@@ -293,7 +299,7 @@ public class SystemDatabase {
 		
 	}
 	
-	public void removeCourse(String course, String email) {
+	public void removeCourse(String course, String email) throws CsvValidationException {
 		String csvFile = FacultyCourse;
         File tempFile = new File("temp.csv");
 
@@ -320,16 +326,16 @@ public class SystemDatabase {
 		return null;
 	}
 	//TODO: needed for OpenVirtualBooks page
-	public VirtualTextbook getVirtualTextbook (String itemID) {
+	public Item getVirtualItem (String itemID) {
 		return null;
 	}
 	//TODO: needed for RentBook page
-	public PhysicalItem getPhysicalItem (String itemID) {
+	public Item getPhysicalItem (String itemID) {
 		return null;
 	}
 	
-	//TODO: needed for RentBook page
-		public Newsletter getNewsletter (String name) {
+	//TODO: 
+		public Item getNewsletter (String name) {
 			return null;
 		}
 	
@@ -393,7 +399,7 @@ public class SystemDatabase {
 	*/
 	
 	
-	public List<Newsletter> getNewsletterList() {
+	public List<Newsletter> getNewsletterList() throws CsvValidationException {
 	    String csvFile = newsletterCSV;
 	    List<Newsletter> newsletters = new ArrayList<>();
 

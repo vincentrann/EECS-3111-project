@@ -1,5 +1,7 @@
 package Models;
 
+import com.opencsv.exceptions.CsvValidationException;
+
 import BuilderPattern.ClientDirector;
 
 
@@ -35,7 +37,7 @@ public class FacultyMember {
 		SystemDatabase.getInstance().addCourse(course, facultyMemberDirector.getEmail());
 	}
 	
-	public void remvoeCourse(String course) {
+	public void remvoeCourse(String course) throws CsvValidationException {
 		SystemDatabase.getInstance().removeCourse(course, facultyMemberDirector.getEmail());
 	}
 
