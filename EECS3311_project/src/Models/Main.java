@@ -27,8 +27,9 @@ public class Main {
 		// can check validation here for registration before creating client
 		String someEmail = "email";
 		String somePassword = "123";
+		String someID = "ID2";
 
-		FacultyMember member = new FacultyMember(someEmail, somePassword);
+		FacultyMember member = new FacultyMember(someEmail, somePassword, someID);
 		Client facultyMemberClient = member.getClient();
 		//System.out.println(visitorClient); //prints details of client
 		

@@ -6,7 +6,7 @@ public class NonFacultyMemberBuilder implements ClientBuilder{
 	private Client client;
 	
 	public NonFacultyMemberBuilder() {
-		this.client = new Client("NonFacultyMember", "", "");
+		this.client = new Client("NonFacultyMember", "", "", "");
 	}
 
 	@Override
@@ -19,6 +19,12 @@ public class NonFacultyMemberBuilder implements ClientBuilder{
 	public void setPassword(String password) {
 		//client.password = password;
 		client.setPassword(password);
+	}
+
+	@Override
+	public void setUserID(String userID) {
+		//client.userID = userID;
+		client.setUserID(userID);
 	}
 	
 	@Override
