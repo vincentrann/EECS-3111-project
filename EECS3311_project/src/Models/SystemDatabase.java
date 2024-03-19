@@ -94,6 +94,8 @@ public class SystemDatabase {
 			clientWriter.write(type);
 			clientWriter.write(id);
 			
+			clientWriter.endRecord();
+			
 			clientWriter.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -468,10 +470,10 @@ public class SystemDatabase {
            return sb.toString();
 	}
 	
-	private void addBookRequest(String name, String type) throws IOException {
+	public void addBookRequest(String name, String type) throws IOException {
 		String csvFile = BookRequestsCSV;
 		
-		try (CSVWriter writer = new CSVWriter(new FileWriter(csvFile))){
+		try (CSVWriter writer = new CSVWriter(new FileWriter(csvFile, true))){
 			String[] data = {name, type};
             writer.writeNext(data);
 			
