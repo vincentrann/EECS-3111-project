@@ -13,6 +13,7 @@ import SingletonPattern.SingleMTObject;
 import SingletonPattern.SingleSNObject;
 
 public class PhysicalItem extends Item{
+	private String uniqueID;
     private int copies;
     private String locationInLibrary;
     private boolean canBePurchased;
@@ -21,7 +22,7 @@ public class PhysicalItem extends Item{
 
     public PhysicalItem(String name, String id, int copies, String library, boolean canBe){
     	this.setName(name);
-    	this.setUniqueID(id);
+    	this.uniqueID = id;
         this.copies = copies;
         this.locationInLibrary = library;
         this.canBePurchased = canBe;

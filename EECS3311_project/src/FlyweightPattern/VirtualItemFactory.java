@@ -4,6 +4,7 @@ package FlyweightPattern;
 import java.util.HashMap;
 import java.util.Map;
 
+import BridgePattern.ItemFactory;
 import Models.VirtualItem;
 
 public class VirtualItemFactory {
@@ -18,10 +19,10 @@ public class VirtualItemFactory {
         }
         else {
         	if(edition.equals("")) { //indicates its a book, create book
-        		item = new VirtualItem(name);
+        		item = (VirtualItem) ItemFactory.getItem(name, "virtual book", "", 0, "", false, edition, availability);
         	}
         	else { //indicates textbook, create textbook
-        		item = new VirtualItem(name, edition, availability);
+        		item = (VirtualItem) ItemFactory.getItem(name, "virtual textbook", "", 0, "", false, edition, availability);;
         	}
         }
         virtualItemsMap.put(key, item);
