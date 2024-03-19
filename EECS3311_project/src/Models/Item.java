@@ -7,11 +7,6 @@ public class Item extends ConcreteItem{
     private String uniqueID; //updated uniqueID to be String to be consistent with userID
     private String typeOfItem;
     private boolean enabled = true;
-
-    private void /*String instead of void*/ getName(String uniqueID){
-        //if exists in database return String
-        //else return error not-existing message
-    }
     
     protected void enable() {
     	enabled = true;
@@ -24,7 +19,29 @@ public class Item extends ConcreteItem{
     protected boolean isEnabled() {
     	return enabled;
     }
+    
     public String getName() {
 		return this.name;
 	}
+    
+    public void setName(String name) {
+    	this.name = name;
+    }
+    
+    public String getUniqueID() {
+    	return uniqueID;
+    }
+    
+    public void setUniqueID(String id) {
+    	this.uniqueID = id;
+    }
+    
+    public String getType() {
+    	return typeOfItem;
+    }
+    
+    public void setType(String type) {
+    	this.typeOfItem = type;
+    }
+    
 }
