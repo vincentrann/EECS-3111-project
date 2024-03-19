@@ -3,6 +3,7 @@ package FlyweightPattern;
 import java.util.HashMap;
 import java.util.Map;
 
+import BridgePattern.ItemFactory;
 import Models.PhysicalItem;
 
 public class PhysicalItemFactory{
@@ -16,7 +17,7 @@ public class PhysicalItemFactory{
         	return item;
         }
         else {
-        	item = new PhysicalItem(name, id, copies, library, canBe);
+        	item = (PhysicalItem) ItemFactory.getItem(name, "physical", id, copies, library, canBe, "", false);
         }
         physicalItemsMap.put(keyString, item);
         return item;

@@ -231,6 +231,7 @@ public class SystemDatabase {
 	
 	public void rentItem(Item item) {
 		
+		
 	}
 	public void addSubscription(String userID, Newsletter newsletter) {
         try {
