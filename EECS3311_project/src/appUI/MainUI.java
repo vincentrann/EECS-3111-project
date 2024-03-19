@@ -20,7 +20,7 @@ import java.util.UUID;
 import BuilderPattern.*;
 
 import Models.*;
-import SingletonPattern.SingleDBObject;
+
 
 public class MainUI extends JFrame {
 	
@@ -204,8 +204,8 @@ public class MainUI extends JFrame {
 				String password = logpassField.getText();
 				
 				if (database.clientLogin(email, password)) {
-					//TODO: need to pass client and database instances
-					//new MainLibraryFront();
+					Client client = database.getClient(email);
+					new MainLibraryFront(client, database);
 					dispose();
 				}
 				else {

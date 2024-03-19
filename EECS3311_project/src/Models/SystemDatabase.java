@@ -1,7 +1,9 @@
 package Models;
+
 import java.io.FileWriter;
 import java.io.IOException;
-
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.io.FileWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,6 +12,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import com.csvreader.*;
+import com.opencsv.*;
+import com.opencsv.exceptions.CsvValidationException;
+
+import FlyweightPattern.*;
+
 
 
 public class SystemDatabase {
@@ -114,6 +121,70 @@ public class SystemDatabase {
 		}
 	
 	}
+	
+	public Client getClient (String email) {
+		try {
+			CsvReader clientReader = new CsvReader(clientCSV);
+			clientReader.readHeaders();
+			while (clientReader.readRecord()) {
+				if (email.equals(clientReader.get(0))) {
+					String typeString = clientReader.get(2);
+					String passwordString = clientReader.get(1);
+					String userIDString = clientReader.get(3);
+					clientReader.close();
+					Client client = new Client(typeString, email, passwordString, userIDString);
+					
+					CsvReader userItemsReader = new CsvReader(clientItemsCSV);
+					userItemsReader.readHeaders();
+					// adds user's items
+					while (userItemsReader.readRecord()) {
+						String userEmail = userItemsReader.get(0);
+						if(userEmail.equals(email)) {
+							String itemString = userItemsReader.get(1);
+							String dueString = userItemsReader.get(3);
+							DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+							LocalDateTime dateTime = LocalDateTime.parse(dueString, formatter);
+							// update to use flyweight
+							client.addRentedItem(itemString, dateTime);
+						}
+					}
+					userItemsReader.close();
+					
+					//adds user's newsletters
+					CsvReader userNewsLetterReader = new CsvReader(newsletterSubscriberCSV);
+					userNewsLetterReader.readHeaders();
+					while (userNewsLetterReader.readRecord()) {
+						String subscriber = userNewsLetterReader.get(1);
+						if (subscriber.equals(email)) {
+							String newsLetter = userNewsLetterReader.get(0);
+							String newsLink = userNewsLetterReader.get(2);
+							
+							Newsletter news = new Newsletter(newsLetter, newsLink); //update to use flyweight 
+							client.addSubsciption(news);
+						}
+						
+					}
+					userNewsLetterReader.close();
+					
+					
+					
+				}
+			}
+			clientReader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	//TODO: needed for OpenVirtualBooks page
+	public Item getVirtualItem (String itemID) {
+		return null;
+	}
+	//TODO: needed for RentBook page
+	public Item getPhysicalItem (String itemID) {
+		return null;
+	}
+	
 	public void addSubscription(String userID, Newsletter newsletter) {
 	    try (CSVWriter writer = new CSVWriter(new FileWriter(newsletterSubscriberCSV, true))) {
 	        String[] data = {newsletter.getName(), userID}; // Assuming 'name' uniquely identifies a newsletter
@@ -145,13 +216,18 @@ public class SystemDatabase {
 	         CSVWriter writer = new CSVWriter(new FileWriter(tempFile))) {
 
 	        String[] nextLine;
-	        while ((nextLine = reader.readNext()) != null) {
-	            // Skip the line that matches both the newsletter name and the user ID
-	            if (nextLine.length >= 2 && nextLine[0].equals(newsletter.getName()) && nextLine[1].equals(userID)) {
-	                continue; // Skip this record, effectively deleting it from the list
-	            }
-	            writer.writeNext(nextLine); // Write other records normally
-	        }
+	        try {
+				while ((nextLine = reader.readNext()) != null) {
+				    // Skip the line that matches both the newsletter name and the user ID
+				    if (nextLine.length >= 2 && nextLine[0].equals(newsletter.getName()) && nextLine[1].equals(userID)) {
+				        continue; // Skip this record, effectively deleting it from the list
+				    }
+				    writer.writeNext(nextLine); // Write other records normally
+				}
+			} catch (CsvValidationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 	    } catch (IOException e) {
 	        System.err.println("An error occurred while removing the subscription: " + e.getMessage());
@@ -214,13 +290,18 @@ public class SystemDatabase {
 
 	    try (CSVReader reader = new CSVReader(new FileReader(newsletterSubscriberCSV))) {
 	        String[] nextLine;
-	        while ((nextLine = reader.readNext()) != null) {
-	            if (nextLine.length >= 3 && nextLine[2].equals(userID)) { // Assuming the userID is in the third column
-	                String newsletterName = nextLine[0];
-	                String newsletterURL = nextLine[1]; // Assuming the URL is in the second column
-	                subscribedNewsletters.add(new Newsletter(newsletterName, newsletterURL)); // Now passing both name and URL
-	            }
-	        }
+	        try {
+				while ((nextLine = reader.readNext()) != null) {
+				    if (nextLine.length >= 3 && nextLine[2].equals(userID)) { // Assuming the userID is in the third column
+				        String newsletterName = nextLine[0];
+				        String newsletterURL = nextLine[1]; // Assuming the URL is in the second column
+				        subscribedNewsletters.add(new Newsletter(newsletterName, newsletterURL)); // Now passing both name and URL
+				    }
+				}
+			} catch (CsvValidationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	    } catch (IOException e) {
 	        System.err.println("An error occurred while reading the subscriptions: " + e.getMessage());
 	        e.printStackTrace();
@@ -254,11 +335,19 @@ public class SystemDatabase {
         String csvFile = clientCSV;
         try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
             String[] nextLine;
-            while ((nextLine = reader.readNext()) != null) {
-                if (nextLine.length >= 2 && nextLine[1].equals(uniqueID)) {
-                    return Double.parseDouble(nextLine[3]);
-                }
-            }
+            try {
+				while ((nextLine = reader.readNext()) != null) {
+				    if (nextLine.length >= 2 && nextLine[1].equals(uniqueID)) {
+				        return Double.parseDouble(nextLine[3]);
+				    }
+				}
+			} catch (CsvValidationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -284,7 +373,7 @@ public class SystemDatabase {
 		String csvFile = FacultyCourse;
 		
 		try (CSVWriter writer = new CSVWriter(new FileWriter(csvFile, true))) {
-            String[] data = {textbook, email};
+            String[] data = {course, email};
             writer.writeNext(data);
         } catch (IOException e) {
             System.err.println("An error occurred while writing to the file: " + e.getMessage());
@@ -300,11 +389,16 @@ public class SystemDatabase {
         try (CSVReader reader = new CSVReader(new FileReader(csvFile));
              CSVWriter writer = new CSVWriter(new FileWriter(tempFile))) {
             String[] line;
-            while ((line = reader.readNext()) != null) {
-                if (!line[0].equals(course) || !line[1].equals(email)) {
-                    writer.writeNext(line);
-                }
-            }
+            try {
+				while ((line = reader.readNext()) != null) {
+				    if (!line[0].equals(course) || !line[1].equals(email)) {
+				        writer.writeNext(line);
+				    }
+				}
+			} catch (CsvValidationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         } catch (IOException e) {
             System.err.println("An error occurred while reading/writing the file: " + e.getMessage());
             e.printStackTrace();
@@ -314,19 +408,6 @@ public class SystemDatabase {
             System.err.println("Error occurred while renaming the file.");
         }
 	}
-
-	
-	public Client getClient (String userID) {
-		return null;
-	}
-	//TODO: needed for OpenVirtualBooks page
-	public Item getVirtualItem (String itemID) {
-		return null;
-	}
-	//TODO: needed for RentBook page
-	public Item getPhysicalItem (String itemID) {
-		return null;
-	}
 	
 	public List<Newsletter> getNewsletterList() {
 	    String csvFile = newsletterCSV;
@@ -334,14 +415,19 @@ public class SystemDatabase {
 
 	    try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
 	        String[] nextLine;
-	        while ((nextLine = reader.readNext()) != null) {
-	            if (nextLine.length >= 2) { 
-	                String name = nextLine[0];
-	                String link = nextLine[1];
-	                Newsletter newsletter = new Newsletter(name, link);
-	                newsletters.add(newsletter);
-	            }
-	        }
+	        try {
+				while ((nextLine = reader.readNext()) != null) {
+				    if (nextLine.length >= 2) { 
+				        String name = nextLine[0];
+				        String link = nextLine[1];
+				        Newsletter newsletter = new Newsletter(name, link);
+				        newsletters.add(newsletter);
+				    }
+				}
+			} catch (CsvValidationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	    } catch (IOException e) {
 	        System.err.println("An error occurred while reading the newsletters: " + e.getMessage());
 	        e.printStackTrace();

@@ -2,8 +2,8 @@ package BridgePattern;
 
 public class ItemFactory {
     
-    public ClientItem getItem(int uniqueID, String name, String typeOfItem,int copies, String library, boolean canBe) {
-        return new ClientItem(new ConcretePhysicalItem(uniqueID, name, typeOfItem, copies, library, canBe));
+    public ClientItem (int uniqueID, String name, String typeOfItem,int copies, String library, boolean canBe) {
+        return new ClientItem (new ConcretePhysicalItem(uniqueID, name, typeOfItem, copies, library, canBe));
     }
 
     
