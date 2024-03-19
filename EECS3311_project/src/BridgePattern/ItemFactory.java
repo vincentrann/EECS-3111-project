@@ -8,7 +8,7 @@ public class ItemFactory {
 
     
 
-    public ClientItem getPhsyicalItem(int uniqueID, String name, String typeOfItem,String edition, boolean availability, double priority ){
+    public ClientItem getPhysicalItem(int uniqueID, String name, String typeOfItem,String edition, boolean availability, double priority ){
         return  new ClientItem(new ConcreteVirtualTextbook(uniqueID, name, typeOfItem, edition, availability, priority));
     }
 
