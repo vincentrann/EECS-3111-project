@@ -11,11 +11,11 @@ public class Student {
 	private String[] textbooks;
 	
 	
-	public Student(String email, String password, String userID) {
+	public Student(String email, String password) {
 		boolean validation = ManagementTeam.getInstance().furtherValidation();
 		if (validation==true) {
 			this.studentDirector = new ClientDirector(new StudentBuilder());
-			this.studentDirector.construct(email, password, userID);
+			this.studentDirector.construct(email, password);
 		} else {
 			
 			SingleSNObject.getInstance().registrationFailed();

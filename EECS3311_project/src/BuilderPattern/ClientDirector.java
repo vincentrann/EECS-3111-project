@@ -9,13 +9,13 @@ public class ClientDirector {
 		this.clientBuilder = clientBuilder;
 	}
 	
-	public void construct(String email, String password, String userID) {
+	public void construct(String email, String password) {
 		clientBuilder.setEmail(email);
 		clientBuilder.setPassword(password);
-		clientBuilder.setUserID(userID);
 	}
 	
 	public Client getProduct() {
 		return clientBuilder.build();
 	}
+
 }

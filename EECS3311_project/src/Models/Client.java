@@ -15,11 +15,10 @@ public class Client implements ObserverPattern.PhysicalItemObserver{
 	private Map<String, LocalDateTime> rentedPhysicalItems = new HashMap<>(); // Stores all physical Items rented
 	private ArrayList<Newsletter> subscribtions = new ArrayList<Newsletter>();
 	
-	public Client(String type, String email, String password, String userID) {
+	public Client(String type, String email, String password) {
 		this.type = type;
 		this.email = email;
 		this.password = password;
-		this.userID = userID;
 	}
 	
 	public String getEmail() {
