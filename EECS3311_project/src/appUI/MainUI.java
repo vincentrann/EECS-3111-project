@@ -151,8 +151,13 @@ public class MainUI extends JFrame {
 				String password= rpassField.getText();
 				String id = UUID.randomUUID().toString();
 				String type = String.valueOf(regTypeList.getSelectedItem());
+				System.out.println(type);
 				
-				if(database.clientExists(email, type)) {
+				if(email.length() == 0 || password.length() == 0) {
+					System.out.println("please complete all fields");
+				}
+				
+				else if(database.clientExists(email, type.replaceAll("\\s", ""))) {
 					System.out.println("user already exists, try new email");
 				}
 				
@@ -174,6 +179,7 @@ public class MainUI extends JFrame {
 					director = new ClientDirector(builder);
 					
 					director.construct(email, password, id);
+					
 					Client client = director.getProduct();
 					database.addClient(client);
 					
