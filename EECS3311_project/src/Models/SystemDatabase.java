@@ -24,8 +24,9 @@ public class SystemDatabase {
 	private String clientItemsCSV = "src\\data\\userItems.csv";
 	private String newsletterCSV = "src\\data\\NewsletterItems.csv";
 	private String newsletterSubscriberCSV = "src\\data\\NewsletterSubscriber.csv";
-	private String FacultyTextbooks = "src\\data\\FacultyTextbooks.csv";
-	private String FacultyCourse = "src\\data\\FacultyCourse.csv";
+	private String FacultyTextbooksCSV = "src\\data\\FacultyTextbooks.csv";
+	private String FacultyCourseCSV = "src\\data\\FacultyCourse.csv";
+	private String BookRequestsCSV = "src\\data\\BookRequests.csv";
 
 	private static SystemDatabase instance;
 
@@ -275,7 +276,7 @@ public class SystemDatabase {
     }
 	
 	public void addTextbook(String textbook, String email) {
-		String csvFile = FacultyTextbooks;
+		String csvFile = FacultyTextbooksCSV;
 		
 		try (CSVWriter writer = new CSVWriter(new FileWriter(csvFile, true))) {
             String[] data = {textbook, email};
@@ -290,7 +291,7 @@ public class SystemDatabase {
 	}
 	
 	public void addCourse(String course, String email) {
-		String csvFile = FacultyCourse;
+		String csvFile = FacultyCourseCSV;
 		
 		try (CSVWriter writer = new CSVWriter(new FileWriter(csvFile, true))) {
             String[] data = {course, email};
@@ -303,7 +304,7 @@ public class SystemDatabase {
 	}
 	
 	public void removeCourse(String course, String email) throws CsvValidationException {
-		String csvFile = FacultyCourse;
+		String csvFile = FacultyCourseCSV;
         File tempFile = new File("temp.csv");
 
         try (CSVReader reader = new CSVReader(new FileReader(csvFile));
@@ -467,8 +468,18 @@ public class SystemDatabase {
            return sb.toString();
 	}
 	
-	private void addBookRequest(String name, String type) {
+	private void addBookRequest(String name, String type) throws IOException {
+		String csvFile = BookRequestsCSV;
 		
+		try (CSVWriter writer = new CSVWriter(new FileWriter(csvFile))){
+			String[] data = {name, type};
+            writer.writeNext(data);
+			
+		}
+		catch (IOException e) {
+            System.err.println("An error occurred while reading/writing the file: " + e.getMessage());
+            e.printStackTrace();
+        }
 	}
 
 }
