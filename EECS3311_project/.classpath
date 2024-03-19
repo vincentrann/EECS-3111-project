@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+<<<<<<< HEAD
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+=======
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17">
+>>>>>>> parent of d73c317 (Delete EECS3311_project/.classpath)
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
+<<<<<<< HEAD
 <<<<<<< HEAD
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="C:/Users/andre/Downloads/opencsv-5.9 (1).jar"/>
@@ -30,5 +35,10 @@
 	<classpathentry kind="lib" path="C:/Users/Buder/Downloads/commons-lang3-3.14.0-bin/commons-lang3-3.14.0/commons-lang3-3.14.0-tests.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Buder/Downloads/commons-lang3-3.14.0-bin/commons-lang3-3.14.0/commons-lang3-3.14.0-test-sources.jar"/>
 >>>>>>> 9e4599b1375f20c542545c39109f91be7bc22bc7
+=======
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="C:/Users/andre/Downloads/opencsv-5.9 (1).jar"/>
+	<classpathentry kind="lib" path="C:/Users/andre/Desktop/javacsv.jar"/>
+>>>>>>> parent of d73c317 (Delete EECS3311_project/.classpath)
 	<classpathentry kind="output" path="bin"/>
 </classpath>
