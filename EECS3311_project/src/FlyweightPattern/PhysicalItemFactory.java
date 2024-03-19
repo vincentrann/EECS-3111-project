@@ -2,30 +2,24 @@ package FlyweightPattern;
 
 import java.util.HashMap;
 import java.util.Map;
-import Models.Newsletter;
+
 import Models.PhysicalItem;
-import Models.SystemDatabase;
 
 public class PhysicalItemFactory{
-    private static Map<String, PhysicalItem> physicalItemsMap;
+    private static final Map<String, PhysicalItem> physicalItemsMap = new HashMap<String, PhysicalItem>();
 
-    private PhysicalItemFactory(){
-        this.physicalItemsMap = new HashMap<String, PhysicalItem>();
-    }
-
-    public static PhysicalItem getPhysicalItem(String name){ //should be itemID or name but works either way just adjust systemdatabasemethods
-        PhysicalItem existingItem = physicalItemsMap.get(name);
-        if(existingItem != null) {
-            return existingItem;
+    public static PhysicalItem getPhysicalItem(String name, String id, int copies, String library, boolean canBe){ // should only be id, can have up to 20 copies so name is repeated
+        String keyString = id;
+        PhysicalItem item = physicalItemsMap.get(keyString);
+        
+        if (item != null) {
+        	return item;
         }
-        else{
-            PhysicalItem getItem = PhysicalItemFromDatabase(name); // retrieve item from database
-            physicalItemsMap.put(name, getItem);
-            return getItem;
+        else {
+        	item = new PhysicalItem(name, id, copies, library, canBe);
         }
+        physicalItemsMap.put(keyString, item);
+        return item;
     }
     
-    private static PhysicalItem PhysicalItemFromDatabase(String name) { 
-    	return SystemDatabase.getInstance().getPhysicalItem(name);
-    }
 }

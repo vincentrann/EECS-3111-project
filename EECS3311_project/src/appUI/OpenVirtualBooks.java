@@ -78,7 +78,7 @@ public class OpenVirtualBooks extends JPanel {
 
             openButton.addActionListener(e -> {
                 // TODO: Method needs to be added to display the contents of the textbook
-                JTextArea contentArea = new JTextArea(item.getContent());
+                JTextArea contentArea = new JTextArea(((VirtualItem) item).getContent());
                 contentArea.setEditable(false);
                 JScrollPane scrollPane = new JScrollPane(contentArea);
                 scrollPane.setPreferredSize(new Dimension(350, 200));

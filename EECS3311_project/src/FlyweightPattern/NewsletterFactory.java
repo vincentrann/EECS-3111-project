@@ -1,35 +1,26 @@
 package FlyweightPattern;
 
 
-import Models.Newsletter;
-import Models.SystemDatabase;
-import Models.VirtualTextbook;
-
 import java.util.HashMap;
 import java.util.Map;
 
+import Models.Newsletter;
+
 public class NewsletterFactory {
-    private static Map<String, Newsletter> newsletterMap;
+    private static final Map<String, Newsletter> newsletterMap = new HashMap<String, Newsletter>();
 
-    private NewsletterFactory(){
-        this.newsletterMap = new HashMap<String, Newsletter>();
-    }
-
-    public static Newsletter getNewsletter(String name){
-        Newsletter existingItem = newsletterMap.get(name);
-
-        if(existingItem != null){
-            return existingItem;
+    public static Newsletter getNewsletter(String name, String url){
+        String keyString = name;
+        Newsletter letter = newsletterMap.get(keyString);
+        
+        if (letter != null) {
+        	return letter;
         }
-        else{
-            Newsletter newTextbook = createNewsletterFromDatabase(name); //get textbook from database
-            newsletterMap.put(name, newTextbook);
-            return newTextbook;
+        else {
+        	letter = new Newsletter(name, url);
         }
-    }
-    
-    private static Newsletter createNewsletterFromDatabase(String name) { 
-    	return SystemDatabase.getInstance().getNewsletter(name);
+        newsletterMap.put(keyString, letter);
+        return letter;
     }
     
 }

@@ -1,4 +1,61 @@
-name,uniqueID,type,status,location
-item1,1,cd,enabled,back
-item2,2,book ,enabled,front
-item3,3,magazine,enabled,middle
+name,uniqueID,type,status,location,copies
+musicCD,1,cd,enabled,music aisle,20
+fantasyBook,2,book ,enabled,fantasy aisle,20
+newsMagazine,3,magazine,enabled,news aisle ,20
+musicCD,4,cd,enabled,music aisle,20
+musicCD,5,cd,enabled,music aisle,20
+musicCD,6,cd,enabled,music aisle,20
+musicCD,7,cd,enabled,music aisle,20
+musicCD,8,cd,enabled,music aisle,20
+musicCD,9,cd,enabled,music aisle,20
+musicCD,10,cd,enabled,music aisle,20
+musicCD,11,cd,enabled,music aisle,20
+musicCD,12,cd,enabled,music aisle,20
+musicCD,13,cd,enabled,music aisle,20
+musicCD,14,cd,enabled,music aisle,20
+musicCD,15,cd,enabled,music aisle,20
+musicCD,16,cd,enabled,music aisle,20
+musicCD,17,cd,enabled,music aisle,20
+musicCD,18,cd,enabled,music aisle,20
+musicCD,19,cd,enabled,music aisle,20
+musicCD,20,cd,enabled,music aisle,20
+musicCD,21,cd,enabled,music aisle,20
+musicCD,22,cd,enabled,music aisle,20
+fantasyBook,23,book ,enabled,fantasy aisle,20
+fantasyBook,24,book ,enabled,fantasy aisle,20
+fantasyBook,25,book ,enabled,fantasy aisle,20
+fantasyBook,26,book ,enabled,fantasy aisle,20
+fantasyBook,27,book ,enabled,fantasy aisle,20
+fantasyBook,28,book ,enabled,fantasy aisle,20
+fantasyBook,29,book ,enabled,fantasy aisle,20
+fantasyBook,30,book ,enabled,fantasy aisle,20
+fantasyBook,31,book ,enabled,fantasy aisle,20
+fantasyBook,32,book ,enabled,fantasy aisle,20
+fantasyBook,33,book ,enabled,fantasy aisle,20
+fantasyBook,34,book ,enabled,fantasy aisle,20
+fantasyBook,35,book ,enabled,fantasy aisle,20
+fantasyBook,36,book ,enabled,fantasy aisle,20
+fantasyBook,37,book ,enabled,fantasy aisle,20
+fantasyBook,38,book ,enabled,fantasy aisle,20
+fantasyBook,39,book ,enabled,fantasy aisle,20
+fantasyBook,40,book ,enabled,fantasy aisle,20
+fantasyBook,41,book ,enabled,fantasy aisle,20
+newsMagazine,42,magazine,enabled,news aisle ,20
+newsMagazine,43,magazine,enabled,news aisle ,20
+newsMagazine,44,magazine,enabled,news aisle ,20
+newsMagazine,45,magazine,enabled,news aisle ,20
+newsMagazine,46,magazine,enabled,news aisle ,20
+newsMagazine,47,magazine,enabled,news aisle ,20
+newsMagazine,48,magazine,enabled,news aisle ,20
+newsMagazine,49,magazine,enabled,news aisle ,20
+newsMagazine,50,magazine,enabled,news aisle ,20
+newsMagazine,51,magazine,enabled,news aisle ,20
+newsMagazine,52,magazine,enabled,news aisle ,20
+newsMagazine,53,magazine,enabled,news aisle ,20
+newsMagazine,54,magazine,enabled,news aisle ,20
+newsMagazine,55,magazine,enabled,news aisle ,20
+newsMagazine,56,magazine,enabled,news aisle ,20
+newsMagazine,57,magazine,enabled,news aisle ,20
+newsMagazine,58,magazine,enabled,news aisle ,20
+newsMagazine,59,magazine,enabled,news aisle ,20
+newsMagazine,60,magazine,enabled,news aisle ,20
