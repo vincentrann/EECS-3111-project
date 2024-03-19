@@ -9,11 +9,11 @@ import SingletonPattern.SingleSNObject;
 public class NonFacultyMember {
 	private ClientDirector nonFacultyMemberDirector;
 	
-	public NonFacultyMember(String email, String password, String userID) {
+	public NonFacultyMember(String email, String password) {
 		boolean validation = SingleMTObject.getInstance().furtherValidation();
 		if (validation==true) {
 			this.nonFacultyMemberDirector = new ClientDirector(new NonFacultyMemberBuilder());
-			this.nonFacultyMemberDirector.construct(email, password, userID);
+			this.nonFacultyMemberDirector.construct(email, password);
 		} else {
 			
 			SingleSNObject.getInstance().registrationFailed();

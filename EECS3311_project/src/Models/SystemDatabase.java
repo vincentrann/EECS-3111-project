@@ -349,4 +349,5 @@ public class SystemDatabase {
 
 	    return newsletters;
 	}
+
 }
