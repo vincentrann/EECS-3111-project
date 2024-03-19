@@ -216,7 +216,7 @@ public class SystemDatabase {
 				if(nameString.equals(name)) {
 					Boolean statusString = Boolean.parseBoolean(physicalReader.get(4));
 					String locationString = physicalReader.get(3);
-					int copiesString = Integer.parseInt(physicalReader.get(2));
+					int copiesString = Integer.parseInt(physicalReader.get(5));
 					
 					physicalReader.close();
 					return PhysicalItemFactory.getPhysicalItem(nameString, id, copiesString, locationString, statusString);
