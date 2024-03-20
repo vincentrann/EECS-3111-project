@@ -15,6 +15,8 @@ import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 public class MainLibraryFront extends JFrame {
 
@@ -34,6 +36,7 @@ public class MainLibraryFront extends JFrame {
         JButton openVirtualBooks = new JButton("Open Virtual Books");
         JButton viewNewsletters = new JButton("View Newsletters");
         JButton requestBook = new JButton("Request Book");
+        JButton viewCourseBook = new JButton("View Course Book");
         
         //Main Page with buttons
         Box buttonBox = new Box(BoxLayout.Y_AXIS);
@@ -44,6 +47,9 @@ public class MainLibraryFront extends JFrame {
         buttonBox.add(viewNewsletters);
         buttonBox.add(Box.createVerticalStrut(10));
         buttonBox.add(requestBook);
+        buttonBox.add(Box.createVerticalStrut(10));
+        buttonBox.add(viewCourseBook);
+        
         buttonBox.setAlignmentY(Component.CENTER_ALIGNMENT);
 
         //Encapsulate buttonBox in a container panel to center horizontally
@@ -85,6 +91,7 @@ public class MainLibraryFront extends JFrame {
         openVirtualBooks.addActionListener(e -> cardLayout.show(mainPanel, "OpenVirtualBooks"));
         viewNewsletters.addActionListener(e -> cardLayout.show(mainPanel, "ViewNewsletters"));
         requestBook.addActionListener(e -> displayRequestPopup());
+        viewCourseBook.addActionListener(e -> displayCourseBook(findVirtualTextbook(client.getEmail())));
         
         //Show the main library front page initially
         cardLayout.show(mainPanel, "LibraryFront");
@@ -119,6 +126,48 @@ public class MainLibraryFront extends JFrame {
         notificationsPanel.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 150));
         notificationsPanel.revalidate();
         notificationsPanel.repaint();
+    }
+    
+    public static String findVirtualTextbook(String targetEmail) {
+        String virtualTextbook = null;
+        String line;
+        String csvFile = "StudentData.csv";
+
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+            // Read the header line (assuming it contains column names)
+            String header = br.readLine();
+
+            // Iterate through each line in the CSV file
+            while ((line = br.readLine()) != null) {
+                // Split the line into columns based on comma separator
+                String[] columns = line.split(",");
+
+                // Check if the email matches the target email
+                if (columns.length >= 1 && columns[0].equals(targetEmail)) {
+                    // If a match is found, retrieve the virtual textbook
+                    if (columns.length >= 3) {
+                        virtualTextbook = columns[2];
+                    }
+                    // Break out of the loop since we found the matching email
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return virtualTextbook;
+    }
+    
+    
+    private void displayCourseBook(String book) {
+    	//This method will display the book of the course the user is taking, if there is one
+    	
+    	JDialog courseBookDialog = new JDialog(this, "Course Book Dialog:", true);
+    	courseBookDialog.setLayout(new GridLayout(4, 2));
+            
+        
+
     }
     
     private void displayRequestPopup() {
@@ -231,10 +280,21 @@ public class MainLibraryFront extends JFrame {
             		textBooksPage textbooksPage = new textBooksPage(client.getEmail(), facultyTextbooks);
             		textbooksPage.setVisible(true);
             	}
-            });
+            }
+            
+            		);
             buttonBox.add(Box.createVerticalStrut(10));
             buttonBox.add(trackTextbooks);
         }
+        
+        
+        
+       if("Student".equals(client.getType()) && findVirtualTextbook(client.getEmail()) != null) {
+    	   
+    	   
+           displayCourseBook(findVirtualTextbook(client.getEmail()));
+
+       }
     }
 }
 

@@ -64,7 +64,7 @@ public class OpenVirtualBooks extends JPanel {
         });
     }
 
-    private void performSearch(String name) {
+    public void performSearch(String name) {
         searchResultsPanel.removeAll();
         //TODO: retrieve the item from the database, getVirtualItem not complete
         Item item = database.getVirtualItem(name); 

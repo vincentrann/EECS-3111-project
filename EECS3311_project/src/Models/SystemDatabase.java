@@ -14,6 +14,9 @@ import java.util.List;
 import com.csvreader.*;
 import com.opencsv.*;
 import com.opencsv.exceptions.CsvValidationException;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
+
 
 import FlyweightPattern.*;
 
@@ -205,6 +208,36 @@ public class SystemDatabase {
 		}
 		return null;
 	}
+	
+	//for change book status/availability
+	public void updateVirtualItemAvailability(String name, boolean availability) {
+	    String tempFile = "temp.csv"; // Temporary file to write updated data
+
+	    try (CSVReader virtualReader = new CSVReader(new FileReader(virtualCSV));
+	         CSVWriter writer = new CSVWriter(new FileWriter(tempFile))) {
+
+	        String[] nextLine;
+	        while ((nextLine = virtualReader.readNext()) != null) {
+	            String nameString = nextLine[0];
+	            if (name.equals(nameString)) {
+	                // Update the availability
+	                nextLine[3] = String.valueOf(availability);
+	            }
+	            // Write the line to the temporary file
+	            writer.writeNext(nextLine);
+	        }
+
+	    } catch (IOException | CsvValidationException e) {
+	        e.printStackTrace();
+	    }
+
+	    // Rename the temporary file to the original file
+	    File originalFile = new File(virtualCSV);
+	    File temp = new File(tempFile);
+	    temp.renameTo(originalFile);
+	}
+	
+	
 	//TODO: needed for RentBook page
 	public Item getPhysicalItem (String name) {
 		try {
@@ -227,6 +260,35 @@ public class SystemDatabase {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	
+	//for change book status/availability
+	public void updatePhysicalItemAvailability(String name, boolean availability) {
+	    String tempFile = "temp.csv"; // Temporary file to write updated data
+
+	    try (CSVReader physicalReader = new CSVReader(new FileReader(physicalCSV));
+	         CSVWriter writer = new CSVWriter(new FileWriter(tempFile))) {
+
+	        String[] nextLine;
+	        while ((nextLine = physicalReader.readNext()) != null) {
+	            String nameString = nextLine[0];
+	            if (nameString.equals(name)) {
+	                // Update the availability
+	                nextLine[4] = String.valueOf(availability);
+	            }
+	            // Write the line to the temporary file
+	            writer.writeNext(nextLine);
+	        }
+
+	    } catch (IOException | CsvValidationException e) {
+	        e.printStackTrace();
+	    }
+
+	    // Rename the temporary file to the original file
+	    File originalFile = new File(physicalCSV);
+	    File temp = new File(tempFile);
+	    temp.renameTo(originalFile);
 	}
 	
 	public void rentItem(Item item) {
@@ -685,9 +747,22 @@ public class SystemDatabase {
 		
 	}
 
-	public void addVirtualItem(String name, String aisle) {
-		// TODO Auto-generated method stub
+	public void addVirtualItem(String name, String edition, String text) throws FileNotFoundException, IOException, CsvValidationException {
+		String csvFile = virtualCSV;
+		int id = 10000;
 		
+		try(CSVReader reader = new CSVReader(new FileReader(csvFile))){
+			String[] nextLine;
+			nextLine = reader.readNext();
+			while((nextLine = reader.readNext()) != null){
+				id = Integer.parseInt(nextLine[1]) + 1;			
+			}
+		}
+		
+		try (CSVWriter writer = new CSVWriter(new FileWriter(csvFile, true))){
+			String[] data = {name, String.valueOf(id), edition, text, "TRUE"};
+			writer.writeNext(data);
+		}
 	}
 
 }

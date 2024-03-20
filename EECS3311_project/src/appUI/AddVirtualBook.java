@@ -17,41 +17,47 @@ import com.opencsv.exceptions.CsvValidationException;
 
 import Models.SystemDatabase;
 
-public class AddBook extends JFrame{
+public class AddVirtualBook extends JFrame{
 	private SystemDatabase database = SystemDatabase.getInstance();
 	
 	
 	//adds physical book
-    public AddBook() {
-        super("Add Physical Book");
+    public AddVirtualBook() {
+        super("Add Virtual Book");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         JPanel panel = new JPanel(new GridLayout(5, 2, 10, 10));
 
         JLabel nameLabel = new JLabel("Name:");
         JTextField nameField = new JTextField();
+        
+        JLabel editionLabel = new JLabel("Edition:");
+        JTextField editionField = new JTextField();
 
-        JLabel aisleLabel = new JLabel("Aisle:");
-        JTextField aisleField = new JTextField();
+        JLabel textLabel = new JLabel("Text:");
+        JTextField textField = new JTextField();
+        
+        
 
-        JButton addButton = new JButton("Add Physical Book");
+        JButton addButton = new JButton("Add Virtual Book");
         JButton cancelButton = new JButton("Cancel");
 
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String name = nameField.getText();
-                String aisle = aisleField.getText();
+                String edition = editionField.getText();
+                String text = textField.getText();
                 
-                if(name.length() > 0 && aisle.length() > 0) {
+                if(name.length() > 0 && text.length() > 0) {
 
                 	try {
-						database.addPhysicalItem(name, aisle);
+						database.addVirtualItem(name, edition, text);
 					} catch (CsvValidationException | IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 	                }
-	                JOptionPane.showMessageDialog(panel, "Book added successfully.");
+	                JOptionPane.showMessageDialog(panel, "Virtual book added successfully.");
                 }
                 else {
                 	JOptionPane.showMessageDialog(panel, "enter all fields");
@@ -69,8 +75,10 @@ public class AddBook extends JFrame{
 
         panel.add(nameLabel);
         panel.add(nameField);
-        panel.add(aisleLabel);
-        panel.add(aisleField);
+        panel.add(editionLabel);
+        panel.add(editionField);
+        panel.add(textLabel);
+        panel.add(textField);
         panel.add(addButton);
         panel.add(cancelButton);
 

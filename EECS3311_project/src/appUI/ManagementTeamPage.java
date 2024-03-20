@@ -11,20 +11,25 @@ public class ManagementTeamPage extends JFrame {
         super("Management Team Page");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        JPanel panel = new JPanel(new GridLayout(3, 1, 10, 10));
+        JPanel panel = new JPanel(new GridLayout(4, 1, 10, 10));
         JLabel label = new JLabel("Welcome to Management Team Page!");
         JButton changeStatusButton = new JButton("Change Status of a Book");
-        JButton addBookButton = new JButton("Add a New Book");
-
+        JButton addPBookButton = new JButton("Add a New Physical Book");
+        JButton addVBookButton = new JButton("Add a New Virtual Book");
+        
+        //change status of item
         changeStatusButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Implement action to change status of a book
-                JOptionPane.showMessageDialog(panel, "Change Status of a Book functionality will be implemented here.");
+            	ChangeBook changeBookWindow = new ChangeBook();
+            	
+            	changeBookWindow.setVisible(true);
             }
         });
-
-        addBookButton.addActionListener(new ActionListener() {
+        
+        //add physical item
+        addPBookButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Implement action to add a new book
@@ -33,11 +38,24 @@ public class ManagementTeamPage extends JFrame {
                 addBookWindow.setVisible(true);
             }
         });
+        
+        //add virtual item
+        addVBookButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Implement action to add a new book
+                AddVirtualBook addVBookWindow = new AddVirtualBook();
+                
+                addVBookWindow.setVisible(true);
+            }
+        });
 
         // Add components to the panel
         panel.add(label);
         panel.add(changeStatusButton);
-        panel.add(addBookButton);
+        panel.add(addPBookButton);
+        panel.add(addVBookButton);
+
 
         setContentPane(panel);
         pack();
