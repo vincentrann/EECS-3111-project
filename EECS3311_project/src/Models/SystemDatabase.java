@@ -237,6 +237,25 @@ public class SystemDatabase {
 	    temp.renameTo(originalFile);
 	}
 	
+	public String getVirtualTextbookName(String studentEmail) {
+	    try {
+	        CsvReader virtualReader = new CsvReader(virtualCSV);
+	        virtualReader.readHeaders();
+	        while (virtualReader.readRecord()) {
+	            String email = virtualReader.get(0);
+	            String textbookName = virtualReader.get(2); // Assuming the virtual textbook name is at index 2
+	            if (studentEmail.equals(email)) {
+	                virtualReader.close();
+	                return textbookName;
+	            }
+	        }
+	        virtualReader.close();
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	    return null;
+	}
+
 	
 	//TODO: needed for RentBook page
 	public Item getPhysicalItem (String name) {

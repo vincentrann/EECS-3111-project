@@ -36,7 +36,8 @@ public class MainLibraryFront extends JFrame {
         JButton openVirtualBooks = new JButton("Open Virtual Books");
         JButton viewNewsletters = new JButton("View Newsletters");
         JButton requestBook = new JButton("Request Book");
-        JButton viewCourseBook = new JButton("View Course Book");
+        JButton sellableItems = new JButton("Buy Items");
+
         
         //Main Page with buttons
         Box buttonBox = new Box(BoxLayout.Y_AXIS);
@@ -47,8 +48,7 @@ public class MainLibraryFront extends JFrame {
         buttonBox.add(viewNewsletters);
         buttonBox.add(Box.createVerticalStrut(10));
         buttonBox.add(requestBook);
-        buttonBox.add(Box.createVerticalStrut(10));
-        buttonBox.add(viewCourseBook);
+        
         
         buttonBox.setAlignmentY(Component.CENTER_ALIGNMENT);
 
@@ -91,7 +91,40 @@ public class MainLibraryFront extends JFrame {
         openVirtualBooks.addActionListener(e -> cardLayout.show(mainPanel, "OpenVirtualBooks"));
         viewNewsletters.addActionListener(e -> cardLayout.show(mainPanel, "ViewNewsletters"));
         requestBook.addActionListener(e -> displayRequestPopup());
-        viewCourseBook.addActionListener(e -> displayCourseBook(findVirtualTextbook(client.getEmail())));
+
+        
+        //display student course book
+        if(client.getType().equals("Student")) {
+        	JButton viewCourseBook = new JButton("View Course Book");
+            buttonBox.add(Box.createVerticalStrut(10));
+            buttonBox.add(viewCourseBook);
+            
+            viewCourseBook.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Implement action to change status of a book
+                	ViewCourseBook viewCourseBook = new ViewCourseBook();
+                	
+                	viewCourseBook.setVisible(true);
+                }
+            });
+        }
+        
+      //Buy Item page
+        	JButton sellableItem = new JButton("Buy Items");
+            buttonBox.add(Box.createVerticalStrut(10));
+            buttonBox.add(sellableItem);
+            
+            sellableItem.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Implement action to change status of a book
+                	BuyItem buyItem = new BuyItem();
+                	
+                	sellableItem.setVisible(true);
+                }
+            });
+      
         
         //Show the main library front page initially
         cardLayout.show(mainPanel, "LibraryFront");
@@ -158,17 +191,7 @@ public class MainLibraryFront extends JFrame {
 
         return virtualTextbook;
     }
-    
-    
-    private void displayCourseBook(String book) {
-    	//This method will display the book of the course the user is taking, if there is one
-    	
-    	JDialog courseBookDialog = new JDialog(this, "Course Book Dialog:", true);
-    	courseBookDialog.setLayout(new GridLayout(4, 2));
-            
-        
 
-    }
     
     private void displayRequestPopup() {
         // Method to display request popup
@@ -289,12 +312,7 @@ public class MainLibraryFront extends JFrame {
         
         
         
-       if("Student".equals(client.getType()) && findVirtualTextbook(client.getEmail()) != null) {
-    	   
-    	   
-           displayCourseBook(findVirtualTextbook(client.getEmail()));
 
-       }
     }
 }
 
