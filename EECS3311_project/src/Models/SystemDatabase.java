@@ -231,6 +231,7 @@ public class SystemDatabase {
 	
 	public void rentItem(Item item) {
 		
+		
 	}
 	public void addSubscription(String userID, Newsletter newsletter) {
         try {
@@ -579,6 +580,8 @@ public class SystemDatabase {
 	        	}
 	        	
 	        }
+	        
+	        similarTitles.remove(bookTitle);
 	    } catch (IOException e) {
 	        System.err.println("An error occurred while reading the subscriptions: " + e.getMessage());
 	        e.printStackTrace();

@@ -2,6 +2,8 @@ package appUI;
 
 import javax.swing.*;
 
+import com.opencsv.exceptions.CsvValidationException;
+
 import Models.Client;
 import Models.Item;
 import Models.PhysicalItem;
@@ -10,6 +12,7 @@ import Models.SystemPayment;
 
 import java.awt.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class RentPage extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -81,6 +84,35 @@ public class RentPage extends JPanel {
             JButton actionButton = new JButton("Rent");
             actionButton.addActionListener(e -> rentItemAction(item));
             searchResultsPanel.add(actionButton);
+            
+            // Show recommended books if similar books exist
+            try {
+				ArrayList<String> similarBooks = database.recommend(name);
+				
+				if (similarBooks.size() > 0) {
+				
+					JLabel recommendations = new JLabel("Recommendations:");
+			        recommendations.setBounds(0, 0, 450, 248);
+			        recommendations.setHorizontalTextPosition(SwingConstants.CENTER);
+			        recommendations.setHorizontalAlignment(SwingConstants.CENTER);
+			        searchResultsPanel.add(recommendations);
+					
+					
+					int y = 20;
+					for(String book: similarBooks) {
+						JLabel bookLabel = new JLabel(book);			
+						//bookLabel.setBounds(20, y, 50, 50);
+						searchResultsPanel.add(bookLabel);
+						
+						y += 20;
+					}
+				}
+			} catch (CsvValidationException e1) {
+				e1.printStackTrace();
+			}
+            
+            
+            
 
         } else {
             searchResultsPanel.add(new JLabel("No item found in library with name: " + name));
