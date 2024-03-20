@@ -1,4 +1,4 @@
 name,uniqueID,copies,location,status
-musicCD,1,20,music aisle ,TRUE
+musicCD,1,16,music aisle,TRUE
 fantasyBook,2,20,fantasy aisle,TRUE
-newsMagazine,3,20,new aisle,TRUE
+newsMagazine,3,20,news aisle,TRUE

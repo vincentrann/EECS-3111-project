@@ -72,7 +72,10 @@ public class RentPage extends JPanel {
         searchResultsPanel.removeAll(); 
         //TODO: retrieve the item from the database, getPhysicalItem not complete
         Item item = database.getPhysicalItem(name); 
-        if (item != null && item instanceof PhysicalItem) { 
+        if (database.rentStatus(this.client) == false) {
+        	searchResultsPanel.add(new JLabel("lost borrowing privileges due to more than 3 overdue items or borrow limit reach"));
+        }
+        else if (item != null && item instanceof PhysicalItem) { 
             // Display item details
             JLabel itemLabel = new JLabel(item.getName());
             searchResultsPanel.add(itemLabel);
@@ -82,7 +85,8 @@ public class RentPage extends JPanel {
             actionButton.addActionListener(e -> rentItemAction(item));
             searchResultsPanel.add(actionButton);
 
-        } else {
+        }
+        else {
             searchResultsPanel.add(new JLabel("No item found in library with name: " + name));
         }
 

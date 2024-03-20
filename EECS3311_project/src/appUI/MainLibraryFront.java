@@ -11,7 +11,8 @@ import com.opencsv.exceptions.CsvValidationException;
 
 import Models.Client;
 import Models.SystemDatabase;
-import java.time.LocalDateTime; 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
@@ -100,7 +101,8 @@ public class MainLibraryFront extends JFrame {
         rentedBooksPanel.add(new JLabel("Currently Rented Books:"));
         Map<String, LocalDateTime> rentedBooks = client.displayRentedBooks();
         for (Map.Entry<String, LocalDateTime> entry : rentedBooks.entrySet()) {
-            rentedBooksPanel.add(new JLabel("Book: " + entry.getKey() + ", Due Date: " + entry.getValue().toString()));
+        	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            rentedBooksPanel.add(new JLabel("Book: " + entry.getKey() + ", Due Date: " + entry.getValue().format(formatter)));
         }
         rentedBooksPanel.revalidate();
         rentedBooksPanel.repaint();
