@@ -319,6 +319,7 @@ public class SystemDatabase {
             CsvWriter writer = new CsvWriter(new FileWriter(newsletterSubscriberCSV, true), ',');
             writer.write(userID);
             writer.write(newsletter.getName());
+            writer.write(newsletter.getUrl());
             writer.endRecord();
             writer.close();
         } catch (IOException e) {
@@ -352,7 +353,7 @@ public class SystemDatabase {
 	        try {
 				while ((nextLine = reader.readNext()) != null) {
 				    // Skip the line that matches both the newsletter name and the user ID
-				    if (nextLine.length >= 2 && nextLine[0].equals(newsletter.getName()) && nextLine[1].equals(userID)) {
+				    if (nextLine.length >= 2 && nextLine[1].equals(newsletter.getName()) && nextLine[0].equals(userID)) {
 				        continue; // Skip this record, effectively deleting it from the list
 				    }
 				    writer.writeNext(nextLine); // Write other records normally
@@ -426,9 +427,9 @@ public class SystemDatabase {
 	        String[] nextLine;
 	        try {
 				while ((nextLine = reader.readNext()) != null) {
-				    if (nextLine.length >= 3 && nextLine[2].equals(userID)) { // Assuming the userID is in the third column
-				        String newsletterName = nextLine[0];
-				        String newsletterURL = nextLine[1]; // Assuming the URL is in the second column
+				    if (nextLine.length >= 3 && nextLine[0].equals(userID)) { // Assuming the userID is in the third column
+				        String newsletterName = nextLine[1];
+				        String newsletterURL = nextLine[2]; // Assuming the URL is in the second column
 				        subscribedNewsletters.add(new Newsletter(newsletterName, newsletterURL)); // Now passing both name and URL
 				    }
 				}

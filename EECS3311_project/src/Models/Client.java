@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.opencsv.exceptions.CsvValidationException;
+
 public class Client implements ObserverPattern.PhysicalItemObserver{
 	private String type;
 	private String email;
@@ -66,7 +68,7 @@ public class Client implements ObserverPattern.PhysicalItemObserver{
 	}
 	
 	public void addSubsciption(Newsletter newsletter) {
-		subscribtions.add(newsletter);
+		SystemDatabase.getInstance().addSubscription(userID, newsletter);
 	}
 	/*
 	 *  Added: list of rented physical items for client
@@ -95,19 +97,11 @@ public class Client implements ObserverPattern.PhysicalItemObserver{
 	}
 	
 	public void subscribe(Newsletter newsletter) {
-		subscribtions.add(newsletter);
+		SystemDatabase.getInstance().addSubscription(userID, newsletter);
 	}
 	
-	public boolean unsubscribe(String newsletter) {
-		boolean exist = false; // display that subscription doesn't exist
-		for (int i = 0; i < subscribtions.size(); i++) {
-			if (subscribtions.get(i).getName().equals(newsletter)) {
-				exist = true; // display that subscription exists and is removed
-				subscribtions.remove(i);
-			}
-		}
-		return exist; 
-		
+	public void unsubscribe(Newsletter newsletter) throws CsvValidationException {
+		SystemDatabase.getInstance().cancelSubscription(userID, newsletter);
 	}
 	
 	/*
