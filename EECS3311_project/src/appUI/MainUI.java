@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.util.Vector;
 import java.util.UUID;
 import BuilderPattern.*;
+import java.util.regex.*;
+
 
 import Models.*;
 import appUI.MainLibraryFront;
@@ -166,6 +168,9 @@ public class MainUI extends JFrame {
 					System.out.println("please complete all fields");
 				}
 				
+				if(!verifyPasswordStrength(password)) {
+					return;
+				}
 				else if(database.clientExists(email, type.replaceAll("\\s", ""))) {
 					System.out.println("user already exists, try new email");
 				}
@@ -305,6 +310,25 @@ public class MainUI extends JFrame {
 		});
 	}
 	
+	public static boolean verifyPasswordStrength(String password) {
+        // Define a regular expression pattern to match the password requirements
+        String pattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
+        boolean valid = false;
+        
+        // Create a Pattern object
+        Pattern regex = Pattern.compile(pattern);
+
+        // Create a Matcher object with the provided password
+        Matcher matcher = regex.matcher(password);
+
+        // Check if the password matches the pattern
+        if (matcher.matches()) {
+            valid = true;
+        } else {
+            JOptionPane.showMessageDialog(null, "The password is improper. Please use a strong password.", "Password Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return valid;
+    }
 	
 	
 	public static void main(String[] args) {
