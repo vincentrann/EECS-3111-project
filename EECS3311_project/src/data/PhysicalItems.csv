@@ -1,19 +1,20 @@
-name,uniqueID,copies,location,status
-rockCD,1,18,rock aisle,TRUE
-fantasyBook,2,17,fantasy aisle,TRUE
-newsMagazine,3,19,news aisle,TRUE
-rockCD2,4,20,rock aisle,TRUE
-jazzCD,5,18,jazz aisle,TRUE
-jazzCD2,6,20,jazz aisle,TRUE
-popCD,7,19,pop aisle,TRUE
-popCD2,8,20,pop aisle,TRUE
-fantasyBook2,9,20,fantasy aisle,TRUE
-mysteryBook,10,18,mystery aisle,TRUE
-mysteryBook2,11,20,mystery aisle,TRUE
-scienceBook,12,19,science aisle,TRUE
-scienceBook2,13,20,science aisle,TRUE
-newsMagazine2,14,20,news aisle,TRUE
-politicalMagazine,15,19,political aisle,TRUE
-politicalMagazine2,16,20,political aisle,TRUE
-historyMagazine,17,19,history aisle,TRUE
-historyMagazine2,18,19,history aisle,TRUE
+"name","uniqueID","copies","location","status"
+"rockCD","1","18","rock aisle","FALSE"
+"fantasyBook","2","17","fantasy aisle","TRUE"
+"newsMagazine","3","19","news aisle","TRUE"
+"rockCD2","4","20","rock aisle","TRUE"
+"jazzCD","5","18","jazz aisle","TRUE"
+"jazzCD2","6","20","jazz aisle","TRUE"
+"popCD","7","19","pop aisle","TRUE"
+"popCD2","8","20","pop aisle","TRUE"
+"fantasyBook2","9","20","fantasy aisle","TRUE"
+"mysteryBook","10","18","mystery aisle","TRUE"
+"mysteryBook2","11","20","mystery aisle","TRUE"
+"scienceBook","12","19","science aisle","TRUE"
+"scienceBook2","13","20","science aisle","TRUE"
+"newsMagazine2","14","20","news aisle","TRUE"
+"politicalMagazine","15","19","political aisle","TRUE"
+"politicalMagazine2","16","20","political aisle","TRUE"
+"historyMagazine","17","19","history aisle","TRUE"
+"historyMagazine2","18","19","history aisle","TRUE"
+"Magazine","19","20","4","true"

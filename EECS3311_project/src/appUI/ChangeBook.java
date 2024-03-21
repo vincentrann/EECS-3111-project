@@ -52,18 +52,18 @@ public class ChangeBook extends JFrame {
 
                 		status = status.trim().toUpperCase(); // Convert input to lowercase and trim
                         if (status.equals("TRUE")) {
-                            database.updatePhysicalItemAvailability(name, true);
-                            JOptionPane.showMessageDialog(panel, "Status changed to:" + status);
+                            database.updatePhysicalItemAvailability(name, "TRUE");
                         } else if (status.equals("FALSE")) {
-                            database.updatePhysicalItemAvailability(name, false);
-                            JOptionPane.showMessageDialog(panel, "Status changed to:" + status);
+                            database.updatePhysicalItemAvailability(name, "FALSE");
                         }
                         else {
                             JOptionPane.showMessageDialog(panel, "Invalid input. Please enter true or false", "Invalid ", JOptionPane.ERROR_MESSAGE);
+                            return;
                         }
                 }
                 	else {
                         JOptionPane.showMessageDialog(panel, "Invalid input. Please enter a name", "Invalid ", JOptionPane.ERROR_MESSAGE);
+                        return;
                     }
                 dispose();
             }
@@ -79,18 +79,18 @@ public class ChangeBook extends JFrame {
                 		
                 		status = status.trim().toUpperCase(); // Convert input to lowercase and trim
                         if (status.equals("TRUE")) {
-                            database.updateVirtualItemAvailability(name, true);
-                            JOptionPane.showMessageDialog(panel, "Status changed to:" + status);
+                            database.updateVirtualItemAvailability(name, "TRUE");
                         } else if (status.equals("FALSE")) {
-                            database.updateVirtualItemAvailability(name, false);
-                            JOptionPane.showMessageDialog(panel, "Status changed to:" + status);
+                            database.updateVirtualItemAvailability(name, "FALSE");
                         }
                         else {
                             JOptionPane.showMessageDialog(panel, "Invalid input. Please enter true or false", "Invalid ", JOptionPane.ERROR_MESSAGE);
+                            return;
                         }
                 }
                 	else {
                         JOptionPane.showMessageDialog(panel, "Invalid input. Please enter a name", "Invalid ", JOptionPane.ERROR_MESSAGE);
+                        return;
                     }
                 dispose();
             }

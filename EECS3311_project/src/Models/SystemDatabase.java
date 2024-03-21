@@ -1,6 +1,7 @@
 package Models;
 
 import java.io.FileWriter;
+import javax.swing.JOptionPane;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -210,32 +211,46 @@ public class SystemDatabase {
 		return null;
 	}
 	
-	//for change book status/availability
-	public void updateVirtualItemAvailability(String name, boolean availability) {
-	    String tempFile = "temp.csv"; // Temporary file to write updated data
 
-	    try (CSVReader virtualReader = new CSVReader(new FileReader(virtualCSV));
-	         CSVWriter writer = new CSVWriter(new FileWriter(tempFile))) {
-
+	public void updateVirtualItemAvailability(String name, String availability) {
+	    String csvFile = virtualCSV;
+	    List<String[]> linesToUpdate = new ArrayList<>();
+	    boolean found = false;
+	    
+	    try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
 	        String[] nextLine;
-	        while ((nextLine = virtualReader.readNext()) != null) {
-	            String nameString = nextLine[0];
-	            if (name.equals(nameString)) {
-	                // Update the availability
-	                nextLine[3] = String.valueOf(availability);
-	            }
-	            // Write the line to the temporary file
-	            writer.writeNext(nextLine);
-	        }
 
+	        // Read the file line by line
+	        while ((nextLine = reader.readNext()) != null) {
+	            // Check if the line contains the specified name
+	            if (nextLine.length > 0 && nextLine[0].equals(name)) {
+	                // Update the availability for the matched item
+	                nextLine[3] = availability; // Assuming availability is in the 4th column (index 3)
+	                found = true;
+	            }
+	            // Add the line to the list
+	            linesToUpdate.add(nextLine);
+	        }
 	    } catch (IOException | CsvValidationException e) {
 	        e.printStackTrace();
+	        return;
 	    }
 
-	    // Rename the temporary file to the original file
-	    File originalFile = new File(virtualCSV);
-	    File temp = new File(tempFile);
-	    temp.renameTo(originalFile);
+	    if (!found) {
+	        JOptionPane.showMessageDialog(null, "Item not found.");
+	        return;
+	    }
+	    
+	    else {
+	        JOptionPane.showMessageDialog(null, "Status changed to: " + availability);
+	    }
+	    // Write the updated data back to the file
+	    try (CSVWriter writer = new CSVWriter(new FileWriter(csvFile))) {
+	        writer.writeAll(linesToUpdate);
+	        System.out.println("Item availability updated successfully.");
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
 	}
 	
 	public String getVirtualTextbookName(String studentEmail) {
@@ -353,47 +368,46 @@ public class SystemDatabase {
 		return true;
 	}
 	
-	//for change book status/availability
-	public void updatePhysicalItemAvailability(String name, boolean availability) {
-	    String tempFile = "temp.csv"; // Temporary file to write updated data
+	public void updatePhysicalItemAvailability(String name, String availability) {
+	    String csvFile = physicalCSV;
+	    List<String[]> linesToUpdate = new ArrayList<>();
+	    boolean found = false;
 
-	    try (CSVReader physicalReader = new CSVReader(new FileReader(physicalCSV));
-	         CSVWriter writer = new CSVWriter(new FileWriter(tempFile))) {
-
+	    try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
 	        String[] nextLine;
-	        while ((nextLine = physicalReader.readNext()) != null) {
-	            String nameString = nextLine[0];
-	            if (nameString.equals(name)) {
-	                // Update the availability
-	                nextLine[4] = String.valueOf(availability);
-	            }
-	            // Write the line to the temporary file
-	            writer.writeNext(nextLine);
-	        }
 
+	        // Read the file line by line
+	        while ((nextLine = reader.readNext()) != null) {
+	            // Check if the line contains the specified name
+	            if (nextLine.length > 0 && nextLine[0].equals(name)) {
+	                // Update the availability for the matched item
+	                nextLine[4] = availability; // Assuming availability is in the 5th column (index 4)
+	                found = true;
+	            }
+	            // Add the line to the list
+	            linesToUpdate.add(nextLine);
+	        }
 	    } catch (IOException | CsvValidationException e) {
 	        e.printStackTrace();
+	        return;
 	    }
 
-	    // Rename the temporary file to the original file
-	    File originalFile = new File(physicalCSV);
-	    File temp = new File(tempFile);
-	    temp.renameTo(originalFile);
+	    if (!found) {
+	        JOptionPane.showMessageDialog(null, "Item not found.");
+	        return;
+	    }
+	    
+	    else {
+            JOptionPane.showMessageDialog(null, "Status changed to:" + availability);
+	    }
+	    // Write the updated data back to the file
+	    try (CSVWriter writer = new CSVWriter(new FileWriter(csvFile))) {
+	        writer.writeAll(linesToUpdate);
+	        System.out.println("Item availability updated successfully.");
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
 	}
-
-	public void addSubscription(String userID, Newsletter newsletter) {
-        try {
-            CsvWriter writer = new CsvWriter(new FileWriter(newsletterSubscriberCSV, true), ',');
-            writer.write(userID);
-            writer.write(newsletter.getName());
-            writer.write(newsletter.getUrl());
-            writer.endRecord();
-            writer.close();
-        } catch (IOException e) {
-            System.err.println("An error occurred while writing to the file: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
 	//TODO: Might need to use this one instead of the one above
 	/**
 	public void addSubscription(String userID, String name) {
@@ -883,19 +897,16 @@ public class SystemDatabase {
 	}
 
 	public void addVirtualItem(String name, String edition, String text) throws FileNotFoundException, IOException, CsvValidationException {
-		String csvFile = virtualCSV;
-		int id = 10000;
-		
+		String csvFile = virtualCSV;		
 		try(CSVReader reader = new CSVReader(new FileReader(csvFile))){
 			String[] nextLine;
 			nextLine = reader.readNext();
 			while((nextLine = reader.readNext()) != null){
-				id = Integer.parseInt(nextLine[1]) + 1;			
 			}
 		}
 		
 		try (CSVWriter writer = new CSVWriter(new FileWriter(csvFile, true))){
-			String[] data = {name, String.valueOf(id), edition, text, "TRUE"};
+			String[] data = {name, text, edition, "TRUE"};
 			writer.writeNext(data);
 		}
 	}
