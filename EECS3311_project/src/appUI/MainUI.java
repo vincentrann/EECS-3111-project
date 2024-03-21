@@ -18,6 +18,8 @@ import com.opencsv.exceptions.CsvValidationException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Vector;
 import java.util.UUID;
 import BuilderPattern.*;
@@ -44,6 +46,7 @@ public class MainUI extends JFrame {
 		// Set window title
 		super("YorkU Library Management app");
 		
+		
 		//content pane
 		CardLayout cardLayout = new CardLayout();
 		JPanel cardJPanel = new JPanel(cardLayout);
@@ -52,17 +55,24 @@ public class MainUI extends JFrame {
 		// register/login page
 		JButton register = new JButton("register");
 		JButton loginButton = new JButton("login");
+		JButton managementTeamButton = new JButton("Management Team");
+
 		
 		JPanel firstPage = new JPanel();
 		
 		firstPage.setLayout(new BoxLayout(firstPage, BoxLayout.Y_AXIS));
 		register.setAlignmentX(Component.CENTER_ALIGNMENT);
 		loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		managementTeamButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		
 		firstPage.add(Box.createVerticalGlue());
 		firstPage.add(register);
 		firstPage.add(Box.createVerticalStrut(10));
 		firstPage.add(loginButton);
+		firstPage.add(Box.createVerticalStrut(10));
+		firstPage.add(managementTeamButton);
+		firstPage.add(Box.createVerticalGlue());
 		
 		//register page
 		JPanel registerPage = new JPanel();
@@ -187,6 +197,12 @@ public class MainUI extends JFrame {
 					} catch (CsvValidationException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
 					dispose();
 				}
@@ -223,6 +239,12 @@ public class MainUI extends JFrame {
 						new MainLibraryFront(client, database);
 					} catch (CsvValidationException e1) {
 						e1.printStackTrace();
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
 					dispose();
 				}
@@ -231,10 +253,6 @@ public class MainUI extends JFrame {
 				}
 			}
 		});
-		
-
-		JButton managementTeamButton = new JButton("Management Team");
-
 
 		managementTeamButton.addActionListener(new ActionListener() {
 		    @Override
@@ -285,10 +303,6 @@ public class MainUI extends JFrame {
 			    loginFrame.setLocationRelativeTo(null);
 		    }
 		});
-		firstPage.add(Box.createVerticalStrut(10));
-		firstPage.add(managementTeamButton);
-		firstPage.add(Box.createVerticalGlue());
-		
 	}
 	
 	

@@ -11,11 +11,14 @@ import com.opencsv.exceptions.CsvValidationException;
 
 import Models.Client;
 import Models.SystemDatabase;
+import Models.TextbookInfo;
+
 import java.time.LocalDateTime; 
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 public class MainLibraryFront extends JFrame {
@@ -26,7 +29,7 @@ public class MainLibraryFront extends JFrame {
     private JPanel rentedBooksPanel;
     private JPanel notificationsPanel;
     
-    public MainLibraryFront(Client client, SystemDatabase database) throws CsvValidationException {
+    public MainLibraryFront(Client client, SystemDatabase database) throws CsvValidationException, FileNotFoundException, IOException {
     	//Set window title and layout
         super("YorkU Library Front");
         
@@ -146,7 +149,7 @@ public class MainLibraryFront extends JFrame {
         rentedBooksPanel.repaint();
     }
     
-    public void refreshNotificationsPanel(Client client) {
+    public void refreshNotificationsPanel(Client client) throws CsvValidationException, FileNotFoundException, IOException {
         notificationsPanel.removeAll();
         notificationsPanel.setLayout(new BoxLayout(notificationsPanel, BoxLayout.Y_AXIS));
         notificationsPanel.add(new JLabel("Notifications:"));
@@ -154,6 +157,19 @@ public class MainLibraryFront extends JFrame {
         List<String> notifications = client.notifyDueDate();
         for (String notification : notifications) {
             notificationsPanel.add(new JLabel(notification));
+        }
+        if(client.getType().equals("Faculty Member")) {
+        	List<TextbookInfo> textbooks = SystemDatabase.getInstance().getTextbooksAndEdition(client.getEmail());
+        	List<TextbookInfo> allTextbooks = SystemDatabase.getInstance().getAllTextbooksAndEdtition();
+        	
+        	for(TextbookInfo textbook: allTextbooks) {
+        		for(TextbookInfo teacherTextbook: textbooks) {
+        			if(teacherTextbook.newEdition(textbook)) {
+        				notificationsPanel.add(new JLabel("new edition of " + textbook.getTextbook()));
+        			}
+        		}
+        	}
+        	
         }
 
         notificationsPanel.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 150));
