@@ -65,6 +65,8 @@ public class PhysicalItem extends Item{
             addObserver(client);
             notifyObservers(bookTitle, dueDateTime);
             copies--;
+            SystemDatabase database = SystemDatabase.getInstance();
+            database.rentItem(this, dueDateTime, client);
         } else {
         	
             SingleSNObject.getInstance().unavailableTextbook();
