@@ -14,7 +14,9 @@ public class Client implements ObserverPattern.PhysicalItemObserver{
 	private String email;
 	private String password;
 	private String userID;
+	private int rentCount;
 	private Map<String, LocalDateTime> rentedPhysicalItems = new HashMap<>(); // Stores all physical Items rented
+	
 	private ArrayList<Newsletter> subscribtions = new ArrayList<Newsletter>();
 	
 	public Client(String type, String email, String password, String userID) {
@@ -22,6 +24,7 @@ public class Client implements ObserverPattern.PhysicalItemObserver{
 		this.email = email;
 		this.password = password;
 		this.userID = userID;
+		this.rentCount = 0;
 	}
 	
 	public String getEmail() {
@@ -51,6 +54,14 @@ public class Client implements ObserverPattern.PhysicalItemObserver{
 	public void setUserID(String userID) {
 		this.userID = userID;
 	}
+	
+	public void setRentCount () {
+		this.rentCount++;
+	}
+	
+	public int getRentCount() {
+		return this.rentCount;
+	}
 	/*
 	 * Updates physical item status for client
 	 */
@@ -65,6 +76,7 @@ public class Client implements ObserverPattern.PhysicalItemObserver{
 	
 	public void addRentedItem(String name, LocalDateTime dueDate) {
 		rentedPhysicalItems.put(name, dueDate);
+		this.setRentCount();
 	}
 	
 	public void addSubsciption(Newsletter newsletter) {
@@ -88,9 +100,9 @@ public class Client implements ObserverPattern.PhysicalItemObserver{
 	        Duration duration = Duration.between(now, dueDateTime);
 	        long hoursLeft = duration.toHours();
 	        if ((hoursLeft <= 24) && (hoursLeft >= 0)) {
-	            dueDateNotifications.add("Warning: Less than 24hrs left until the due date for book " + entry.getKey());
+	            dueDateNotifications.add("Warning: Less than 24hrs left until the due date for item " + entry.getKey());
 	        } else if (duration.isNegative()) {
-	            dueDateNotifications.add("Warning: The due date for book " + entry.getKey() + " has passed.");
+	            dueDateNotifications.add("Warning: The due date for item " + entry.getKey() + " has passed.");
 	        }
 	    }
 	    return dueDateNotifications; 

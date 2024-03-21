@@ -14,6 +14,8 @@ import Models.SystemDatabase;
 import Models.TextbookInfo;
 
 import java.time.LocalDateTime; 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
@@ -140,10 +142,20 @@ public class MainLibraryFront extends JFrame {
     }
     public void refreshRentedBooksPanel(Client client) {
         rentedBooksPanel.removeAll();
-        rentedBooksPanel.add(new JLabel("Currently Rented Books:"));
+        rentedBooksPanel.add(new JLabel("Currently Rented Items:"));
         Map<String, LocalDateTime> rentedBooks = client.displayRentedBooks();
         for (Map.Entry<String, LocalDateTime> entry : rentedBooks.entrySet()) {
-            rentedBooksPanel.add(new JLabel("Book: " + entry.getKey() + ", Due Date: " + entry.getValue().toString()));
+        	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        	String item = entry.getKey();
+        	LocalDateTime dueDate = entry.getValue();
+        	LocalDateTime lostDate = dueDate.plusDays(15);
+        	LocalDateTime currentDate = LocalDateTime.now(); 
+        	if(currentDate.isAfter(lostDate) || currentDate.equals(lostDate)) { //checks if item is lost
+        		rentedBooksPanel.add(new JLabel("(Lost) Item: " + item + ", Due Date: " + dueDate.format(formatter)));
+        	}
+        	else {
+        		rentedBooksPanel.add(new JLabel("Item: " + item + ", Due Date: " + dueDate.format(formatter)));
+        	}
         }
         rentedBooksPanel.revalidate();
         rentedBooksPanel.repaint();

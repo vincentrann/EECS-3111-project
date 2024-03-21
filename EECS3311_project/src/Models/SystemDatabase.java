@@ -148,7 +148,8 @@ public class SystemDatabase {
 						String userEmail = userItemsReader.get(0);
 						if(userEmail.equals(email)) {
 							String itemString = userItemsReader.get(1);
-							String dueString = userItemsReader.get(3);
+							String dueString = userItemsReader.get(2);
+							dueString = dueString.substring(1, dueString.length()-1).replace("\"\"", "\"");
 							DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 							LocalDateTime dateTime = LocalDateTime.parse(dueString, formatter);
 							
@@ -281,6 +282,76 @@ public class SystemDatabase {
 		return null;
 	}
 	
+	// call within "rentPhysicalItem"
+	public void rentItem(PhysicalItem item, LocalDateTime dueDateTime, Client client) {
+		try { 
+			CsvReader physicalReader = new CsvReader(physicalCSV);
+			CsvWriter physicalWriter = new CsvWriter(physicalCSV);
+			CsvWriter userItemWriter = new CsvWriter(new FileWriter(clientItemsCSV, true), ',');
+			List<String[]> rows = new ArrayList<>();
+			
+			while(physicalReader.readRecord()) {
+				String[] columns = physicalReader.getValues();
+				if (item.getName().equals(physicalReader.get(0))) {
+					int number = item.getCopies();
+					
+					columns[2] = Integer.toString(number);
+					rows.add(columns);
+				}
+				else {
+					rows.add(columns);
+				}
+			}
+			for (String[] row: rows) {
+				physicalWriter.writeRecord(row);
+			}
+			physicalReader.close();
+			physicalWriter.close();
+			
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+			String dateFormat = "\"" + dueDateTime.format(formatter).replace("\"", "\"\"") + "\"";
+
+			userItemWriter.write(client.getEmail());
+			userItemWriter.write(item.getName()); 
+			userItemWriter.write(dateFormat);
+			userItemWriter.endRecord();
+			
+			userItemWriter.close();
+			client.setRentCount();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public boolean rentStatus(Client client) {
+		int overdue = 0;	
+		if (client.getRentCount() >= 10) {
+			return false;
+		}
+		try {
+			CsvReader userItemsReader = new CsvReader(clientItemsCSV);
+			userItemsReader.readHeaders();
+			while (userItemsReader.readRecord()) {
+				if(userItemsReader.get(0).equals(client.getEmail())) {
+					String dueString = userItemsReader.get(2);
+					dueString = dueString.substring(1, dueString.length()-1).replace("\"\"", "\"");
+					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+					LocalDateTime dateTime = LocalDateTime.parse(dueString, formatter);
+					LocalDateTime currentDate = LocalDateTime.now(); 
+					if (currentDate.compareTo(dateTime) > 0) {
+						overdue ++;
+					}
+				}
+			}
+			if (overdue > 3) {
+				return false;
+			}
+		} catch (IOException e){
+			e.printStackTrace();
+		}
+		return true;
+	}
 	
 	//for change book status/availability
 	public void updatePhysicalItemAvailability(String name, boolean availability) {
@@ -309,11 +380,7 @@ public class SystemDatabase {
 	    File temp = new File(tempFile);
 	    temp.renameTo(originalFile);
 	}
-	
-	public void rentItem(Item item) {
-		
-		
-	}
+
 	public void addSubscription(String userID, Newsletter newsletter) {
         try {
             CsvWriter writer = new CsvWriter(new FileWriter(newsletterSubscriberCSV, true), ',');

@@ -1,7 +1,9 @@
-name,uniqueID,edition,text,availability
-book1,,,book1 text,
-book2,,,book2 text,
-book3,,,book 3 text,
-book4,,,book4 text,
-textbook1,,one,textbook1 text,true 
-textbook2,,one, textbook2 text,true 
+name,text,edition,availability
+book1,this is the text for book1,,true 
+book2,this is the text for book2,,true 
+book3,this is the text for book3,,true 
+book4,this is the text for book4,,true 
+textbook1,this is the text for textbook1,one,true 
+textbook2,this is the text for textbook2,one,true 
+
+
