@@ -954,29 +954,28 @@ public class SystemDatabase {
     }
 	
 	//returns student's course assigned book expiry date
-    public String getVirtualTextbookExpiry(String email) {
-        String csvFile = studentCSV;
+	public String getVirtualTextbookExpiry(String email) {
+	    String csvFile = studentCSV;
 
-        try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
-            String[] nextLine;
+	    try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
+	        String[] nextLine;
 
-            // Read the file line by line
-            while ((nextLine = reader.readNext()) != null) {
-                // Check if the line contains the specified email
-                if (nextLine[0].equals(email)) {
-                    // If the email is found, return the value from the fourth column (virtualTextbook expiry date)
-                    return nextLine[3];
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (CsvValidationException ee) {
-            ee.printStackTrace();
-        }
+	        // Read the file line by line
+	        while ((nextLine = reader.readNext()) != null) {
+	            // Check if the line contains the specified email
+	            if (nextLine[0].equals(email)) {
+	            	return nextLine[3].replace("\"", ""); // Remove quotation marks
+	            }
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    } catch (CsvValidationException ee) {
+	        ee.printStackTrace();
+	    }
 
-        // If the email is not found or an error occurs, return null
-        return null;
-    }
+	    // If the email is not found or an error occurs, return null
+	    return null;
+	}
 	
 	public String getVirtualItemText(String targetName) {
         String csvFile = "src\\data\\VirtualItems.csv";

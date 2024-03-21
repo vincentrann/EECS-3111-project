@@ -1,5 +1,5 @@
-"book1","this is the text for book1","","FALSE"
-"book2","text","one","TRUE"
-"Dinos 1","Dinosaurs","1","TRUE"
-"Dinos 2","Dinosaurs","1","TRUE"
-"textbook1","text","1","TRUE"
+book1,this is the text for book1,one,FALSE,,,
+book2,text,one,TRUE,,,
+Dinos 1,Dinosaurs,two,TRUE,FALSE,,
+Dinos 2,Dinosaurs,two,TRUE,TRUE,10,15
+textbook1,text,two,TRUE,,,

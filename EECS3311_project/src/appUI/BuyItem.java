@@ -41,7 +41,7 @@ public class BuyItem extends JFrame {
                 if (cost != null) {
                     // Create a JOptionPane with buttons for buying the item
                     Object[] options = {"Buy", "Cancel"};
-                    int result = JOptionPane.showOptionDialog(null, "Would you like to buy this item?\nFull price: $" + cost[1] + "  Discounted price: $" + cost[0],
+                    int result = JOptionPane.showOptionDialog(null, "Would you like to buy this item?\nFull price: $" + cost[1] + "  Our discounted price: $" + cost[0],
                             "Buy Item", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                             options, options[0]);
 
