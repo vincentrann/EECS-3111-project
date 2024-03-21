@@ -350,7 +350,8 @@ public class SystemDatabase {
 		} catch (IOException e){
 			e.printStackTrace();
 		}
-
+		return true;
+	}
 	
 	//for change book status/availability
 	public void updatePhysicalItemAvailability(String name, boolean availability) {

@@ -13,8 +13,7 @@ mysteryBook2,11,20,mystery aisle,TRUE
 scienceBook,12,19,science aisle,TRUE
 scienceBook2,13,20,science aisle,TRUE
 newsMagazine2,14,20,news aisle,TRUE
-politicalMagazine,15,19,political aisl,TRUE
-politicalMagazine2,16,20,political aisl,TRUE
+politicalMagazine,15,19,political aisle,TRUE
+politicalMagazine2,16,20,political aisle,TRUE
 historyMagazine,17,19,history aisle,TRUE
 historyMagazine2,18,19,history aisle,TRUE
-
