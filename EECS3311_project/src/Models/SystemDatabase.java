@@ -410,6 +410,20 @@ public class SystemDatabase {
 	        e.printStackTrace();
 	    }
 	}
+	
+	public void addSubscription(String userID, Newsletter newsletter) {
+        try {
+            CsvWriter writer = new CsvWriter(new FileWriter(newsletterSubscriberCSV, true), ',');
+            writer.write(userID);
+            writer.write(newsletter.getName());
+            writer.write(newsletter.getUrl());
+            writer.endRecord();
+            writer.close();
+        } catch (IOException e) {
+            System.err.println("An error occurred while writing to the file: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 	//TODO: Might need to use this one instead of the one above
 	/**
 	public void addSubscription(String userID, String name) {
