@@ -2,6 +2,7 @@ package appUI;
 
 import javax.swing.*;
 
+
 import com.opencsv.exceptions.CsvValidationException;
 
 import java.awt.*;
@@ -57,6 +58,9 @@ public class SubscriptionPage extends JPanel {
         // Fetch user's subscriptions and all available newsletters
         List<Newsletter> userSubscriptions = SystemDatabase.getInstance().viewAvailableNewsletters(client.getUserID());
         List<Newsletter> availableNewsletters = SystemDatabase.getInstance().getNewsletterList();
+        
+        System.out.println(userSubscriptions.size());
+        System.out.println(availableNewsletters.size());
 
         for (Newsletter newsletter : userSubscriptions) {
             JPanel subPanel = new JPanel(new FlowLayout());
@@ -65,7 +69,12 @@ public class SubscriptionPage extends JPanel {
             JButton cancelButton = new JButton("Unsubscribe");
             openButton.addActionListener(e -> openWebPage(newsletter.getUrl()));
             cancelButton.addActionListener(e -> {
-                client.unsubscribe(newsletter.getName());
+                try {
+					client.unsubscribe(newsletter);
+				} catch (CsvValidationException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
                 try {
 					updateSubscriptionList();
 				} catch (CsvValidationException e1) {
@@ -78,7 +87,13 @@ public class SubscriptionPage extends JPanel {
             userSubscriptionsPanel.add(subPanel);
         }
 
+        boolean skipIndex = true;
         for (Newsletter newsletter : availableNewsletters) {
+        	if (skipIndex) {
+        		skipIndex = false;
+        		continue;
+        	}
+        	
             JPanel subPanel = new JPanel(new FlowLayout());
             subPanel.add(new JLabel(newsletter.getName() + " - $" + newsletter.getMonthlyCost(newsletter.getName()) + "/month"));
             
@@ -141,7 +156,11 @@ public class SubscriptionPage extends JPanel {
                 JOptionPane.showMessageDialog(paymentDialog, paymentMessage, "Payment Status", JOptionPane.INFORMATION_MESSAGE);
                 paymentDialog.dispose();
 
-                client.subscribe(newsletter);
+
+                
+                client.subscribe(newsletter);   
+        
+                
                 try {
 					updateSubscriptionList();
 				} catch (CsvValidationException e) {

@@ -14,6 +14,9 @@ import java.util.List;
 import com.csvreader.*;
 import com.opencsv.*;
 import com.opencsv.exceptions.CsvValidationException;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
+
 
 import FlyweightPattern.*;
 
@@ -206,6 +209,55 @@ public class SystemDatabase {
 		}
 		return null;
 	}
+	
+	//for change book status/availability
+	public void updateVirtualItemAvailability(String name, boolean availability) {
+	    String tempFile = "temp.csv"; // Temporary file to write updated data
+
+	    try (CSVReader virtualReader = new CSVReader(new FileReader(virtualCSV));
+	         CSVWriter writer = new CSVWriter(new FileWriter(tempFile))) {
+
+	        String[] nextLine;
+	        while ((nextLine = virtualReader.readNext()) != null) {
+	            String nameString = nextLine[0];
+	            if (name.equals(nameString)) {
+	                // Update the availability
+	                nextLine[3] = String.valueOf(availability);
+	            }
+	            // Write the line to the temporary file
+	            writer.writeNext(nextLine);
+	        }
+
+	    } catch (IOException | CsvValidationException e) {
+	        e.printStackTrace();
+	    }
+
+	    // Rename the temporary file to the original file
+	    File originalFile = new File(virtualCSV);
+	    File temp = new File(tempFile);
+	    temp.renameTo(originalFile);
+	}
+	
+	public String getVirtualTextbookName(String studentEmail) {
+	    try {
+	        CsvReader virtualReader = new CsvReader(virtualCSV);
+	        virtualReader.readHeaders();
+	        while (virtualReader.readRecord()) {
+	            String email = virtualReader.get(0);
+	            String textbookName = virtualReader.get(2); // Assuming the virtual textbook name is at index 2
+	            if (studentEmail.equals(email)) {
+	                virtualReader.close();
+	                return textbookName;
+	            }
+	        }
+	        virtualReader.close();
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	    return null;
+	}
+
+	
 	//TODO: needed for RentBook page
 	public Item getPhysicalItem (String name) {
 		try {
@@ -298,8 +350,34 @@ public class SystemDatabase {
 		} catch (IOException e){
 			e.printStackTrace();
 		}
-		
-		return true;
+
+	
+	//for change book status/availability
+	public void updatePhysicalItemAvailability(String name, boolean availability) {
+	    String tempFile = "temp.csv"; // Temporary file to write updated data
+
+	    try (CSVReader physicalReader = new CSVReader(new FileReader(physicalCSV));
+	         CSVWriter writer = new CSVWriter(new FileWriter(tempFile))) {
+
+	        String[] nextLine;
+	        while ((nextLine = physicalReader.readNext()) != null) {
+	            String nameString = nextLine[0];
+	            if (nameString.equals(name)) {
+	                // Update the availability
+	                nextLine[4] = String.valueOf(availability);
+	            }
+	            // Write the line to the temporary file
+	            writer.writeNext(nextLine);
+	        }
+
+	    } catch (IOException | CsvValidationException e) {
+	        e.printStackTrace();
+	    }
+
+	    // Rename the temporary file to the original file
+	    File originalFile = new File(physicalCSV);
+	    File temp = new File(tempFile);
+	    temp.renameTo(originalFile);
 	}
 
 	public void addSubscription(String userID, Newsletter newsletter) {
@@ -307,6 +385,7 @@ public class SystemDatabase {
             CsvWriter writer = new CsvWriter(new FileWriter(newsletterSubscriberCSV, true), ',');
             writer.write(userID);
             writer.write(newsletter.getName());
+            writer.write(newsletter.getUrl());
             writer.endRecord();
             writer.close();
         } catch (IOException e) {
@@ -340,7 +419,7 @@ public class SystemDatabase {
 	        try {
 				while ((nextLine = reader.readNext()) != null) {
 				    // Skip the line that matches both the newsletter name and the user ID
-				    if (nextLine.length >= 2 && nextLine[0].equals(newsletter.getName()) && nextLine[1].equals(userID)) {
+				    if (nextLine.length >= 2 && nextLine[1].equals(newsletter.getName()) && nextLine[0].equals(userID)) {
 				        continue; // Skip this record, effectively deleting it from the list
 				    }
 				    writer.writeNext(nextLine); // Write other records normally
@@ -414,9 +493,9 @@ public class SystemDatabase {
 	        String[] nextLine;
 	        try {
 				while ((nextLine = reader.readNext()) != null) {
-				    if (nextLine.length >= 3 && nextLine[2].equals(userID)) { // Assuming the userID is in the third column
-				        String newsletterName = nextLine[0];
-				        String newsletterURL = nextLine[1]; // Assuming the URL is in the second column
+				    if (nextLine.length >= 3 && nextLine[0].equals(userID)) { // Assuming the userID is in the third column
+				        String newsletterName = nextLine[1];
+				        String newsletterURL = nextLine[2]; // Assuming the URL is in the second column
 				        subscribedNewsletters.add(new Newsletter(newsletterName, newsletterURL)); // Now passing both name and URL
 				    }
 				}
@@ -649,6 +728,8 @@ public class SystemDatabase {
 	        	}
 	        	
 	        }
+	        
+	        similarTitles.remove(bookTitle);
 	    } catch (IOException e) {
 	        System.err.println("An error occurred while reading the subscriptions: " + e.getMessage());
 	        e.printStackTrace();
@@ -673,11 +754,11 @@ public class SystemDatabase {
            return sb.toString();
 	}
 	
-	public void addBookRequest(String name, String type) throws IOException {
+	public void addBookRequest(String name, String type, String priority) throws IOException {
 		String csvFile = BookRequestsCSV;
 		
 		try (CSVWriter writer = new CSVWriter(new FileWriter(csvFile, true))){
-			String[] data = {name, type};
+			String[] data = {name, type, priority};
             writer.writeNext(data);
 			
 		}
@@ -731,6 +812,43 @@ public class SystemDatabase {
 		
 		return teacherTextbooks;
 
+	}
+
+	public void addPhysicalItem(String name, String aisle) throws FileNotFoundException, IOException, CsvValidationException {
+		String csvFile = physicalCSV;
+		int id = 0;
+		
+		try(CSVReader reader = new CSVReader(new FileReader(csvFile))){
+			String[] nextLine;
+			nextLine = reader.readNext();
+			while((nextLine = reader.readNext()) != null){
+				id = Integer.parseInt(nextLine[1]) + 1;			
+			}
+		}
+		
+		try (CSVWriter writer = new CSVWriter(new FileWriter(csvFile, true))){
+			String[] data = {name, String.valueOf(id), "20", aisle, "TRUE"};
+			writer.writeNext(data);
+		}
+		
+	}
+
+	public void addVirtualItem(String name, String edition, String text) throws FileNotFoundException, IOException, CsvValidationException {
+		String csvFile = virtualCSV;
+		int id = 10000;
+		
+		try(CSVReader reader = new CSVReader(new FileReader(csvFile))){
+			String[] nextLine;
+			nextLine = reader.readNext();
+			while((nextLine = reader.readNext()) != null){
+				id = Integer.parseInt(nextLine[1]) + 1;			
+			}
+		}
+		
+		try (CSVWriter writer = new CSVWriter(new FileWriter(csvFile, true))){
+			String[] data = {name, String.valueOf(id), edition, text, "TRUE"};
+			writer.writeNext(data);
+		}
 	}
 
 }
