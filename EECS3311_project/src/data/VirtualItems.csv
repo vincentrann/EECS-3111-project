@@ -1,5 +1,5 @@
-book1,this is the text for book1,one,FALSE,,,
-book2,text,one,TRUE,,,
+name,text,edition,status,purchasable,discountPrice,fullPrice
+book1,text,one,TRUE,,,
 Dinos 1,Dinosaurs,two,TRUE,FALSE,,
 Dinos 2,Dinosaurs,two,TRUE,TRUE,10,15
 textbook1,text,two,TRUE,,,
