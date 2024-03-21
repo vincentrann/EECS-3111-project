@@ -108,7 +108,7 @@ public class MainLibraryFront extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     // Implement action to change status of a book
-                	ViewCourseBook viewCourseBook = new ViewCourseBook();
+                	ViewCourseBook viewCourseBook = new ViewCourseBook(client.getEmail());
                 	
                 	viewCourseBook.setVisible(true);
                 }

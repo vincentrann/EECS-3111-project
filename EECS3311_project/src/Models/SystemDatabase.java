@@ -17,6 +17,8 @@ import com.opencsv.*;
 import com.opencsv.exceptions.CsvValidationException;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
 import FlyweightPattern.*;
@@ -910,5 +912,80 @@ public class SystemDatabase {
 			writer.writeNext(data);
 		}
 	}
+	
+	
+	//returns student's course assigned book
+	public String getVirtualItemTextbook(String email) {
+        String csvFile = studentCSV;
+
+        try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
+            String[] nextLine;
+
+            // Read the file line by line
+            while ((nextLine = reader.readNext()) != null) {
+                // Check if the line contains the specified email
+                if (nextLine.length > 2 && nextLine[0].equals(email)) {
+                    // If the email is found, return the value from the third column (virtualTextbook)
+                    return nextLine[2];
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch(CsvValidationException ee) {
+            ee.printStackTrace();
+        }
+
+        // If the email is not found or an error occurs, return null
+        return null;
+    }
+	
+	//returns student's course assigned book expiry date
+    public String getVirtualTextbookExpiry(String email) {
+        String csvFile = studentCSV;
+
+        try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
+            String[] nextLine;
+
+            // Read the file line by line
+            while ((nextLine = reader.readNext()) != null) {
+                // Check if the line contains the specified email
+                if (nextLine[0].equals(email)) {
+                    // If the email is found, return the value from the fourth column (virtualTextbook expiry date)
+                    return nextLine[3];
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (CsvValidationException ee) {
+            ee.printStackTrace();
+        }
+
+        // If the email is not found or an error occurs, return null
+        return null;
+    }
+	
+	public String getVirtualItemText(String targetName) {
+        String csvFile = "src\\data\\VirtualItems.csv";
+
+        try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
+            String[] nextLine;
+
+            // Read the file line by line
+            while ((nextLine = reader.readNext()) != null) {
+                // Check if the line contains the specified targetName
+                if (nextLine.length > 1 && nextLine[0].equals(targetName)) {
+                    // If the targetName is found, return the value from the second column (text)
+                    return nextLine[1];
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch(CsvValidationException ee) {
+            ee.printStackTrace();
+        }
+
+        // If the targetName is not found or an error occurs, return null
+        return null;
+    }
 
 }
