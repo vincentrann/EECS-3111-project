@@ -70,8 +70,8 @@ public class RentPage extends JPanel {
     
     private void performSearch(String name) {
         searchResultsPanel.removeAll(); 
-        //TODO: retrieve the item from the database, getPhysicalItem not complete
         Item item = database.getPhysicalItem(name); 
+        // checks if user still has borrow privilege
         if (database.rentStatus(this.client) == false) {
         	searchResultsPanel.add(new JLabel("lost borrowing privileges due to more than 3 overdue items or borrow limit reach"));
         }
@@ -131,8 +131,11 @@ public class RentPage extends JPanel {
                 if (item instanceof PhysicalItem) {
                     // Setting due date to 24hrs for testing purposes
                     LocalDateTime dueDate = LocalDateTime.now().plusDays(1);
+                	// LocalDateTime dueDate = LocalDateTime.now().minusDays(1); items past due test
+                	//LocalDateTime dueDate = LocalDateTime.now().minusDays(15); items lost test
                     ((PhysicalItem)item).rentPhysicalItem(item.getName(), dueDate, this.client);
                     this.mainLibraryFront.refreshRentedBooksPanel(this.client);
+                    this.mainLibraryFront.refreshNotificationsPanel(this.client);
                 }
                 paymentDialog.dispose();
             }

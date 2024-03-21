@@ -23,3 +23,7 @@ awf,awf,FacultyMember,d476d2c0-d8ad-4e9d-85f2-7358dc459b68
 awfasf,awf,Student,cacbb6b9-04a0-45cd-84a9-0f0a82eaab47
 asfagwg,asgasg,Student,982092e4-84d4-413b-97a5-5bf650037882
 test,test,Student,d959d426-0d26-4bac-81e4-9d3227a71451
+3OverDue,3OverDue,Student,ffefb425-19fc-436e-80c0-bce8d6a04224
+10Items,10Items,Student,38769636-7a6e-4b91-911c-f3a8f1586345
+ItemsLost,ItemsLost,Student,5e2cc8db-1437-4ab1-9bd2-dfcf819d622d
+dueDateWarning,dueDateWarning,Student,5b83d6dc-4c0d-49e9-9939-f0d762276376

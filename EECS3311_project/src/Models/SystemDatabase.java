@@ -271,9 +271,10 @@ public class SystemDatabase {
 			e.printStackTrace();
 		}
 	}
+	
 	public boolean rentStatus(Client client) {
 		int overdue = 0;	
-		if (client.getRentCount() > 10) {
+		if (client.getRentCount() >= 10) {
 			return false;
 		}
 		try {
@@ -300,9 +301,7 @@ public class SystemDatabase {
 		
 		return true;
 	}
-	public void isLost() {
-		
-	}
+
 	public void addSubscription(String userID, Newsletter newsletter) {
         try {
             CsvWriter writer = new CsvWriter(new FileWriter(newsletterSubscriberCSV, true), ',');
