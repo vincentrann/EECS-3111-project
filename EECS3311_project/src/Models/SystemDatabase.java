@@ -748,6 +748,54 @@ public class SystemDatabase {
 
 	}
 
+	
+	public ArrayList<TextbookInfo> getTextbooksAndEdition(String name) throws FileNotFoundException, IOException, CsvValidationException{
+	        String csvFile = FacultyTextbooksCSV;
+	        ArrayList<TextbookInfo> teacherTextbooks = new ArrayList<>();
+
+	        try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
+	            String[] nextLine;
+	            while ((nextLine = reader.readNext()) != null) {
+	                String textbook = nextLine[0];
+	                String teacher = nextLine[1];
+	                String edition = nextLine[2];//DEPENDING ON WHAT COLUMN THE EDITION IS IN
+
+	                if (name.equals(teacher)) {
+	                    TextbookInfo textbookInfo = new TextbookInfo(textbook, edition);
+	                    teacherTextbooks.add(textbookInfo);
+	                }
+	            }
+	        } catch (IOException e) {
+	            System.err.println("An error occurred while reading the Courses: " + e.getMessage());
+	            e.printStackTrace();
+	        }
+
+	        return teacherTextbooks;
+	    }
+	
+	public ArrayList<TextbookInfo> getAllTextbooksAndEdtition() throws CsvValidationException{
+		 String csvFile = FacultyTextbooksCSV;
+	        ArrayList<TextbookInfo> teacherTextbooks = new ArrayList<>();
+
+	        try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
+	            String[] nextLine;
+	            while ((nextLine = reader.readNext()) != null) {
+	                String textbook = nextLine[0];
+	                String teacher = nextLine[1];
+	                String edition = nextLine[2];//DEPENDING ON WHAT COLUMN THE EDITION IS IN
+
+	                    TextbookInfo textbookInfo = new TextbookInfo(textbook, edition);
+	                    teacherTextbooks.add(textbookInfo);
+	            }
+	        } catch (IOException e) {
+	            System.err.println("An error occurred while reading the Courses: " + e.getMessage());
+	            e.printStackTrace();
+	        }
+
+	        return teacherTextbooks;
+		
+	}
+
 	public void addPhysicalItem(String name, String aisle) throws FileNotFoundException, IOException, CsvValidationException {
 		String csvFile = physicalCSV;
 		int id = 0;
