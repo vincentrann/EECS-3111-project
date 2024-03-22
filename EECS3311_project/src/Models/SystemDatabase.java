@@ -856,10 +856,13 @@ public class SystemDatabase {
 	            while ((nextLine = reader.readNext()) != null) {
 	                String textbook = nextLine[0];
 	                String teacher = nextLine[1];
-	                String edition = nextLine[2];//DEPENDING ON WHAT COLUMN THE EDITION IS IN
+	                
+	                String[] info = textbook.split(" ");
 
-	                if (name.equals(teacher)) {
-	                    TextbookInfo textbookInfo = new TextbookInfo(textbook, edition);
+	                if (name.equals(teacher) && info.length == 2) {
+	                    TextbookInfo textbookInfo = new TextbookInfo(info[0], info[1]);
+	                    System.out.println(textbookInfo.getEdition());
+	                    System.out.println(textbookInfo.getTextbook());
 	                    teacherTextbooks.add(textbookInfo);
 	                }
 	            }
@@ -872,14 +875,14 @@ public class SystemDatabase {
 	    }
 	
 	public ArrayList<TextbookInfo> getAllTextbooksAndEdtition() throws CsvValidationException{
-		 String csvFile = FacultyTextbooksCSV;
+		 String csvFile = virtualCSV;
 	        ArrayList<TextbookInfo> teacherTextbooks = new ArrayList<>();
 
 	        try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
 	            String[] nextLine;
+	            reader.readNext();
 	            while ((nextLine = reader.readNext()) != null) {
 	                String textbook = nextLine[0];
-	                String teacher = nextLine[1];
 	                String edition = nextLine[2];//DEPENDING ON WHAT COLUMN THE EDITION IS IN
 
 	                    TextbookInfo textbookInfo = new TextbookInfo(textbook, edition);

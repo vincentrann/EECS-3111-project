@@ -1,11 +1,12 @@
 name,text,edition,status,purchasable,discountPrice,fullPrice
-book1,text,one,TRUE,TRUE,2,5
-Dinos 1,Dinosaurs,two,TRUE,,,
-Dinos 2,Dinosaurs,two,TRUE,TRUE,10,15
-Biology,Mitochondria is the powerhouse of the cell,two,TRUE,,,
-Chemistry,Chemistry text,one,TRUE,,,
-Physics,Physics text,three,TRUE,TRUE,60,70
-Classical Music History,Music History text,One,TRUE,,,
-History of Paper,Paper History Text,One,FALSE,,,
-"Chemistry","Chemistry text","three","TRUE"
-"Physics","adsfasfdasdfdsasdf","Three","TRUE"
+book1,text,"2",TRUE,TRUE,2,5
+Dinos 1,Dinosaurs,"2",TRUE,,,
+Dinos 2,Dinosaurs,"2",TRUE,TRUE,10,15
+Biology,Mitochondria is the powerhouse of the cell,"2",TRUE,,,
+Chemistry,Chemistry text,"1",TRUE,,,
+Physics,Physics text,"3",TRUE,TRUE,60,70
+Classical Music History,Music History text,"1",TRUE,,,
+History of Paper,Paper History Text,"1",FALSE,,,
+"Physics","adsfasfdasdfdsasdf","3","TRUE"
+"Chemistry","a awfawf","1","TRUE"
+"Chemistry","I LOVE CHEMISTRY","2","TRUE"

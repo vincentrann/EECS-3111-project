@@ -2,26 +2,27 @@ package Models;
 
 public class TextbookInfo {
     private String textbook;
-    private String edition;
+    private int edition;
 
     public TextbookInfo(String textbook, String edition) {
         this.textbook = textbook;
-        this.edition = edition;
+        this.edition = Integer.parseInt(edition);
     }
 
     public String getTextbook() {
         return textbook;
     }
 
-    public String getEdition() {
+    public int getEdition() {
         return edition;
     }
     
     public boolean newEdition(TextbookInfo textbook) {
-    	if(textbook.getTextbook() == this.textbook && textbook.getEdition() == this.edition) {
+    	if(textbook.getTextbook().equals(this.textbook) && textbook.getEdition() == this.edition) {
     		return false;
     	}
-    	else if(textbook.getTextbook() == this.textbook) {
+    	else if(textbook.getTextbook().equals(this.textbook) && this.edition < textbook.getEdition()) {
+    		System.out.println("true");
     		return true;
     	}
     	else {

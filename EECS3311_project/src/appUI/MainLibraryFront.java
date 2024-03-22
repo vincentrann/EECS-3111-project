@@ -173,11 +173,13 @@ public class MainLibraryFront extends JFrame {
         notificationsPanel.setLayout(new BoxLayout(notificationsPanel, BoxLayout.Y_AXIS));
         notificationsPanel.add(new JLabel("Notifications:"));
         
+        System.out.println(client.getType());
+        
         List<String> notifications = client.notifyDueDate();
         for (String notification : notifications) {
             notificationsPanel.add(new JLabel(notification));
         }
-        if(client.getType().equals("Faculty Member")) {
+        if(client.getType().equals("FacultyMember")) {
         	List<TextbookInfo> textbooks = SystemDatabase.getInstance().getTextbooksAndEdition(client.getEmail());
         	List<TextbookInfo> allTextbooks = SystemDatabase.getInstance().getAllTextbooksAndEdtition();
         	
