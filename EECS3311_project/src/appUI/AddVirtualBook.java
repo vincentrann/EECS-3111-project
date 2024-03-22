@@ -18,6 +18,7 @@ import com.opencsv.exceptions.CsvValidationException;
 import Models.SystemDatabase;
 
 public class AddVirtualBook extends JFrame{
+	private static final long serialVersionUID = 1L;
 	private SystemDatabase database = SystemDatabase.getInstance();
 	
 	

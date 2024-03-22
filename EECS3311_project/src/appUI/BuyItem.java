@@ -13,9 +13,9 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 
 public class BuyItem extends JFrame {
+	private static final long serialVersionUID = 1L;
 
-
-    public BuyItem() {
+	public BuyItem() {
         super("Buy Item");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 

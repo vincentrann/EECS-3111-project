@@ -18,6 +18,7 @@ import Models.Item;
 import Models.SystemDatabase;
 
 public class ChangeBook extends JFrame {
+	private static final long serialVersionUID = 1L;
 	private SystemDatabase database = SystemDatabase.getInstance();
 	
 	

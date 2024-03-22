@@ -18,9 +18,8 @@ import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
 import javax.swing.border.EmptyBorder;
 
-
-//TODO duration system
 public class ViewCourseBook extends JPanel {
+	private static final long serialVersionUID = 1L;
 	private SystemDatabase database = SystemDatabase.getInstance();
 
 

@@ -425,21 +425,7 @@ public class SystemDatabase {
             e.printStackTrace();
         }
     }
-	//TODO: Might need to use this one instead of the one above
-	/**
-	public void addSubscription(String userID, String name) {
-
-
-        try (CSVWriter writer = new CSVWriter(new FileWriter(newsletterSubscriberCSV, true))) {
-            String[] data = {name, userID};
-            writer.writeNext(data);
-        } catch (IOException e) {
-            System.err.println("An error occurred while writing to the file: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-	 * @throws CsvValidationException 
-	*/
+	
 	public void cancelSubscription(String userID, Newsletter newsletter) throws CsvValidationException {
 	    String csvFile = newsletterSubscriberCSV;
 	    String tempFile = "temp.csv";
@@ -542,29 +528,6 @@ public class SystemDatabase {
 
 	    return subscribedNewsletters;
 	}
-	//TODO: Might need to use this one instead of the one above  
-	/**
-	public List<String> viewAvailableNewsletters(String userID) {
-        String csvFile = newsletterSubscriberCSV;
-        List<String> subscribedNewsletters = new ArrayList<String>();
-
-        try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
-            String[] nextLine;
-            while ((nextLine = reader.readNext()) != null) {
-                if (nextLine.length >= 2 && nextLine[1].equals(userID)) {
-                    subscribedNewsletters.add(nextLine[0]);
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("An error occurred while reading the subscriptions: " + e.getMessage());
-            e.printStackTrace();
-        }
-
-        return subscribedNewsletters;
-    }
-	 * @throws NumberFormatException 
-	 * @throws CsvValidationException 
-	*/
 	
 	public double getMonthlyCost(String uniqueID) throws CsvValidationException, NumberFormatException {
         String csvFile = clientCSV;
@@ -649,71 +612,6 @@ public class SystemDatabase {
         }
 	}
 	
-	//TODO: 
-		public Item getNewsletter (String name) {
-			return null;
-		}
-	
-	
-	
-	/*THESE ARE THE TODOS IMPLEMENTED JUST NOT COMPLETELY AS IT NEEDS TO RETURN THE ACTUAL ITEM*/
-	
-	/*
-	
-	public VirtualTextbook getVirtualItem(String name) {
-		
-		String csvFile = virtualCSV;
-		try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
-	        String[] nextLine;
-	        while ((nextLine = reader.readNext()) != null) {
-	            if (nextLine[0].equals(name)) {
-	            	return new VirtualTextbook(nextLine[0], nextLine[1]); //this should create a virtual item and return it
-	            }
-	        }
-	    } catch (IOException e) {
-	        System.err.println("An error occurred while reading the virtualItems: " + e.getMessage());
-	        e.printStackTrace();
-	    }
-	}
-	*/
-	/*
-	
-	public PhysicalItem getPhysicalItem(String name) {
-		
-		String csvFile = physicalCSV;
-		try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
-	        String[] nextLine;
-	        while ((nextLine = reader.readNext()) != null) {
-	            if (nextLine[0].equals(name)) {
-	            	return new Physicalitem(nextLine[0], nextLine[1]); //this should create a physical item and return it
-	            }
-	        }
-	    } catch (IOException e) {
-	        System.err.println("An error occurred while reading the virtualItems: " + e.getMessage());
-	        e.printStackTrace();
-	    }
-	}
-	*/
-	/*
-	
-	public PhysicalItem getNewsletter(String name) {
-		
-		String csvFile = physicalCSV;
-		try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
-	        String[] nextLine;
-	        while ((nextLine = reader.readNext()) != null) {
-	            if (nextLine[0].equals(name)) {
-	            	return new Newsletter(nextLine[0], nextLine[1]); //this should create a physical item and return it
-	            }
-	        }
-	    } catch (IOException e) {
-	        System.err.println("An error occurred while reading the virtualItems: " + e.getMessage());
-	        e.printStackTrace();
-	    }
-	}
-	*/
-	
-	
 	public List<Newsletter> getNewsletterList() throws CsvValidationException {
 	    String csvFile = newsletterCSV;
 	    List<Newsletter> newsletters = new ArrayList<>();
@@ -730,7 +628,7 @@ public class SystemDatabase {
 				    }
 				}
 			} catch (CsvValidationException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 	    } catch (IOException e) {

@@ -14,7 +14,5 @@ public class Visitor {
 	public Client getClient() {
 		return this.visitorDirector.getProduct(); 
 	}
-	
-	// Additional functionalities
 
 }

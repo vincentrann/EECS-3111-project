@@ -1,8 +1,6 @@
 package Models;
 
 import BuilderPattern.StudentBuilder;
-import SingletonPattern.SingleMTObject;
-import SingletonPattern.SingleSNObject;
 import BuilderPattern.ClientDirector;
 
 public class Student {
@@ -18,7 +16,7 @@ public class Student {
 			this.studentDirector.construct(email, password, userID);
 		} else {
 			
-			SingleSNObject.getInstance().registrationFailed();
+			SystemNotification.getInstance().registrationFailed();
 		}
 	}
 	

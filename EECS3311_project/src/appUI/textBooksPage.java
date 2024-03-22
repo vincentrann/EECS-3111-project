@@ -10,7 +10,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class textBooksPage extends JFrame {
-    private String email;
+	private static final long serialVersionUID = 1L;
+	private String email;
     private ArrayList<String> textbooks;
 
     public textBooksPage(String email, ArrayList<String> textbooks) {

@@ -9,8 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import ObserverPattern.*;
-import SingletonPattern.SingleMTObject;
-import SingletonPattern.SingleSNObject;
+
 
 public class PhysicalItem extends Item{
 	private String uniqueID;
@@ -69,7 +68,7 @@ public class PhysicalItem extends Item{
             database.rentItem(this, dueDateTime, client);
         } else {
         	
-            SingleSNObject.getInstance().unavailableTextbook();
+            SystemNotification.getInstance().unavailableTextbook();
                    	
             // display button with option "procure book?" - with yes or no
         	// if yes

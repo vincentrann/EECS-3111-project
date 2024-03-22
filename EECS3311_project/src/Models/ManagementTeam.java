@@ -1,7 +1,10 @@
 package Models;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Random;
-import SingletonPattern.SingleDBObject;
+
+import com.opencsv.exceptions.CsvValidationException;
 
 public class ManagementTeam{
 	private static ManagementTeam instance;
@@ -47,8 +50,19 @@ public class ManagementTeam{
 	/*
 	 * Adds the item to the database
 	 */
-	public void addItem(Item item) {
-		SingleDBObject.getInstance().addItem(item);
+	public void addItem(Item item, String location) {
+		try {
+			SystemDatabase.getInstance().addPhysicalItem(item.getName(), location);
+		} catch (CsvValidationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		};
 	}
 	
 	/*

@@ -32,6 +32,4 @@ public class FacultyMemberBuilder implements ClientBuilder{
 		return client;
 	}
 	
-	
-	//Add additional functions for this Client Type
 }

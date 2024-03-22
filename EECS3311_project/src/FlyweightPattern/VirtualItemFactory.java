@@ -4,7 +4,7 @@ package FlyweightPattern;
 import java.util.HashMap;
 import java.util.Map;
 
-import BridgePattern.ItemFactory;
+import Bridge_Factory_Pattern.ItemFactory;
 import Models.VirtualItem;
 
 public class VirtualItemFactory {

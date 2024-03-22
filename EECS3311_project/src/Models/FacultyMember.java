@@ -6,7 +6,7 @@ import BuilderPattern.ClientDirector;
 
 
 import BuilderPattern.FacultyMemberBuilder;
-import SingletonPattern.SingleSNObject;
+
 
 
 public class FacultyMember {
@@ -20,7 +20,7 @@ public class FacultyMember {
 			this.facultyMemberDirector.construct(email, password, userID);
 		} else {
 
-			SingleSNObject.getInstance().registrationFailed();
+			SystemNotification.getInstance().registrationFailed();
 		}
 	}
 	

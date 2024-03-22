@@ -18,6 +18,7 @@ import com.opencsv.exceptions.CsvValidationException;
 import Models.SystemDatabase;
 
 public class AddBook extends JFrame{
+	private static final long serialVersionUID = 1L;
 	private SystemDatabase database = SystemDatabase.getInstance();
 	
 	
@@ -48,7 +49,6 @@ public class AddBook extends JFrame{
                 	try {
 						database.addPhysicalItem(name, aisle);
 					} catch (CsvValidationException | IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 	                }
 	                JOptionPane.showMessageDialog(panel, "Book added successfully.");

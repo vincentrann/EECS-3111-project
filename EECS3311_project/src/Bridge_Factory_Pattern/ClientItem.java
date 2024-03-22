@@ -1,4 +1,4 @@
-package BridgePattern;
+package Bridge_Factory_Pattern;
 
 
 public  class ClientItem{

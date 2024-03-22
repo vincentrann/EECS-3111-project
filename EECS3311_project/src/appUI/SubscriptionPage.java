@@ -164,7 +164,7 @@ public class SubscriptionPage extends JPanel {
                 try {
 					updateSubscriptionList();
 				} catch (CsvValidationException e) {
-					// TODO Auto-generated catch block
+					
 					e.printStackTrace();
 				}
             }

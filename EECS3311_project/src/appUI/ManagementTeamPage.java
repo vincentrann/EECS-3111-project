@@ -9,6 +9,8 @@ import javax.swing.*;
 import Models.SystemDatabase;
 
 public class ManagementTeamPage extends JFrame {
+	private static final long serialVersionUID = 1L;
+
 	public ManagementTeamPage() {
         super("Management Team Page");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

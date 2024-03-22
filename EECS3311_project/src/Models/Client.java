@@ -110,10 +110,12 @@ public class Client implements ObserverPattern.PhysicalItemObserver{
 	
 	public void subscribe(Newsletter newsletter) {
 		SystemDatabase.getInstance().addSubscription(userID, newsletter);
+		subscribtions.add(newsletter);
 	}
 	
 	public void unsubscribe(Newsletter newsletter) throws CsvValidationException {
 		SystemDatabase.getInstance().cancelSubscription(userID, newsletter);
+		subscribtions.remove(newsletter);
 	}
 	
 	/*

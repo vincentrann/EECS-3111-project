@@ -32,6 +32,4 @@ public class NonFacultyMemberBuilder implements ClientBuilder{
 		return client;
 	}
 	
-	
-	//Add additional functions for this Client Type
 }

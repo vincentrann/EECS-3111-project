@@ -20,6 +20,7 @@ import Models.SystemDatabase;
 
 public class CoursesPage extends JFrame{
 	
+	private static final long serialVersionUID = 1L;
 	private JPanel mainPanel;
     private ArrayList<String> courses;
 
@@ -75,7 +76,6 @@ public class CoursesPage extends JFrame{
                     try {
 						SystemDatabase.getInstance().removeCourse(course, email);
 					} catch (CsvValidationException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
                     displayCourses(email);

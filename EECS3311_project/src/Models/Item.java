@@ -1,6 +1,6 @@
 package Models;
 
-import BridgePattern.ConcreteItem;
+import Bridge_Factory_Pattern.ConcreteItem;
 
 public class Item extends ConcreteItem{
     private String name;
