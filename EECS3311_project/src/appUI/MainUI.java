@@ -176,6 +176,9 @@ public class MainUI extends JFrame {
 				}
 				
 				else {
+					if(!type.equals("Visitor")) {
+						database.addUnverifiedEmail(email);
+					}
 					
 					if (type.equals("Student")) {
 						builder = new StudentBuilder();

@@ -6,17 +6,29 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import Models.SystemDatabase;
+
 public class ManagementTeamPage extends JFrame {
 	public ManagementTeamPage() {
         super("Management Team Page");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        JPanel panel = new JPanel(new GridLayout(4, 1, 10, 10));
+        JPanel panel = new JPanel(new GridLayout(6, 1, 10, 10));
         JLabel label = new JLabel("Welcome to Management Team Page!");
         JButton changeStatusButton = new JButton("Change Status of a Book");
         JButton addPBookButton = new JButton("Add a New Physical Book");
         JButton addVBookButton = new JButton("Add a New Virtual Book");
+        JButton verifyButton = new JButton("Verify new users");
         
+        
+      //verify new users
+        verifyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Implement action to change status of a book
+            	SystemDatabase.getInstance().removeAllUnverifiedEmails();
+            }
+        });
         //change status of item
         changeStatusButton.addActionListener(new ActionListener() {
             @Override
@@ -55,6 +67,7 @@ public class ManagementTeamPage extends JFrame {
         panel.add(changeStatusButton);
         panel.add(addPBookButton);
         panel.add(addVBookButton);
+        panel.add(verifyButton);
 
 
         setContentPane(panel);

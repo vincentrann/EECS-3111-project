@@ -39,7 +39,8 @@ public class SystemDatabase {
 	private String FacultyTextbooksCSV = "src\\data\\FacultyTextbooks.csv";
 	private String FacultyCourseCSV = "src\\data\\FacultyCourse.csv";
 	private String BookRequestsCSV = "src\\data\\BookRequests.csv";
-
+	private String unverifiedEmailsCSV = "src\\data\\UnverifiedEmails.csv";
+	
 	private static SystemDatabase instance;
 
 	
@@ -1000,5 +1001,87 @@ public class SystemDatabase {
         // If the targetName is not found or an error occurs, return null
         return null;
     }
+	
+	public void addUnverifiedEmail(String email) {	    
+	    try {
+	        // First, read the CSV file to find the first empty row
+	        CSVReader reader = new CSVReader(new FileReader(unverifiedEmailsCSV));
+	        String[] nextLine;
+	        int emptyRowIndex = -1; // Index of the first empty row
+	        
+	        while ((nextLine = reader.readNext()) != null) {
+	            emptyRowIndex++;
+	            if (nextLine.length == 0 || nextLine[0].isEmpty()) {
+	                // Found an empty row, break the loop
+	                break;
+	            }
+	        }
+	        
+	        // Close the reader
+	        reader.close();
+	        
+	        // Open the writer in append mode
+	        CSVWriter writer = new CSVWriter(new FileWriter(unverifiedEmailsCSV, true));
+	        
+	        // Write the email to the first empty row
+	        String[] newRow = new String[1];
+	        newRow[0] = email;
+	        writer.writeNext(newRow);
+	        
+	        // Close the writer
+	        writer.close();
+	        
+	        System.out.println("Email added to unverified list.");
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    } catch (CsvValidationException ee) {
+	    	ee.printStackTrace();
+	    }
+	    
+	}
+	
+    public void removeAllUnverifiedEmails() {
+        try {
+            // Open the CSV reader to count the number of entries
+            CSVReader reader = new CSVReader(new FileReader(unverifiedEmailsCSV));
+            int numEntries = 0;
+            while (reader.readNext() != null) {
+                numEntries++;
+            }
+            reader.close();
 
+            // Open the CSV writer in write mode
+            CSVWriter writer = new CSVWriter(new FileWriter(unverifiedEmailsCSV, false));
+
+            // Write empty strings for each entry to clear the first column
+            for (int i = 0; i < numEntries; i++) {
+                writer.writeNext(new String[]{""});
+            }
+
+            // Close the writer
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (CsvValidationException ee) {
+	    	ee.printStackTrace();
+	    }
+    }
+	
+	public List<String> getAllUnverifiedEmails() {
+	    List<String> emails = new ArrayList<>();
+	    try (CSVReader reader = new CSVReader(new FileReader(unverifiedEmailsCSV))) {
+	        String[] nextLine;
+	        while ((nextLine = reader.readNext()) != null) {
+	            // Assuming email is in the first column (index 0)
+	            if (nextLine.length > 0 && !nextLine[0].isEmpty()) {
+	                emails.add(nextLine[0]);
+	            }
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    } catch (CsvValidationException ee) {
+	    	ee.printStackTrace();
+	    }
+	    return emails;
+	}
 }

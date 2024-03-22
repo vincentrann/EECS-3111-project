@@ -35,110 +35,117 @@ public class MainLibraryFront extends JFrame {
     	//Set window title and layout
         super("YorkU Library Front");
         
-        cardLayout = new CardLayout();
-        mainPanel = new JPanel(cardLayout);
-        JButton rentBooks = new JButton("Rent Books");
-        JButton openVirtualBooks = new JButton("Open Virtual Books");
-        JButton viewNewsletters = new JButton("View Newsletters");
-        JButton requestBook = new JButton("Request Book");
-        JButton sellableItems = new JButton("Buy Items");
+        if(database.getAllUnverifiedEmails().contains(client.getEmail())){
+        	JOptionPane.showMessageDialog(null, "Please wait for the management team to verify your registration", "Verification Pending", JOptionPane.INFORMATION_MESSAGE);
 
-        
-        //Main Page with buttons
-        Box buttonBox = new Box(BoxLayout.Y_AXIS);
-        buttonBox.add(rentBooks);
-        buttonBox.add(Box.createVerticalStrut(10));
-        buttonBox.add(openVirtualBooks);
-        buttonBox.add(Box.createVerticalStrut(10)); 
-        buttonBox.add(viewNewsletters);
-        buttonBox.add(Box.createVerticalStrut(10));
-        buttonBox.add(requestBook);
-        
-        
-        buttonBox.setAlignmentY(Component.CENTER_ALIGNMENT);
+        } else {
+        	 cardLayout = new CardLayout();
+             mainPanel = new JPanel(cardLayout);
+             JButton rentBooks = new JButton("Rent Books");
+             JButton openVirtualBooks = new JButton("Open Virtual Books");
+             JButton viewNewsletters = new JButton("View Newsletters");
+             JButton requestBook = new JButton("Request Book");
+             JButton sellableItems = new JButton("Buy Items");
 
-        //Encapsulate buttonBox in a container panel to center horizontally
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-        buttonPanel.add(Box.createHorizontalGlue());
-        buttonPanel.add(buttonBox);
-        buttonPanel.add(Box.createHorizontalGlue());
-        
-        //Panel for displaying rented books
-        rentedBooksPanel = new JPanel();
-        rentedBooksPanel.setLayout(new BoxLayout(rentedBooksPanel, BoxLayout.Y_AXIS));
-        
-        //List of rented books
-        refreshRentedBooksPanel(client);
-        rentedBooksPanel.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
-		
-        //Notifications Panel for displaying overdue/expiring books
-        notificationsPanel = new JPanel();
-        refreshNotificationsPanel(client);
-        
-        //Main Container Panel
-        JPanel containerPanel = new JPanel();
-        containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.X_AXIS));
-        containerPanel.add(notificationsPanel, BorderLayout.WEST);
-        containerPanel.add(buttonPanel);
-        containerPanel.add(rentedBooksPanel);
+             
+             //Main Page with buttons
+             Box buttonBox = new Box(BoxLayout.Y_AXIS);
+             buttonBox.add(rentBooks);
+             buttonBox.add(Box.createVerticalStrut(10));
+             buttonBox.add(openVirtualBooks);
+             buttonBox.add(Box.createVerticalStrut(10)); 
+             buttonBox.add(viewNewsletters);
+             buttonBox.add(Box.createVerticalStrut(10));
+             buttonBox.add(requestBook);
+             
+             
+             buttonBox.setAlignmentY(Component.CENTER_ALIGNMENT);
 
-        //Additional functionalities based on user type
-        setupUserSpecificButtons(client, buttonBox);
-        
-        mainPanel.add(containerPanel, "LibraryFront");
-        mainPanel.add(new RentPage(cardLayout, mainPanel, client, database, this), "RentBooks");
-        mainPanel.add(new OpenVirtualBooks(cardLayout, mainPanel, client, database, this), "OpenVirtualBooks");
-        mainPanel.add(new SubscriptionPage(cardLayout, mainPanel, client), "ViewNewsletters");
-        
-        //Add action listeners for buttons
-        rentBooks.addActionListener(e -> cardLayout.show(mainPanel, "RentBooks"));
-        openVirtualBooks.addActionListener(e -> cardLayout.show(mainPanel, "OpenVirtualBooks"));
-        viewNewsletters.addActionListener(e -> cardLayout.show(mainPanel, "ViewNewsletters"));
-        requestBook.addActionListener(e -> displayRequestPopup());
+             //Encapsulate buttonBox in a container panel to center horizontally
+             JPanel buttonPanel = new JPanel();
+             buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+             buttonPanel.add(Box.createHorizontalGlue());
+             buttonPanel.add(buttonBox);
+             buttonPanel.add(Box.createHorizontalGlue());
+             
+             //Panel for displaying rented books
+             rentedBooksPanel = new JPanel();
+             rentedBooksPanel.setLayout(new BoxLayout(rentedBooksPanel, BoxLayout.Y_AXIS));
+             
+             //List of rented books
+             refreshRentedBooksPanel(client);
+             rentedBooksPanel.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
+     		
+             //Notifications Panel for displaying overdue/expiring books
+             notificationsPanel = new JPanel();
+             refreshNotificationsPanel(client);
+             
+             //Main Container Panel
+             JPanel containerPanel = new JPanel();
+             containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.X_AXIS));
+             containerPanel.add(notificationsPanel, BorderLayout.WEST);
+             containerPanel.add(buttonPanel);
+             containerPanel.add(rentedBooksPanel);
 
-        
-        //display student course book
-        if(client.getType().equals("Student")) {
-        	JButton viewCourseBook = new JButton("View Course Book");
-            buttonBox.add(Box.createVerticalStrut(10));
-            buttonBox.add(viewCourseBook);
-            
-            viewCourseBook.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    // Implement action to change status of a book
-                	ViewCourseBook viewCourseBook = new ViewCourseBook(client.getEmail());
-                	
-                	viewCourseBook.setVisible(true);
-                }
-            });
+             //Additional functionalities based on user type
+             setupUserSpecificButtons(client, buttonBox);
+             
+             mainPanel.add(containerPanel, "LibraryFront");
+             mainPanel.add(new RentPage(cardLayout, mainPanel, client, database, this), "RentBooks");
+             mainPanel.add(new OpenVirtualBooks(cardLayout, mainPanel, client, database, this), "OpenVirtualBooks");
+             mainPanel.add(new SubscriptionPage(cardLayout, mainPanel, client), "ViewNewsletters");
+             
+             //Add action listeners for buttons
+             rentBooks.addActionListener(e -> cardLayout.show(mainPanel, "RentBooks"));
+             openVirtualBooks.addActionListener(e -> cardLayout.show(mainPanel, "OpenVirtualBooks"));
+             viewNewsletters.addActionListener(e -> cardLayout.show(mainPanel, "ViewNewsletters"));
+             requestBook.addActionListener(e -> displayRequestPopup());
+
+             
+             //display student course book
+             if(client.getType().equals("Student")) {
+             	JButton viewCourseBook = new JButton("View Course Book");
+                 buttonBox.add(Box.createVerticalStrut(10));
+                 buttonBox.add(viewCourseBook);
+                 
+                 viewCourseBook.addActionListener(new ActionListener() {
+                     @Override
+                     public void actionPerformed(ActionEvent e) {
+                         // Implement action to change status of a book
+                     	ViewCourseBook viewCourseBook = new ViewCourseBook(client.getEmail());
+                     	
+                     	viewCourseBook.setVisible(true);
+                     }
+                 });
+             }
+             
+           //Buy Item page
+             	JButton sellableItem = new JButton("Buy Items");
+                 buttonBox.add(Box.createVerticalStrut(10));
+                 buttonBox.add(sellableItem);
+                 
+                 sellableItem.addActionListener(new ActionListener() {
+                     @Override
+                     public void actionPerformed(ActionEvent e) {
+                         // Implement action to change status of a book
+                     	BuyItem buyItem = new BuyItem();
+                     	
+                     	sellableItem.setVisible(true);
+                     }
+                 });
+           
+             
+             //Show the main library front page initially
+             cardLayout.show(mainPanel, "LibraryFront");
+             setContentPane(mainPanel);
+             setDefaultCloseOperation(EXIT_ON_CLOSE);
+             setPreferredSize(new Dimension(900, 600));
+             pack();
+             setVisible(true);
+             setLocationRelativeTo(null);
         }
         
-      //Buy Item page
-        	JButton sellableItem = new JButton("Buy Items");
-            buttonBox.add(Box.createVerticalStrut(10));
-            buttonBox.add(sellableItem);
-            
-            sellableItem.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    // Implement action to change status of a book
-                	BuyItem buyItem = new BuyItem();
-                	
-                	sellableItem.setVisible(true);
-                }
-            });
-      
-        
-        //Show the main library front page initially
-        cardLayout.show(mainPanel, "LibraryFront");
-        setContentPane(mainPanel);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(900, 600));
-        pack();
-        setVisible(true);
-        setLocationRelativeTo(null);
+       
     }
     public void refreshRentedBooksPanel(Client client) {
         rentedBooksPanel.removeAll();
