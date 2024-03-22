@@ -1,5 +1,5 @@
 name,uniqueID,copies,location,status,purchasable,discountPrice,fullPrice
-rockCD,1,18,rock aisle,FALSE,TRUE,12,16
+rockCD,1,17,rock aisle,FALSE,TRUE,12,16
 fantasyBook,2,17,fantasy aisle,TRUE,TRUE,20,30
 newsMagazine,3,19,news aisle,TRUE,FALSE,,
 rockCD2,4,20,rock aisle,TRUE,FALSE,,
@@ -18,4 +18,6 @@ politicalMagazine2,16,20,political aisle,TRUE,FALSE,,
 historyMagazine,17,19,history aisle,TRUE,FALSE,,
 historyMagazine2,18,19,history aisle,TRUE,FALSE,,
 Magazine,19,20,4,TRUE,FALSE,,
-Maps of Canada,20,20,Geography,TRUE,FALSE,,
+Maps of Canada,20,16,Geography,TRUE,FALSE,,
+Ice Cream Recipes,21,19,Food,TRUE,,,
+Boats history,22,20,Vehicles,TRUE

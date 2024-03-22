@@ -1,3 +1,5 @@
 name,type
-"awfawf","Textbooks for Teaching"
-"asfasf","Self-Improvement"
+Math 1,Textbooks for Teaching
+How to be good,Self-Improvement
+"Being Strong","Self-Improvement","Low priority"
+"Math9","Textbooks for Teaching","High priority"

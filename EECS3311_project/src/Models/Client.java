@@ -100,9 +100,9 @@ public class Client implements ObserverPattern.PhysicalItemObserver{
 	        Duration duration = Duration.between(now, dueDateTime);
 	        long hoursLeft = duration.toHours();
 	        if ((hoursLeft <= 24) && (hoursLeft >= 0)) {
-	            dueDateNotifications.add("Warning: Less than 24hrs left until the due date for item " + entry.getKey());
+	            dueDateNotifications.add("Warning: \nLess than 24hrs left\nuntil the due date for item " + entry.getKey());
 	        } else if (duration.isNegative()) {
-	            dueDateNotifications.add("Warning: The due date for item " + entry.getKey() + " has passed.");
+	            dueDateNotifications.add("Warning: \nThe due date for item " + entry.getKey() + " has passed.");
 	        }
 	    }
 	    return dueDateNotifications; 
