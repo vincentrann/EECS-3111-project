@@ -45,37 +45,5 @@ public class ManagementTeam{
 	private void increaseCopy(PhysicalItem item) {
 		item.addCopy();
 	}
-	
-	
-	/*
-	 * Adds the item to the database
-	 */
-	public void addItem(Item item, String location) {
-		try {
-			SystemDatabase.getInstance().addPhysicalItem(item.getName(), location);
-		} catch (CsvValidationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		};
-	}
-	
-	/*
-	 * Enable the item for rent
-	 */
-	public void enableItem(Item item) {
-		item.enable();
-	}
-	
-	/*
-	 * Disable the item for rent
-	 */
-	public void disableItem(Item item) {
-		item.disable();
-	}
+
 }

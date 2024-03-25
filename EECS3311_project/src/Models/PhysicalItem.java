@@ -68,22 +68,10 @@ public class PhysicalItem extends Item{
             database.rentItem(this, dueDateTime, client);
         } else {
         	
+        	ManagementTeam team = ManagementTeam.getInstance();
+        	team.procureBook(this);
             SystemNotification.getInstance().unavailableTextbook();
-                   	
-            // display button with option "procure book?" - with yes or no
-        	// if yes
-//            SingleMTObject.getInstance().procureBook(this);
-//            if (rentedBooks.size() < copies) {
-//                rentedBooks.put(bookTitle, dueDateTime);
-//                addObserver(client);
-//                notifyObservers(bookTitle, dueDateTime);
-//                copies--;
-//            } else {
-//                SingleSNObject.getInstance().unavailableTextbook();
-//            }
-            //if no, nothing should happen
-	 
-    
+
         }
     }
 
@@ -97,8 +85,6 @@ public class PhysicalItem extends Item{
             removeObserver(client); // Remove the client from observers
             copies++;
             //notifyObservers(bookTitle, null); // Pass null as due date to indicate book return
-        } else {
-            System.out.println("The book " + bookTitle + " is not currently rented.");
         }
     }
 
@@ -113,9 +99,7 @@ public class PhysicalItem extends Item{
             long hoursLeft = duration.toHours();
             if ((hoursLeft <= 24) && (hoursLeft >= 0)) {
                 System.out.println("Warning: Less than 24hrs left until the due date for book " + entry.getKey());
-            } else if (duration.isNegative()) {
-                System.out.println("Warning: The due date for book " + entry.getKey() + " has passed.");
-            }
+            } 
         }
     }
 

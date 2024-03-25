@@ -13,21 +13,9 @@ public class SystemNotification {
 	
 	private SystemNotification() {}
 
-	public String returnWarning() {
-		return null;
-	}
-	//implement functions
-
-	public String newTextbook() {
-		return null;
-	}
 
 	public String unavailableTextbook() {
-		return null;
-	}
-
-	public String priority() {
-		return null;
+		return "Procuring book if possible";
 	}
 	
 	public String registrationFailed() {

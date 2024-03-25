@@ -215,6 +215,7 @@ public class SystemDatabase {
 	}
 	
 
+	// used for GUI
 	public void updateVirtualItemAvailability(String name, String availability) {
 	    String csvFile = virtualCSV;
 	    List<String[]> linesToUpdate = new ArrayList<>();
@@ -255,25 +256,26 @@ public class SystemDatabase {
 	        e.printStackTrace();
 	    }
 	}
-	
-	public String getVirtualTextbookName(String studentEmail) {
-	    try {
-	        CsvReader virtualReader = new CsvReader(virtualCSV);
-	        virtualReader.readHeaders();
-	        while (virtualReader.readRecord()) {
-	            String email = virtualReader.get(0);
-	            String textbookName = virtualReader.get(2); // Assuming the virtual textbook name is at index 2
-	            if (studentEmail.equals(email)) {
-	                virtualReader.close();
-	                return textbookName;
-	            }
-	        }
-	        virtualReader.close();
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
-	    return null;
-	}
+
+	// not using 
+//	public String getVirtualTextbookName(String studentEmail) {
+//	    try {
+//	        CsvReader virtualReader = new CsvReader(virtualCSV);
+//	        virtualReader.readHeaders();
+//	        while (virtualReader.readRecord()) {
+//	            String email = virtualReader.get(0);
+//	            String textbookName = virtualReader.get(2); // Assuming the virtual textbook name is at index 2
+//	            if (studentEmail.equals(email)) {
+//	                virtualReader.close();
+//	                return textbookName;
+//	            }
+//	        }
+//	        virtualReader.close();
+//	    } catch (IOException e) {
+//	        e.printStackTrace();
+//	    }
+//	    return null;
+//	}
 
 	
 	//TODO: needed for RentBook page
@@ -371,6 +373,7 @@ public class SystemDatabase {
 		return true;
 	}
 	
+	// used for GUI
 	public void updatePhysicalItemAvailability(String name, String availability) {
 	    String csvFile = physicalCSV;
 	    List<String[]> linesToUpdate = new ArrayList<>();
@@ -759,8 +762,8 @@ public class SystemDatabase {
 
 	                if (name.equals(teacher) && info.length == 2) {
 	                    TextbookInfo textbookInfo = new TextbookInfo(info[0], info[1]);
-	                    System.out.println(textbookInfo.getEdition());
-	                    System.out.println(textbookInfo.getTextbook());
+	                    //System.out.println(textbookInfo.getEdition());
+	                    //System.out.println(textbookInfo.getTextbook());
 	                    teacherTextbooks.add(textbookInfo);
 	                }
 	            }
@@ -811,6 +814,7 @@ public class SystemDatabase {
 			String[] data = {name, String.valueOf(id), "20", aisle, "TRUE"};
 			writer.writeNext(data);
 		}
+
 		
 	}
 

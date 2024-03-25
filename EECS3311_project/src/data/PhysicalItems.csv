@@ -1,4 +1,4 @@
-name,uniqueID,copies,location,status,purchasable,discountPrice,fullPrice
+name,uniqueID,10,location,status,purchasable,discountPrice,fullPrice
 rockCD,1,17,rock aisle,FALSE,TRUE,12,16
 fantasyBook,2,17,fantasy aisle,TRUE,TRUE,20,30
 newsMagazine,3,19,news aisle,TRUE,FALSE,,
@@ -20,4 +20,30 @@ historyMagazine2,18,19,history aisle,TRUE,FALSE,,
 Magazine,19,20,4,TRUE,FALSE,,
 Maps of Canada,20,16,Geography,TRUE,FALSE,,
 Ice Cream Recipes,21,19,Food,TRUE,,,
-Boats history,22,20,Vehicles,TRUE
+Boats history,22,20,Vehicles,TRUE,,,
+comic book,23,20,comic aisle,TRUE,,,
+hejfxvmglj,24,20,some aisle,TRUE,,,
+rbewxpkqzi,25,20,some aisle,TRUE,,,
+idhrbisnjg,26,20,some aisle,TRUE,,,
+nklgxbnofi,27,20,some aisle,TRUE
+csausqmndg,28,20,some aisle,TRUE
+uajhuzkrpu,29,20,some aisle,TRUE
+wgeeplcttd,30,20,some aisle,TRUE
+vgpvozniod,31,20,some aisle,TRUE
+zniflpffka,32,20,some aisle,TRUE
+hrtvdtprzz,33,20,some aisle,TRUE
+qdgxfezfzj,34,20,some aisle,TRUE
+giywkbkigh,35,20,some aisle,TRUE
+ahcbfrbrxb,36,20,some aisle,TRUE
+nrpuetfwqi,37,20,some aisle,TRUE
+hpawwscvxk,38,20,some aisle,TRUE
+ykextjgkcq,39,20,some aisle,TRUE
+ayrvluqitg,40,20,some aisle,TRUE
+kzhlknnufu,41,20,some aisle,TRUE
+wrzpmrmtfc,42,20,some aisle,TRUE
+wfdrchqlqb,43,20,some aisle,TRUE
+uyfoakgucd,44,20,some aisle,TRUE
+pqbamwqqff,45,20,some aisle,TRUE
+ccaomojelf,46,20,some aisle,TRUE
+cpjnhrqjzg,47,20,some aisle,TRUE
+nitnwhmisx,48,20,some aisle,TRUE
