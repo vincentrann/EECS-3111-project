@@ -241,7 +241,7 @@ class testcases {
 	 * Client Registration and Validation
 	 */
 	@Test
-    public void testStudentRegistrationSuccess() {
+    void testStudentRegistrationSuccess() {
         String email = "teststudent@university.com";
         String password = "Test123!";
         String userID = "S1234567";
@@ -257,7 +257,7 @@ class testcases {
     }
     
     @Test
-    public void testFacultyMemberRegistration() {
+    void testFacultyMemberRegistration() {
         String email = "faculty@university.com";
         String password = "Faculty123!";
         String userID = "F1234567";
@@ -272,7 +272,7 @@ class testcases {
     }
     
     @Test
-    public void testNonFacultyMemberRegistration() {
+    void testNonFacultyMemberRegistration() {
         String email = "nonfacultytest@university.com";
         String password = "Valid123!";
         String userID = "NF7654321";
@@ -287,7 +287,7 @@ class testcases {
     }
 
     @Test
-    public void testVisitorRegistrationProcess() {
+    void testVisitorRegistrationProcess() {
         String email = "visitortest@university.com";
         String password = "Visitor123!";
         String userID = "V12345678";
@@ -301,7 +301,7 @@ class testcases {
     }
 
     @Test
-    public void testLoginSuccess() {
+    void testLoginSuccess() {
         SystemDatabase.getInstance().addClient(new Client("Student", "loginemail@university.com", "Login123", "L12345678"));
         
         boolean loginResult = SystemDatabase.getInstance().clientLogin("loginemail@university.com", "Login123");
@@ -310,7 +310,7 @@ class testcases {
     }
     
     @Test
-    public void testAddAndGetClientFromDatabase() {
+    void testAddAndGetClientFromDatabase() {
         String email = "uniqueemail@university.com";
         String password = "Password123";
         String userID = "U12345678";
@@ -325,7 +325,7 @@ class testcases {
     }
     
     @Test
-    public void testFacultyMemberCourseAndTextbookManagement() throws CsvValidationException, FileNotFoundException, IOException {
+    void testFacultyMemberCourseAndTextbookManagement() throws CsvValidationException, FileNotFoundException, IOException {
         String email = "faculty@university.com";
         String password = "Faculty123!";
         String userID = "F1234567";
