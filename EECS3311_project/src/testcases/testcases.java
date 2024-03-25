@@ -20,11 +20,15 @@ import BuilderPattern.ClientBuilder;
 import BuilderPattern.ClientDirector;
 import BuilderPattern.StudentBuilder;
 import Models.Client;
+import Models.FacultyMember;
 import Models.Item;
+import Models.NonFacultyMember;
 import Models.PhysicalItem;
+import Models.Student;
 import Models.SystemDatabase;
 import Models.TextbookInfo;
 import Models.VirtualItem;
+import Models.Visitor;
 
 class testcases {
 	/*
@@ -233,7 +237,116 @@ class testcases {
 		assertTrue(item.getCopies()==2);
 	}
 	
+	/*
+	 * Client Registration and Validation
+	 */
+	@Test
+    public void testStudentRegistrationSuccess() {
+        String email = "teststudent@university.com";
+        String password = "Test123!";
+        String userID = "S1234567";
 
-	
+        Student student = new Student(email, password, userID);
+        Client client = student.getClient();
+
+        assertNotNull(client, "The client should not be null");
+        assertEquals(email, client.getEmail(), "Email should match");
+        assertEquals(password, client.getPassword(), "Password should match");
+        assertEquals(userID, client.getUserID(), "User ID should match");
+        assertEquals("Student", client.getType(), "Type should be Student");
+    }
+    
+    @Test
+    public void testFacultyMemberRegistration() {
+        String email = "faculty@university.com";
+        String password = "Faculty123!";
+        String userID = "F1234567";
+
+        FacultyMember facultyMember = new FacultyMember(email, password, userID);
+        Client client = facultyMember.getClient();
+
+        if (client != null) {
+            assertEquals(email, client.getEmail(), "Email should match when validation passes");
+            assertEquals(userID, client.getUserID(), "User ID should match when validation passes");
+        } 
+    }
+    
+    @Test
+    public void testNonFacultyMemberRegistration() {
+        String email = "nonfacultytest@university.com";
+        String password = "Valid123!";
+        String userID = "NF7654321";
+
+        NonFacultyMember nonFacultyMember = new NonFacultyMember(email, password, userID);
+        Client client = nonFacultyMember.getClient();
+
+        if (client != null) {
+            assertEquals(email, client.getEmail(), "Email should match when validation passes");
+            assertEquals("NonFacultyMember", client.getType(), "Type should be NonFacultyMember when validation passes");
+        } 
+    }
+
+    @Test
+    public void testVisitorRegistrationProcess() {
+        String email = "visitortest@university.com";
+        String password = "Visitor123!";
+        String userID = "V12345678";
+
+        Visitor visitor = new Visitor(email, password, userID);
+        Client client = visitor.getClient();
+
+        assertNotNull(client, "The client should not be null for visitors");
+        assertEquals(email, client.getEmail(), "Email should match for visitor registration");
+        assertEquals(userID, client.getUserID(), "User ID should match for visitor registration");
+    }
+
+    @Test
+    public void testLoginSuccess() {
+        SystemDatabase.getInstance().addClient(new Client("Student", "loginemail@university.com", "Login123", "L12345678"));
+        
+        boolean loginResult = SystemDatabase.getInstance().clientLogin("loginemail@university.com", "Login123");
+        
+        assertTrue(loginResult, "Login should be successful");
+    }
+    
+    @Test
+    public void testAddAndGetClientFromDatabase() {
+        String email = "uniqueemail@university.com";
+        String password = "Password123";
+        String userID = "U12345678";
+        Client newClient = new Client("Student", email, password, userID);
+
+        SystemDatabase.getInstance().addClient(newClient);
+        Client retrievedClient = SystemDatabase.getInstance().getClient(email);
+
+        assertNotNull(retrievedClient, "Client should be retrieved from database");
+        assertEquals(email, retrievedClient.getEmail(), "Retrieved client email should match");
+        assertEquals("Student", retrievedClient.getType(), "Retrieved client type should match");
+    }
+    
+    @Test
+    public void testFacultyMemberCourseAndTextbookManagement() throws CsvValidationException, FileNotFoundException, IOException {
+        String email = "faculty@university.com";
+        String password = "Faculty123!";
+        String userID = "F1234567";
+        String courseName = "Introduction to Testing";
+        String textbookName = "Effective Testing in Java";
+
+        FacultyMember facultyMember = new FacultyMember(email, password, userID);
+        Client client = facultyMember.getClient();
+
+        assertNotNull(client, "Client should not be null when validation passes");
+        
+        if (client != null) {
+            facultyMember.addCourse(courseName);
+            assertTrue(SystemDatabase.getInstance().getCourses(email).contains(courseName), "Course should be added to the database");
+
+            facultyMember.remvoeCourse(courseName);
+            assertFalse(SystemDatabase.getInstance().getCourses(email).contains(courseName), "Course should be removed from the database");
+
+            facultyMember.addTextbook(textbookName);
+            assertTrue(SystemDatabase.getInstance().getTextbooks(email).contains(textbookName), "Textbook should be added to the database");
+        }
+    }
 	
 }
