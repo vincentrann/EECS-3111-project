@@ -11,6 +11,8 @@ public class ManagementTeam{
     private ManagementTeam() {}
 
     public boolean furtherValidation(){
+    	//For testing purposes, set to always true
+    	/*
     	Random random = new Random();
         int randomNumber = random.nextInt(100);
         int failureThreshold = 5;
@@ -20,8 +22,8 @@ public class ManagementTeam{
             return false;
         } else {
             return true;
-        }
-        
+        */
+        return true;
     }
     
     //USE THIS WHEN INSTANTIATING OR USING METHODS
