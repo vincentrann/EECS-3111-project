@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.time.LocalDateTime;
+import java.util.*;
 
 import org.junit.jupiter.api.Test;
 
@@ -29,8 +30,81 @@ import Models.SystemDatabase;
 import Models.TextbookInfo;
 import Models.VirtualItem;
 import Models.Visitor;
+import appUI.SubscriptionPage;
+import Models.Newsletter;
 
 class testcases {
+	
+	/*Newsletters*/
+	
+    @Test
+    void testNewsletterConstruction() {
+        String name = "Test Newsletter";
+        String url = "http://example.com";
+        
+        Newsletter newsletter = new Newsletter(name, url);
+        
+        assertEquals(name, newsletter.getName(), "Name should match");
+        assertEquals(url, newsletter.getUrl(), "URL should match");
+    }
+    
+
+    @Test
+    void testNewsletterCreation() {
+        Newsletter newsletter = new Newsletter("Test Newsletter", "http://example.com");
+        assertEquals("Test Newsletter", newsletter.getName());
+        assertEquals("http://example.com", newsletter.getUrl());
+    }
+
+    @Test
+    void testAddAndCancelSubscription() {
+        Newsletter newsletter = new Newsletter("Test Newsletter", "http://example.com");
+        try {
+            newsletter.addSubscription("userID", newsletter);
+            List<Newsletter> subscriptions = newsletter.viewAvailableNewsletters("userID");
+            assertTrue(subscriptions.contains(newsletter));
+
+            newsletter.cancelSubscription("userID", newsletter);
+            subscriptions = newsletter.viewAvailableNewsletters("userID");
+            assertFalse(subscriptions.contains(newsletter));
+        } catch (Exception e) {
+            fail("Exception occurred: " + e.getMessage());
+        }
+    }
+
+    @Test
+    void testViewAvailableNewsletters() {
+        Newsletter newsletter1 = new Newsletter("Newsletter 1", "http://example.com/1");
+        Newsletter newsletter2 = new Newsletter("Newsletter 2", "http://example.com/2");
+        List<Newsletter> expectedNewsletters = new ArrayList<>();
+        expectedNewsletters.add(newsletter1);
+        expectedNewsletters.add(newsletter2);
+        
+        try {
+            SystemDatabase.getInstance().addSubscription("userID", newsletter1);
+            SystemDatabase.getInstance().addSubscription("userID", newsletter2);
+
+            Newsletter newsletter = new Newsletter();
+            List<Newsletter> availableNewsletters = newsletter.viewAvailableNewsletters("userID");
+            assertEquals(expectedNewsletters.size(), availableNewsletters.size());
+            assertTrue(availableNewsletters.containsAll(expectedNewsletters));
+        } catch (Exception e) {
+            fail("Exception occurred: " + e.getMessage());
+        }
+    }
+
+    @Test
+    void testGetMonthlyCost() {
+        Newsletter newsletter = new Newsletter("Test Newsletter", "http://example.com");
+        try {
+            double monthlyCost = newsletter.getMonthlyCost("uniqueID");
+            assertEquals(0.0, monthlyCost); // Assuming default cost is 0.0
+        } catch (Exception e) {
+            fail("Exception occurred: " + e.getMessage());
+        }
+    }
+    
+    
 	/*
 	 * Item Management and Notifications
 	 */
@@ -128,6 +202,8 @@ class testcases {
 	@Test
 	void testAddVirtualItem() throws CsvValidationException, FileNotFoundException, IOException {
 		SystemDatabase database = SystemDatabase.getInstance();
+		final String virtualCSV = "src\\data\\VirtualItems.csv";
+
 		
 		// generate random item name
 		Random random = new Random();
@@ -139,26 +215,27 @@ class testcases {
 		String randomTitle = buffer.toString();
 		
 		
-		database.addVirtualItem(randomTitle, "1", "some text");
+		database.addVirtualItem(randomTitle, "1", "some text", virtualCSV);
 		
-		String text = database.getVirtualItemText(randomTitle);
+		String text = database.getVirtualItemText(randomTitle, virtualCSV);
 		assertTrue(text.equals("some text"));	
 		
-		String notext = database.getVirtualItemText("thiswillneverexist");
+		String notext = database.getVirtualItemText("thiswillneverexist", virtualCSV);
 		assertTrue(notext==null);
 	}
 	
 	
 	@Test 
 	void testStudentVirtualTextbookAttributes() {
+		final String studentCSV = "src\\data\\StudentData.csv";
 		SystemDatabase database = SystemDatabase.getInstance();
-		String textbook = database.getVirtualItemTextbook("sir");
+		String textbook = database.getVirtualItemTextbook("sir", studentCSV);
 		assertTrue(textbook.equals("Dinos 1"));
-		String expiry = database.getVirtualTextbookExpiry("sir");
+		String expiry = database.getVirtualTextbookExpiry("sir", studentCSV);
 		assertTrue(expiry.equals("02/12/24"));
-		String textbook2 = database.getVirtualItemTextbook("thiswillneverexist");
+		String textbook2 = database.getVirtualItemTextbook("thiswillneverexist", studentCSV);
 		assertTrue(textbook2==null);
-		String expiry2 = database.getVirtualTextbookExpiry("thiswilneverexist");
+		String expiry2 = database.getVirtualTextbookExpiry("thiswilneverexist", studentCSV);
 		assertTrue(expiry2==null);
 	}
 	
@@ -348,5 +425,7 @@ class testcases {
             assertTrue(SystemDatabase.getInstance().getTextbooks(email).contains(textbookName), "Textbook should be added to the database");
         }
     }
+    
+    
 	
 }

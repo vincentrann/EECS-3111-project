@@ -818,8 +818,8 @@ public class SystemDatabase {
 		
 	}
 
-	public void addVirtualItem(String name, String edition, String text) throws FileNotFoundException, IOException, CsvValidationException {
-		String csvFile = virtualCSV;		
+	public void addVirtualItem(String name, String edition, String text, String virtCsv) throws FileNotFoundException, IOException, CsvValidationException {
+		String csvFile = virtCsv;		
 		try(CSVReader reader = new CSVReader(new FileReader(csvFile))){
 			String[] nextLine;
 			nextLine = reader.readNext();
@@ -835,8 +835,8 @@ public class SystemDatabase {
 	
 	
 	//returns student's course assigned book
-	public String getVirtualItemTextbook(String email) {
-        String csvFile = studentCSV;
+	public String getVirtualItemTextbook(String email, String studentCsv) {
+        String csvFile = studentCsv;
 
         try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
             String[] nextLine;
@@ -860,8 +860,8 @@ public class SystemDatabase {
     }
 	
 	//returns student's course assigned book expiry date
-	public String getVirtualTextbookExpiry(String email) {
-	    String csvFile = studentCSV;
+	public String getVirtualTextbookExpiry(String email, String studentCsv) {
+	    String csvFile = studentCsv;
 
 	    try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
 	        String[] nextLine;
@@ -883,8 +883,8 @@ public class SystemDatabase {
 	    return null;
 	}
 	
-	public String getVirtualItemText(String targetName) {
-        String csvFile = "src\\data\\VirtualItems.csv";
+	public String getVirtualItemText(String targetName, String virtCsv) {
+        String csvFile = virtCsv;
 
         try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
             String[] nextLine;
@@ -907,10 +907,10 @@ public class SystemDatabase {
         return null;
     }
 	
-	public void addUnverifiedEmail(String email) {	    
+	public void addUnverifiedEmail(String email, String csvFile) {	    
 	    try {
 	        // First, read the CSV file to find the first empty row
-	        CSVReader reader = new CSVReader(new FileReader(unverifiedEmailsCSV));
+	        CSVReader reader = new CSVReader(new FileReader(csvFile));
 	        String[] nextLine;
 	        int emptyRowIndex = -1; // Index of the first empty row
 	        
@@ -926,7 +926,7 @@ public class SystemDatabase {
 	        reader.close();
 	        
 	        // Open the writer in append mode
-	        CSVWriter writer = new CSVWriter(new FileWriter(unverifiedEmailsCSV, true));
+	        CSVWriter writer = new CSVWriter(new FileWriter(csvFile, true));
 	        
 	        // Write the email to the first empty row
 	        String[] newRow = new String[1];
@@ -945,10 +945,10 @@ public class SystemDatabase {
 	    
 	}
 	
-    public void removeAllUnverifiedEmails() {
+    public void removeAllUnverifiedEmails(String csvFile) {
         try {
             // Open the CSV reader to count the number of entries
-            CSVReader reader = new CSVReader(new FileReader(unverifiedEmailsCSV));
+            CSVReader reader = new CSVReader(new FileReader(csvFile));
             int numEntries = 0;
             while (reader.readNext() != null) {
                 numEntries++;
@@ -956,7 +956,7 @@ public class SystemDatabase {
             reader.close();
 
             // Open the CSV writer in write mode
-            CSVWriter writer = new CSVWriter(new FileWriter(unverifiedEmailsCSV, false));
+            CSVWriter writer = new CSVWriter(new FileWriter(csvFile, false));
 
             // Write empty strings for each entry to clear the first column
             for (int i = 0; i < numEntries; i++) {
@@ -972,9 +972,9 @@ public class SystemDatabase {
 	    }
     }
 	
-	public List<String> getAllUnverifiedEmails() {
+	public List<String> getAllUnverifiedEmails(String csvFile) {
 	    List<String> emails = new ArrayList<>();
-	    try (CSVReader reader = new CSVReader(new FileReader(unverifiedEmailsCSV))) {
+	    try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
 	        String[] nextLine;
 	        while ((nextLine = reader.readNext()) != null) {
 	            // Assuming email is in the first column (index 0)

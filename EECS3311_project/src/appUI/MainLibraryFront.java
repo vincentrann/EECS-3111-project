@@ -35,7 +35,10 @@ public class MainLibraryFront extends JFrame {
     	//Set window title and layout
         super("YorkU Library Front");
         
-        if(database.getAllUnverifiedEmails().contains(client.getEmail())){
+    	final String unverifiedEmailsCSV = "src\\data\\UnverifiedEmails.csv";
+
+        
+        if(database.getAllUnverifiedEmails(unverifiedEmailsCSV).contains(client.getEmail())){
         	JOptionPane.showMessageDialog(null, "Please wait for the management team to verify your registration", "Verification Pending", JOptionPane.INFORMATION_MESSAGE);
 
         } else {

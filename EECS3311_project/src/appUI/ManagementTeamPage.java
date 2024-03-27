@@ -23,12 +23,14 @@ public class ManagementTeamPage extends JFrame {
         JButton verifyButton = new JButton("Verify new users");
         
         
+    	final String unverifiedEmailsCSV = "src\\data\\UnverifiedEmails.csv";
+
       //verify new users
         verifyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Implement action to change status of a book
-            	SystemDatabase.getInstance().removeAllUnverifiedEmails();
+            	SystemDatabase.getInstance().removeAllUnverifiedEmails(unverifiedEmailsCSV);
             }
         });
         //change status of item

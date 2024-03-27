@@ -33,6 +33,8 @@ import appUI.MainLibraryFront;
 public class MainUI extends JFrame {
 	
 	SystemDatabase database = SystemDatabase.getInstance();
+	final String unverifiedEmailsCSV = "src\\data\\UnverifiedEmails.csv";
+
 
 	private static final long serialVersionUID = 1L;
 	private static MainUI instance;
@@ -177,7 +179,7 @@ public class MainUI extends JFrame {
 				
 				else {
 					if(!type.equals("Visitors")) {
-						database.addUnverifiedEmail(email);
+						database.addUnverifiedEmail(email, unverifiedEmailsCSV);
 					}
 					
 					if (type.equals("Student")) {
