@@ -41,6 +41,10 @@ public class ConcretePhysicalItem extends ConcreteItem{
         return this.locationInLibrary;
     }
     
+    public int getCopies() {
+        return this.copies;
+    }
+    
     /*
      * Adds client to rented list
      */

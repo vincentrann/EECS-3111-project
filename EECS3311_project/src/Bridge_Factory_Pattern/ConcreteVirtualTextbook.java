@@ -23,4 +23,16 @@ public class ConcreteVirtualTextbook extends ConcreteItem{
         this.availability = availability;
         this.priority = priority;
     }
+    
+    public String getEdition() {
+        return this.edition;
+    }
+
+    public boolean isAvailability() {
+        return this.availability;
+    }
+
+    public double getPriority() {
+        return this.priority;
+    }
 }

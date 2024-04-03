@@ -19,4 +19,11 @@ public  class ClientItem{
         return item.getConcreteType();
     }
 
+    public void changeItemName(String newName) {
+        item.changeName(newName);
+    }
+
+    public void changeItemType(String newType) {
+        item.changeType(newType);
+    }
 }

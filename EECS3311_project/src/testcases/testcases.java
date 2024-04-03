@@ -17,6 +17,10 @@ import org.junit.jupiter.api.Test;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
+import Bridge_Factory_Pattern.ClientItem;
+import Bridge_Factory_Pattern.ConcreteItem;
+import Bridge_Factory_Pattern.ConcretePhysicalItem;
+import Bridge_Factory_Pattern.ConcreteVirtualTextbook;
 import BuilderPattern.ClientBuilder;
 import BuilderPattern.ClientDirector;
 import BuilderPattern.StudentBuilder;
@@ -426,6 +430,63 @@ class testcases {
         }
     }
     
+    /**
+     * Added some test cases for bridge/factory package
+     */
+    @Test
+    void testConcretePhysicalItemWithFirstConstructor() {
+        ConcretePhysicalItem item = new ConcretePhysicalItem(10, "Aisle B", false);
+        assertEquals("Aisle B", item.getLocation(), "The location should be Aisle B.");
+        assertEquals(10, item.getCopies(), "The number of copies should be 10.");
+    }
     
+    @Test
+    void testClientItemDelegation() {
+        ConcretePhysicalItem concreteItem = new ConcretePhysicalItem(10, "TestBook", "Book", 5, "Aisle A", true);
+        ClientItem clientItem = new ClientItem(concreteItem);
+        assertEquals("TestBook", clientItem.getName(), "Name should be delegated to ConcreteItem");
+        assertEquals(10, clientItem.getUniqueID(), "Unique ID should be delegated to ConcreteItem");
+        assertEquals("Book", clientItem.getType(), "Type should be delegated to ConcreteItem");
+    }
 	
+    @Test
+    void testChangeItemName() {
+        ConcreteItem concreteItem = new ConcreteItem(1, "InitialName", "InitialType");
+        ClientItem clientItem = new ClientItem(concreteItem);
+        clientItem.changeItemName("ChangedName");
+        assertEquals("ChangedName", clientItem.getName(), "The name should be changed to 'ChangedName'.");
+    }
+
+    @Test
+    void testChangeItemType() {
+        ConcreteItem concreteItem = new ConcreteItem(1, "InitialName", "InitialType");
+        ClientItem clientItem = new ClientItem(concreteItem);
+        clientItem.changeItemType("ChangedType");
+        assertEquals("ChangedType", clientItem.getType(), "The type should be changed to 'ChangedType'.");
+    }
+    
+    @Test
+    void testConstructorWithEditionAvailabilityPriority() {
+        String edition = "First Edition";
+        boolean availability = true;
+        double priority = 1.0;
+        ConcreteVirtualTextbook textbook = new ConcreteVirtualTextbook(edition, availability, priority);
+        assertEquals(edition, textbook.getEdition(), "Edition should be set correctly by the constructor.");
+        assertEquals(availability, textbook.isAvailability(), "Availability should be set correctly by the constructor.");
+        assertEquals(priority, textbook.getPriority(), "Priority should be set correctly by the constructor.");
+    }
+
+    @Test
+    void testConstructorWithAllFields() {
+        int uniqueID = 123;
+        String name = "Algorithms";
+        String typeOfItem = "Textbook";
+        String edition = "Second Edition";
+        boolean availability = false;
+        double priority = 5.0;
+        ConcreteVirtualTextbook textbook = new ConcreteVirtualTextbook(uniqueID, name, typeOfItem, edition, availability, priority); 
+        assertEquals(edition, textbook.getEdition(), "Edition should be set correctly by the constructor.");
+        assertEquals(availability, textbook.isAvailability(), "Availability should be set correctly by the constructor.");
+        assertEquals(priority, textbook.getPriority(), "Priority should be set correctly by the constructor.");
+    }
 }
