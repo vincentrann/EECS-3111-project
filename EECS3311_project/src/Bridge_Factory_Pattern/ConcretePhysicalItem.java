@@ -119,5 +119,14 @@ public class ConcretePhysicalItem extends ConcreteItem{
         	observer.update(bookTitle, dueDate);
         }
     }
+    /*
+     * Methods added for testing purposes
+     */
+    public boolean isBookRented(String bookTitle) {
+        return rentedBooks.containsKey(bookTitle);
+    }
 
+    public LocalDateTime getDueDateForBook(String bookTitle) {
+        return rentedBooks.get(bookTitle);
+    }
 }

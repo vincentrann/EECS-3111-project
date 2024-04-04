@@ -21,6 +21,7 @@ import Bridge_Factory_Pattern.ClientItem;
 import Bridge_Factory_Pattern.ConcreteItem;
 import Bridge_Factory_Pattern.ConcretePhysicalItem;
 import Bridge_Factory_Pattern.ConcreteVirtualTextbook;
+import Bridge_Factory_Pattern.ItemFactory;
 import BuilderPattern.ClientBuilder;
 import BuilderPattern.ClientDirector;
 import BuilderPattern.StudentBuilder;
@@ -489,4 +490,49 @@ class testcases {
         assertEquals(availability, textbook.isAvailability(), "Availability should be set correctly by the constructor.");
         assertEquals(priority, textbook.getPriority(), "Priority should be set correctly by the constructor.");
     }
+    
+    @Test
+    void testRentConcretePhysicalItem() {
+        ConcretePhysicalItem item = new ConcretePhysicalItem(20, "Aisle A", true);
+        LocalDateTime dueDateTime = LocalDateTime.now().plusDays(30);
+        Client mockClient = new Client("MockClient", "mock@client.com", "MockPassword", "12345");
+        
+        item.rentPhysicalItem("TestBook", dueDateTime, mockClient);
+        
+        assertTrue(item.isBookRented("TestBook"), "Book should be rented.");
+        assertEquals(dueDateTime, item.getDueDateForBook("TestBook"), "Due date should be set correctly.");
+    }
+
+    @Test
+    void testReturnConcretePhysicalItem() {
+        ConcretePhysicalItem item = new ConcretePhysicalItem(20, "Aisle A", true);
+        LocalDateTime dueDateTime = LocalDateTime.now().plusDays(30);
+        Client mockClient = new Client("MockClient", "mock@client.com", "MockPassword", "12345");
+        
+        item.rentPhysicalItem("TestBook", dueDateTime, mockClient);
+        item.returnPhysicalItem("TestBook", mockClient);
+        
+        assertFalse(item.isBookRented("TestBook"), "Book should be returned and not rented.");
+    }
+    
+    @Test
+    void testGetVirtualItem() {
+        ItemFactory factory = new ItemFactory();
+        ClientItem virtualItem = factory.getVirtualItem(1, "Virtual Book", "Book", 0, "", false);
+        // Assert that the ClientItem wraps a ConcretePhysicalItem
+        assertTrue(virtualItem.getUniqueID() == 1);
+        assertTrue(virtualItem.getName().equals("Virtual Book"));
+        assertTrue(virtualItem.getType().equals("Book"));
+    }
+
+    @Test
+    void testGetPhysicalItem() {
+        ItemFactory factory = new ItemFactory();
+        ClientItem physicalItem = factory.getPhysicalItem(2, "Physical Textbook", "Textbook", "First Edition", true, 1.0);
+        // Assert that the ClientItem wraps a ConcreteVirtualTextbook
+        assertTrue(physicalItem.getUniqueID() == 2);
+        assertTrue(physicalItem.getName().equals("Physical Textbook"));
+        assertTrue(physicalItem.getType().equals("Textbook"));
+    }
+
 }
