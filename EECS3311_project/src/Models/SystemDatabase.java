@@ -1,5 +1,4 @@
 package Models;
-
 import java.io.FileWriter;
 import javax.swing.JOptionPane;
 import java.io.IOException;
@@ -19,15 +18,8 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
-
 import FlyweightPattern.*;
-
-
-
-
 public class SystemDatabase {
-
 	private String clientCSV= "src\\data\\Clients.csv";
 	private String physicalCSV = "src\\data\\PhysicalItems.csv";
 	private String virtualCSV = "src\\data\\VirtualItems.csv";
@@ -42,7 +34,6 @@ public class SystemDatabase {
 	private String unverifiedEmailsCSV = "src\\data\\UnverifiedEmails.csv";
 	
 	private static SystemDatabase instance;
-
 	
 	public static SystemDatabase getInstance() {
 		if(instance == null){
@@ -214,8 +205,6 @@ public class SystemDatabase {
 		return null;
 	}
 	
-
-	// used for GUI
 	public void updateVirtualItemAvailability(String name, String availability) {
 	    String csvFile = virtualCSV;
 	    List<String[]> linesToUpdate = new ArrayList<>();
@@ -223,7 +212,6 @@ public class SystemDatabase {
 	    
 	    try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
 	        String[] nextLine;
-
 	        // Read the file line by line
 	        while ((nextLine = reader.readNext()) != null) {
 	            // Check if the line contains the specified name
@@ -239,7 +227,6 @@ public class SystemDatabase {
 	        e.printStackTrace();
 	        return;
 	    }
-
 	    if (!found) {
 	        JOptionPane.showMessageDialog(null, "Item not found.");
 	        return;
@@ -256,27 +243,25 @@ public class SystemDatabase {
 	        e.printStackTrace();
 	    }
 	}
-
-	// not using 
-//	public String getVirtualTextbookName(String studentEmail) {
-//	    try {
-//	        CsvReader virtualReader = new CsvReader(virtualCSV);
-//	        virtualReader.readHeaders();
-//	        while (virtualReader.readRecord()) {
-//	            String email = virtualReader.get(0);
-//	            String textbookName = virtualReader.get(2); // Assuming the virtual textbook name is at index 2
-//	            if (studentEmail.equals(email)) {
-//	                virtualReader.close();
-//	                return textbookName;
-//	            }
-//	        }
-//	        virtualReader.close();
-//	    } catch (IOException e) {
-//	        e.printStackTrace();
-//	    }
-//	    return null;
-//	}
-
+	
+	public String getVirtualTextbookName(String studentEmail) {
+	    try {
+	        CsvReader virtualReader = new CsvReader(virtualCSV);
+	        virtualReader.readHeaders();
+	        while (virtualReader.readRecord()) {
+	            String email = virtualReader.get(0);
+	            String textbookName = virtualReader.get(2); // Assuming the virtual textbook name is at index 2
+	            if (studentEmail.equals(email)) {
+	                virtualReader.close();
+	                return textbookName;
+	            }
+	        }
+	        virtualReader.close();
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	    return null;
+	}
 	
 	//TODO: needed for RentBook page
 	public Item getPhysicalItem (String name) {
@@ -330,7 +315,6 @@ public class SystemDatabase {
 			
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 			String dateFormat = "\"" + dueDateTime.format(formatter).replace("\"", "\"\"") + "\"";
-
 			userItemWriter.write(client.getEmail());
 			userItemWriter.write(item.getName()); 
 			userItemWriter.write(dateFormat);
@@ -373,15 +357,12 @@ public class SystemDatabase {
 		return true;
 	}
 	
-	// used for GUI
 	public void updatePhysicalItemAvailability(String name, String availability) {
 	    String csvFile = physicalCSV;
 	    List<String[]> linesToUpdate = new ArrayList<>();
 	    boolean found = false;
-
 	    try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
 	        String[] nextLine;
-
 	        // Read the file line by line
 	        while ((nextLine = reader.readNext()) != null) {
 	            // Check if the line contains the specified name
@@ -397,7 +378,6 @@ public class SystemDatabase {
 	        e.printStackTrace();
 	        return;
 	    }
-
 	    if (!found) {
 	        JOptionPane.showMessageDialog(null, "Item not found.");
 	        return;
@@ -432,10 +412,8 @@ public class SystemDatabase {
 	public void cancelSubscription(String userID, Newsletter newsletter) throws CsvValidationException {
 	    String csvFile = newsletterSubscriberCSV;
 	    String tempFile = "temp.csv";
-
 	    try (CSVReader reader = new CSVReader(new FileReader(csvFile));
 	         CSVWriter writer = new CSVWriter(new FileWriter(tempFile))) {
-
 	        String[] nextLine;
 	        try {
 				while ((nextLine = reader.readNext()) != null) {
@@ -449,13 +427,11 @@ public class SystemDatabase {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 	    } catch (IOException e) {
 	        System.err.println("An error occurred while removing the subscription: " + e.getMessage());
 	        e.printStackTrace();
 	        return;
 	    }
-
 	    // Replace the old file with the updated one
 	    File oldFile = new File(csvFile);
 	    File newFile = new File(tempFile);
@@ -467,20 +443,16 @@ public class SystemDatabase {
 	        System.err.println("Could not rename the temporary file to the original file.");
 	    }
 	}
-
 	    
 	//TODO: Might need to use this one instead of the one above    
 	/**
 	public void cancelSubscription(String userID, String name) {
         String csvFile = newsletterSubscriberCSV;
         String tempFile = "temp.csv";
-
         try (CSVReader reader = new CSVReader(new FileReader(csvFile));
              CSVWriter writer = new CSVWriter(new FileWriter(tempFile))) {
-
             String[] nextLine;
             while ((nextLine = reader.readNext()) != null) {
-
                 if (nextLine.length >= 2 && nextLine[0].equals(name) && nextLine[1].equals(userID)) {
                     continue;
                 }
@@ -491,8 +463,6 @@ public class SystemDatabase {
             e.printStackTrace();
             return;
         }
-
-
         File oldFile = new File(csvFile);
         File newFile = new File(tempFile);
         if (!oldFile.delete()) {
@@ -509,7 +479,6 @@ public class SystemDatabase {
 	//Added to use Newsletters instead of strings.
 	public List<Newsletter> viewAvailableNewsletters(String userID) throws CsvValidationException {
 	    List<Newsletter> subscribedNewsletters = new ArrayList<>();
-
 	    try (CSVReader reader = new CSVReader(new FileReader(newsletterSubscriberCSV))) {
 	        String[] nextLine;
 	        try {
@@ -586,7 +555,6 @@ public class SystemDatabase {
 	public void removeCourse(String course, String email) throws CsvValidationException {
 		String csvFile = FacultyCourseCSV;
         File tempFile = new File("src\\data\\" + "temp.csv");
-
         try (CSVReader reader = new CSVReader(new FileReader(csvFile));
              CSVWriter writer = new CSVWriter(new FileWriter(tempFile))) {
             String[] line;
@@ -618,7 +586,6 @@ public class SystemDatabase {
 	public List<Newsletter> getNewsletterList() throws CsvValidationException {
 	    String csvFile = newsletterCSV;
 	    List<Newsletter> newsletters = new ArrayList<>();
-
 	    try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
 	        String[] nextLine;
 	        try {
@@ -631,31 +598,25 @@ public class SystemDatabase {
 				    }
 				}
 			} catch (CsvValidationException e) {
-				
 				e.printStackTrace();
 			}
 	    } catch (IOException e) {
 	        System.err.println("An error occurred while reading the newsletters: " + e.getMessage());
 	        e.printStackTrace();
 	    }
-
 	    return newsletters;
 	}
-
 	/*
 	 * Return list of book titles that are similar to given
 	 */
 	public ArrayList<String> recommend(String bookTitle) throws CsvValidationException {
 	    ArrayList<String> similarTitles = new ArrayList<>();
-
 	    try (CSVReader reader = new CSVReader(new FileReader(physicalCSV))) {
 	        String[] nextLine;
 	        while ((nextLine = reader.readNext()) != null) {
 	        	String title = nextLine[0];
-
 	        	String similar1 = areSimilar(title);
 	        	String similar2 = areSimilar(bookTitle);
-
 	        	if (similar1.equals(similar2)) {
 	        		similarTitles.add(title);
 	        	}
@@ -667,7 +628,6 @@ public class SystemDatabase {
 	        System.err.println("An error occurred while reading the subscriptions: " + e.getMessage());
 	        e.printStackTrace();
 	    }
-
 	    return similarTitles;
 	    
 	}
@@ -721,7 +681,6 @@ public class SystemDatabase {
 	    }
 		
 		return teacherCourses;
-
 	}
 	
 	public ArrayList<String> getTextbooks(String name) throws FileNotFoundException, IOException, CsvValidationException{
@@ -744,14 +703,11 @@ public class SystemDatabase {
 	    }
 		
 		return teacherTextbooks;
-
 	}
-
 	
 	public ArrayList<TextbookInfo> getTextbooksAndEdition(String name) throws FileNotFoundException, IOException, CsvValidationException{
 	        String csvFile = FacultyTextbooksCSV;
 	        ArrayList<TextbookInfo> teacherTextbooks = new ArrayList<>();
-
 	        try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
 	            String[] nextLine;
 	            while ((nextLine = reader.readNext()) != null) {
@@ -759,11 +715,10 @@ public class SystemDatabase {
 	                String teacher = nextLine[1];
 	                
 	                String[] info = textbook.split(" ");
-
 	                if (name.equals(teacher) && info.length == 2) {
 	                    TextbookInfo textbookInfo = new TextbookInfo(info[0], info[1]);
-	                    //System.out.println(textbookInfo.getEdition());
-	                    //System.out.println(textbookInfo.getTextbook());
+	                    System.out.println(textbookInfo.getEdition());
+	                    System.out.println(textbookInfo.getTextbook());
 	                    teacherTextbooks.add(textbookInfo);
 	                }
 	            }
@@ -771,21 +726,18 @@ public class SystemDatabase {
 	            System.err.println("An error occurred while reading the Courses: " + e.getMessage());
 	            e.printStackTrace();
 	        }
-
 	        return teacherTextbooks;
 	    }
 	
 	public ArrayList<TextbookInfo> getAllTextbooksAndEdtition() throws CsvValidationException{
 		 String csvFile = virtualCSV;
 	        ArrayList<TextbookInfo> teacherTextbooks = new ArrayList<>();
-
 	        try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
 	            String[] nextLine;
 	            reader.readNext();
 	            while ((nextLine = reader.readNext()) != null) {
 	                String textbook = nextLine[0];
 	                String edition = nextLine[2];//DEPENDING ON WHAT COLUMN THE EDITION IS IN
-
 	                    TextbookInfo textbookInfo = new TextbookInfo(textbook, edition);
 	                    teacherTextbooks.add(textbookInfo);
 	            }
@@ -793,11 +745,9 @@ public class SystemDatabase {
 	            System.err.println("An error occurred while reading the Courses: " + e.getMessage());
 	            e.printStackTrace();
 	        }
-
 	        return teacherTextbooks;
 		
 	}
-
 	public void addPhysicalItem(String name, String aisle) throws FileNotFoundException, IOException, CsvValidationException {
 		String csvFile = physicalCSV;
 		int id = 0;
@@ -814,12 +764,10 @@ public class SystemDatabase {
 			String[] data = {name, String.valueOf(id), "20", aisle, "TRUE"};
 			writer.writeNext(data);
 		}
-
 		
 	}
-
-	public void addVirtualItem(String name, String edition, String text, String virtCsv) throws FileNotFoundException, IOException, CsvValidationException {
-		String csvFile = virtCsv;		
+	public void addVirtualItem(String name, String edition, String text) throws FileNotFoundException, IOException, CsvValidationException {
+		String csvFile = virtualCSV;		
 		try(CSVReader reader = new CSVReader(new FileReader(csvFile))){
 			String[] nextLine;
 			nextLine = reader.readNext();
@@ -835,12 +783,10 @@ public class SystemDatabase {
 	
 	
 	//returns student's course assigned book
-	public String getVirtualItemTextbook(String email, String studentCsv) {
-        String csvFile = studentCsv;
-
+	public String getVirtualItemTextbook(String email) {
+        String csvFile = studentCSV;
         try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
             String[] nextLine;
-
             // Read the file line by line
             while ((nextLine = reader.readNext()) != null) {
                 // Check if the line contains the specified email
@@ -854,18 +800,15 @@ public class SystemDatabase {
         } catch(CsvValidationException ee) {
             ee.printStackTrace();
         }
-
         // If the email is not found or an error occurs, return null
         return null;
     }
 	
 	//returns student's course assigned book expiry date
-	public String getVirtualTextbookExpiry(String email, String studentCsv) {
-	    String csvFile = studentCsv;
-
+	public String getVirtualTextbookExpiry(String email) {
+	    String csvFile = studentCSV;
 	    try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
 	        String[] nextLine;
-
 	        // Read the file line by line
 	        while ((nextLine = reader.readNext()) != null) {
 	            // Check if the line contains the specified email
@@ -878,17 +821,14 @@ public class SystemDatabase {
 	    } catch (CsvValidationException ee) {
 	        ee.printStackTrace();
 	    }
-
 	    // If the email is not found or an error occurs, return null
 	    return null;
 	}
 	
-	public String getVirtualItemText(String targetName, String virtCsv) {
-        String csvFile = virtCsv;
-
+	public String getVirtualItemText(String targetName) {
+        String csvFile = "src\\data\\VirtualItems.csv";
         try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
             String[] nextLine;
-
             // Read the file line by line
             while ((nextLine = reader.readNext()) != null) {
                 // Check if the line contains the specified targetName
@@ -902,15 +842,14 @@ public class SystemDatabase {
         } catch(CsvValidationException ee) {
             ee.printStackTrace();
         }
-
         // If the targetName is not found or an error occurs, return null
         return null;
     }
 	
-	public void addUnverifiedEmail(String email, String csvFile) {	    
+	public void addUnverifiedEmail(String email) {	    
 	    try {
 	        // First, read the CSV file to find the first empty row
-	        CSVReader reader = new CSVReader(new FileReader(csvFile));
+	        CSVReader reader = new CSVReader(new FileReader(unverifiedEmailsCSV));
 	        String[] nextLine;
 	        int emptyRowIndex = -1; // Index of the first empty row
 	        
@@ -926,7 +865,7 @@ public class SystemDatabase {
 	        reader.close();
 	        
 	        // Open the writer in append mode
-	        CSVWriter writer = new CSVWriter(new FileWriter(csvFile, true));
+	        CSVWriter writer = new CSVWriter(new FileWriter(unverifiedEmailsCSV, true));
 	        
 	        // Write the email to the first empty row
 	        String[] newRow = new String[1];
@@ -945,24 +884,21 @@ public class SystemDatabase {
 	    
 	}
 	
-    public void removeAllUnverifiedEmails(String csvFile) {
+    public void removeAllUnverifiedEmails() {
         try {
             // Open the CSV reader to count the number of entries
-            CSVReader reader = new CSVReader(new FileReader(csvFile));
+            CSVReader reader = new CSVReader(new FileReader(unverifiedEmailsCSV));
             int numEntries = 0;
             while (reader.readNext() != null) {
                 numEntries++;
             }
             reader.close();
-
             // Open the CSV writer in write mode
-            CSVWriter writer = new CSVWriter(new FileWriter(csvFile, false));
-
+            CSVWriter writer = new CSVWriter(new FileWriter(unverifiedEmailsCSV, false));
             // Write empty strings for each entry to clear the first column
             for (int i = 0; i < numEntries; i++) {
                 writer.writeNext(new String[]{""});
             }
-
             // Close the writer
             writer.close();
         } catch (IOException e) {
@@ -972,9 +908,9 @@ public class SystemDatabase {
 	    }
     }
 	
-	public List<String> getAllUnverifiedEmails(String csvFile) {
+	public List<String> getAllUnverifiedEmails() {
 	    List<String> emails = new ArrayList<>();
-	    try (CSVReader reader = new CSVReader(new FileReader(csvFile))) {
+	    try (CSVReader reader = new CSVReader(new FileReader(unverifiedEmailsCSV))) {
 	        String[] nextLine;
 	        while ((nextLine = reader.readNext()) != null) {
 	            // Assuming email is in the first column (index 0)

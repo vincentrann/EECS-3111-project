@@ -220,12 +220,12 @@ class testcases {
 		String randomTitle = buffer.toString();
 		
 		
-		database.addVirtualItem(randomTitle, "1", "some text", virtualCSV);
+		database.addVirtualItem(randomTitle, "1", "some text");
 		
-		String text = database.getVirtualItemText(randomTitle, virtualCSV);
+		String text = database.getVirtualItemText(randomTitle);
 		assertTrue(text.equals("some text"));	
 		
-		String notext = database.getVirtualItemText("thiswillneverexist", virtualCSV);
+		String notext = database.getVirtualItemText("thiswillneverexist");
 		assertTrue(notext==null);
 	}
 	
@@ -234,13 +234,13 @@ class testcases {
 	void testStudentVirtualTextbookAttributes() {
 		final String studentCSV = "src\\data\\StudentData.csv";
 		SystemDatabase database = SystemDatabase.getInstance();
-		String textbook = database.getVirtualItemTextbook("sir", studentCSV);
+		String textbook = database.getVirtualItemTextbook("sir");
 		assertTrue(textbook.equals("Dinos 1"));
-		String expiry = database.getVirtualTextbookExpiry("sir", studentCSV);
+		String expiry = database.getVirtualTextbookExpiry("sir");
 		assertTrue(expiry.equals("02/12/24"));
-		String textbook2 = database.getVirtualItemTextbook("thiswillneverexist", studentCSV);
+		String textbook2 = database.getVirtualItemTextbook("thiswillneverexist");
 		assertTrue(textbook2==null);
-		String expiry2 = database.getVirtualTextbookExpiry("thiswilneverexist", studentCSV);
+		String expiry2 = database.getVirtualTextbookExpiry("thiswilneverexist");
 		assertTrue(expiry2==null);
 	}
 	
