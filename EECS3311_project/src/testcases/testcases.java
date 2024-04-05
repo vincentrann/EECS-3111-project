@@ -431,6 +431,115 @@ class testcases {
         }
     }
     
+    @Test
+    void testStudentRegistrationDifferentUser() {
+        String email = "anotherstudent@university.com";
+        String password = "Pass789!";
+        String userID = "S8901234";
+
+        Student student = new Student(email, password, userID);
+        Client client = student.getClient();
+
+        assertNotNull(client, "The client should not be null");
+        assertEquals(email, client.getEmail(), "Email should match");
+        assertEquals(password, client.getPassword(), "Password should match");
+        assertEquals(userID, client.getUserID(), "User ID should match");
+        assertEquals("Student", client.getType(), "Type should be Student");
+    }
+
+    @Test
+    void testFacultyMemberRegistrationDifferentUser() {
+        String email = "newfaculty@university.com";
+        String password = "NewFac123!";
+        String userID = "F8901234";
+
+        FacultyMember facultyMember = new FacultyMember(email, password, userID);
+        Client client = facultyMember.getClient();
+
+        if (client != null) {
+            assertEquals(email, client.getEmail(), "Email should match when validation passes");
+            assertEquals(userID, client.getUserID(), "User ID should match when validation passes");
+        }
+    }
+
+    @Test
+    void testNonFacultyMemberRegistrationDifferentUser() {
+        String email = "anothernonfaculty@university.com";
+        String password = "Another123!";
+        String userID = "NF8901234";
+
+        NonFacultyMember nonFacultyMember = new NonFacultyMember(email, password, userID);
+        Client client = nonFacultyMember.getClient();
+
+        if (client != null) {
+            assertEquals(email, client.getEmail(), "Email should match when validation passes");
+            assertEquals("NonFacultyMember", client.getType(), "Type should be NonFacultyMember when validation passes");
+        }
+    }
+
+    @Test
+    void testVisitorRegistrationDifferentProcess() {
+        String email = "newvisitortest@university.com";
+        String password = "NewVisitor123!";
+        String userID = "V8901234";
+
+        Visitor visitor = new Visitor(email, password, userID);
+        Client client = visitor.getClient();
+
+        assertNotNull(client, "The client should not be null for visitors");
+        assertEquals(email, client.getEmail(), "Email should match for visitor registration");
+        assertEquals(userID, client.getUserID(), "User ID should match for visitor registration");
+    }
+
+    @Test
+    void testLoginDifferentUserSuccess() {
+        SystemDatabase.getInstance().addClient(new Client("Student", "anotherlogin@university.com", "AnotherLogin123", "L8901234"));
+        
+        boolean loginResult = SystemDatabase.getInstance().clientLogin("anotherlogin@university.com", "AnotherLogin123");
+        
+        assertTrue(loginResult, "Login should be successful");
+    }
+
+    @Test
+    void testAddAndGetDifferentClientFromDatabase() {
+        String email = "differentemail@university.com";
+        String password = "Diff123";
+        String userID = "U8901234";
+        Client newClient = new Client("Student", email, password, userID);
+
+        SystemDatabase.getInstance().addClient(newClient);
+        Client retrievedClient = SystemDatabase.getInstance().getClient(email);
+
+        assertNotNull(retrievedClient, "Client should be retrieved from database");
+        assertEquals(email, retrievedClient.getEmail(), "Retrieved client email should match");
+        assertEquals("Student", retrievedClient.getType(), "Retrieved client type should match");
+    }
+
+    @Test
+    void testFacultyMemberDifferentCourseAndTextbookManagement() throws CsvValidationException, FileNotFoundException, IOException {
+        String email = "differentfaculty@university.com";
+        String password = "DiffFac123!";
+        String userID = "F8901234";
+        String courseName = "Advanced Testing Techniques";
+        String textbookName = "Mastering Testing in Java";
+
+        FacultyMember facultyMember = new FacultyMember(email, password, userID);
+        Client client = facultyMember.getClient();
+
+        assertNotNull(client, "Client should not be null when validation passes");
+        
+        if (client != null) {
+            facultyMember.addCourse(courseName);
+            assertTrue(SystemDatabase.getInstance().getCourses(email).contains(courseName), "Course should be added to the database");
+
+            facultyMember.remvoeCourse(courseName);
+            assertFalse(SystemDatabase.getInstance().getCourses(email).contains(courseName), "Course should be removed from the database");
+
+            facultyMember.addTextbook(textbookName);
+            assertTrue(SystemDatabase.getInstance().getTextbooks(email).contains(textbookName), "Textbook should be added to the database");
+        }
+    }
+    
     /**
      * Added some test cases for bridge/factory package
      */
