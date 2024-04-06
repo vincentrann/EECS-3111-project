@@ -179,7 +179,7 @@ public class MainUI extends JFrame {
 				
 				else {
 					if(!type.equals("Visitors")) {
-						database.addUnverifiedEmail(email, unverifiedEmailsCSV);
+						database.addUnverifiedEmail(email);
 					}
 					
 					if (type.equals("Student")) {

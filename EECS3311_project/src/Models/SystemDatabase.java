@@ -716,7 +716,7 @@ public class SystemDatabase {
 	                
 	                String[] info = textbook.split(" ");
 	                if (name.equals(teacher) && info.length == 2) {
-	                    TextbookInfo textbookInfo = new TextbookInfo(info[0], info[1]);
+	                    TextbookInfo textbookInfo = new TextbookInfo(info[0], Integer.parseInt(info[1]));
 	                    System.out.println(textbookInfo.getEdition());
 	                    System.out.println(textbookInfo.getTextbook());
 	                    teacherTextbooks.add(textbookInfo);
@@ -737,7 +737,7 @@ public class SystemDatabase {
 	            reader.readNext();
 	            while ((nextLine = reader.readNext()) != null) {
 	                String textbook = nextLine[0];
-	                String edition = nextLine[2];//DEPENDING ON WHAT COLUMN THE EDITION IS IN
+	                int edition = Integer.parseInt(nextLine[2]);//DEPENDING ON WHAT COLUMN THE EDITION IS IN
 	                    TextbookInfo textbookInfo = new TextbookInfo(textbook, edition);
 	                    teacherTextbooks.add(textbookInfo);
 	            }

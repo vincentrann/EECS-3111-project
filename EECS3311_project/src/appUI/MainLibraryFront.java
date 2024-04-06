@@ -38,7 +38,7 @@ public class MainLibraryFront extends JFrame {
     	final String unverifiedEmailsCSV = "src\\data\\UnverifiedEmails.csv";
 
         
-        if(database.getAllUnverifiedEmails(unverifiedEmailsCSV).contains(client.getEmail())){
+        if(database.getAllUnverifiedEmails().contains(client.getEmail())){
         	JOptionPane.showMessageDialog(null, "Please wait for the management team to verify your registration", "Verification Pending", JOptionPane.INFORMATION_MESSAGE);
 
         } else {
