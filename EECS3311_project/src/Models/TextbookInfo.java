@@ -4,9 +4,9 @@ public class TextbookInfo {
     private String textbook;
     private int edition;
 
-    public TextbookInfo(String textbook, String edition) {
+    public TextbookInfo(String textbook, int edition) {
         this.textbook = textbook;
-        this.edition = Integer.parseInt(edition);
+        this.edition = edition;
     }
 
     public String getTextbook() {

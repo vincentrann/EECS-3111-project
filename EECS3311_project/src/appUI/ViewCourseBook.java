@@ -34,12 +34,12 @@ public class ViewCourseBook extends JPanel {
     
     public void display(String targetEmail) {
         // Find the name of the book using the email
-        String bookName = database.getVirtualItemTextbook(targetEmail, studentCSV);
+        String bookName = database.getVirtualItemTextbook(targetEmail);
 
         // If the book name is found, get its text
         if (bookName != null) {
             // Check access and get expiration date
-            String expiry = database.getVirtualTextbookExpiry(targetEmail, studentCSV);
+            String expiry = database.getVirtualTextbookExpiry(targetEmail);
             boolean accessValid = checkAccess(targetEmail);
             if (expiry != null && accessValid) {
                 // Create a JFrame to hold the text area
@@ -69,7 +69,7 @@ public class ViewCourseBook extends JPanel {
                 textArea.setEditable(false); // Make the text area read-only
 
                 // Set book text
-                String bookText = database.getVirtualItemText(bookName, virtualCSV);
+                String bookText = database.getVirtualItemText(bookName);
                 if (bookText != null) {
                     textArea.append(bookText); // Set the text to display
                 } else {
@@ -101,7 +101,7 @@ public class ViewCourseBook extends JPanel {
     
     public boolean checkAccess(String email) {
         // Retrieve the expiration date associated with the given email
-        String expiry = database.getVirtualTextbookExpiry(email, studentCSV);
+        String expiry = database.getVirtualTextbookExpiry(email);
         boolean hasAccess = true;
         
         if (expiry != null) {

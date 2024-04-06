@@ -30,7 +30,7 @@ public class ManagementTeamPage extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Implement action to change status of a book
-            	SystemDatabase.getInstance().removeAllUnverifiedEmails(unverifiedEmailsCSV);
+            	SystemDatabase.getInstance().removeAllUnverifiedEmails();
             }
         });
         //change status of item
