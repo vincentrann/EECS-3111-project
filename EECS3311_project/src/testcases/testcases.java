@@ -339,6 +339,38 @@ class testcases {
         assertEquals("Student", client.getType(), "Type should be Student");
     }
     
+	@Test
+	void testStudentRegistrationSuccess2() {
+	    String email = "secondstudent@university.com";
+	    String password = "Pass456!";
+	    String userID = "S2345678";
+
+	    Student student = new Student(email, password, userID);
+	    Client client = student.getClient();
+
+	    assertNotNull(client, "The client should not be null");
+	    assertEquals(email, client.getEmail(), "Email should match");
+	    assertEquals(password, client.getPassword(), "Password should match");
+	    assertEquals(userID, client.getUserID(), "User ID should match");
+	    assertEquals("Student", client.getType(), "Type should be Student");
+	}
+
+	@Test
+	void testStudentRegistrationSuccess3() {
+	    String email = "thirdstudent@university.edu";
+	    String password = "Secure789!";
+	    String userID = "S3456789";
+
+	    Student student = new Student(email, password, userID);
+	    Client client = student.getClient();
+
+	    assertNotNull(client, "The client should not be null");
+	    assertEquals(email, client.getEmail(), "Email should match");
+	    assertEquals(password, client.getPassword(), "Password should match");
+	    assertEquals(userID, client.getUserID(), "User ID should match");
+	    assertEquals("Student", client.getType(), "Type should be Student");
+	}
+	
     @Test
     void testFacultyMemberRegistration() {
         String email = "faculty@university.com";
@@ -352,6 +384,36 @@ class testcases {
             assertEquals(email, client.getEmail(), "Email should match when validation passes");
             assertEquals(userID, client.getUserID(), "User ID should match when validation passes");
         } 
+    }
+    
+    @Test
+    void testFacultyMemberRegistration2() {
+        String email = "secondfaculty@university.com";
+        String password = "Academy456!";
+        String userID = "F2345678";
+
+        FacultyMember facultyMember = new FacultyMember(email, password, userID);
+        Client client = facultyMember.getClient();
+
+        if (client != null) {
+            assertEquals(email, client.getEmail(), "Email should match when validation passes");
+            assertEquals(userID, client.getUserID(), "User ID should match when validation passes");
+        }
+    }
+
+    @Test
+    void testFacultyMemberRegistration3() {
+        String email = "thirdfaculty@university.edu";
+        String password = "Prof123!";
+        String userID = "F3456789";
+
+        FacultyMember facultyMember = new FacultyMember(email, password, userID);
+        Client client = facultyMember.getClient();
+
+        if (client != null) {
+            assertEquals(email, client.getEmail(), "Email should match when validation passes");
+            assertEquals(userID, client.getUserID(), "User ID should match when validation passes");
+        }
     }
     
     @Test
@@ -370,6 +432,36 @@ class testcases {
     }
 
     @Test
+    void testNonFacultyMemberRegistration2() {
+        String email = "othernonfaculty@institution.com";
+        String password = "Password234!";
+        String userID = "NF8765432";
+
+        NonFacultyMember nonFacultyMember = new NonFacultyMember(email, password, userID);
+        Client client = nonFacultyMember.getClient();
+
+        if (client != null) {
+            assertEquals(email, client.getEmail(), "Email should match when validation passes");
+            assertEquals("NonFacultyMember", client.getType(), "Type should be NonFacultyMember when validation passes");
+        }
+    }
+
+    @Test
+    void testNonFacultyMemberRegistration3() {
+        String email = "additionalnonfaculty@college.edu";
+        String password = "Another987!";
+        String userID = "NF9876543";
+
+        NonFacultyMember nonFacultyMember = new NonFacultyMember(email, password, userID);
+        Client client = nonFacultyMember.getClient();
+
+        if (client != null) {
+            assertEquals(email, client.getEmail(), "Email should match when validation passes");
+            assertEquals("NonFacultyMember", client.getType(), "Type should be NonFacultyMember when validation passes");
+        }
+    }
+    
+    @Test
     void testVisitorRegistrationProcess() {
         String email = "visitortest@university.com";
         String password = "Visitor123!";
@@ -383,6 +475,34 @@ class testcases {
         assertEquals(userID, client.getUserID(), "User ID should match for visitor registration");
     }
 
+    @Test
+    void testVisitorRegistrationProcess2() {
+        String email = "secondvisitor@university.com";
+        String password = "Welcome456!";
+        String userID = "V23456789";
+
+        Visitor visitor = new Visitor(email, password, userID);
+        Client client = visitor.getClient();
+
+        assertNotNull(client, "The client should not be null for visitors");
+        assertEquals(email, client.getEmail(), "Email should match for visitor registration");
+        assertEquals(userID, client.getUserID(), "User ID should match for visitor registration");
+    }
+
+    @Test
+    void testVisitorRegistrationProcess3() {
+        String email = "thirdvisitor@college.edu";
+        String password = "Explore123!";
+        String userID = "V34567890";
+
+        Visitor visitor = new Visitor(email, password, userID);
+        Client client = visitor.getClient();
+
+        assertNotNull(client, "The client should not be null for visitors");
+        assertEquals(email, client.getEmail(), "Email should match for visitor registration");
+        assertEquals(userID, client.getUserID(), "User ID should match for visitor registration");
+    }
+    
     @Test
     void testLoginSuccess() {
         SystemDatabase.getInstance().addClient(new Client("Student", "loginemail@university.com", "Login123", "L12345678"));
@@ -550,6 +670,20 @@ class testcases {
         assertEquals("Aisle B", item.getLocation(), "The location should be Aisle B.");
         assertEquals(10, item.getCopies(), "The number of copies should be 10.");
     }
+	
+    @Test
+    void testConcretePhysicalItemWithFirstConstructor2() {
+        ConcretePhysicalItem item = new ConcretePhysicalItem(15, "Aisle C", true);
+        assertEquals("Aisle C", item.getLocation(), "The location should be Aisle C.");
+        assertEquals(15, item.getCopies(), "The number of copies should be 15.");
+    }
+
+    @Test
+    void testConcretePhysicalItemWithFirstConstructor3() {
+        ConcretePhysicalItem item = new ConcretePhysicalItem(8, "Aisle D", false);
+        assertEquals("Aisle D", item.getLocation(), "The location should be Aisle D.");
+        assertEquals(8, item.getCopies(), "The number of copies should be 8.");
+    }
     
     @Test
     void testClientItemDelegation() {
@@ -559,7 +693,25 @@ class testcases {
         assertEquals(10, clientItem.getUniqueID(), "Unique ID should be delegated to ConcreteItem");
         assertEquals("Book", clientItem.getType(), "Type should be delegated to ConcreteItem");
     }
-	
+    
+    @Test
+    void testClientItemDelegation2() {
+        ConcretePhysicalItem concreteItem = new ConcretePhysicalItem(12, "OtherBook", "Journal", 3, "Aisle B", false);
+        ClientItem clientItem = new ClientItem(concreteItem);
+        assertEquals("OtherBook", clientItem.getName(), "Name should be delegated to ConcreteItem");
+        assertEquals(12, clientItem.getUniqueID(), "Unique ID should be delegated to ConcreteItem");
+        assertEquals("Journal", clientItem.getType(), "Type should be delegated to ConcreteItem");
+    }
+
+    @Test
+    void testClientItemDelegation3() {
+        ConcretePhysicalItem concreteItem = new ConcretePhysicalItem(14, "AnotherTestBook", "Magazine", 7, "Aisle C", true);
+        ClientItem clientItem = new ClientItem(concreteItem);
+        assertEquals("AnotherTestBook", clientItem.getName(), "Name should be delegated to ConcreteItem");
+        assertEquals(14, clientItem.getUniqueID(), "Unique ID should be delegated to ConcreteItem");
+        assertEquals("Magazine", clientItem.getType(), "Type should be delegated to ConcreteItem");
+    }
+    
     @Test
     void testChangeItemName() {
         ConcreteItem concreteItem = new ConcreteItem(1, "InitialName", "InitialType");
@@ -569,11 +721,43 @@ class testcases {
     }
 
     @Test
+    void testChangeItemName2() {
+        ConcreteItem concreteItem = new ConcreteItem(2, "OriginalName", "OriginalType");
+        ClientItem clientItem = new ClientItem(concreteItem);
+        clientItem.changeItemName("NewName");
+        assertEquals("NewName", clientItem.getName(), "The name should be changed to 'NewName'.");
+    }
+
+    @Test
+    void testChangeItemName3() {
+        ConcreteItem concreteItem = new ConcreteItem(3, "StartingName", "StartingType");
+        ClientItem clientItem = new ClientItem(concreteItem);
+        clientItem.changeItemName("NewName2");
+        assertEquals("NewName2", clientItem.getName(), "The name should be changed to 'UpdatedName'.");
+    }
+    
+    @Test
     void testChangeItemType() {
         ConcreteItem concreteItem = new ConcreteItem(1, "InitialName", "InitialType");
         ClientItem clientItem = new ClientItem(concreteItem);
         clientItem.changeItemType("ChangedType");
         assertEquals("ChangedType", clientItem.getType(), "The type should be changed to 'ChangedType'.");
+    }
+    
+    @Test
+    void testChangeItemType2() {
+        ConcreteItem concreteItem = new ConcreteItem(2, "InitialName2", "InitialType2");
+        ClientItem clientItem = new ClientItem(concreteItem);
+        clientItem.changeItemType("NewType");
+        assertEquals("NewType", clientItem.getType(), "The type should be changed to 'NewType'.");
+    }
+
+    @Test
+    void testChangeItemType3() {
+        ConcreteItem concreteItem = new ConcreteItem(3, "StartName", "StartType");
+        ClientItem clientItem = new ClientItem(concreteItem);
+        clientItem.changeItemType("NewType2");
+        assertEquals("NewType2", clientItem.getType(), "The type should be changed to 'UpdatedType'.");
     }
     
     @Test
@@ -588,6 +772,28 @@ class testcases {
     }
 
     @Test
+    void testConstructorWithEditionAvailabilityPriority2() {
+        String edition = "Second Edition";
+        boolean availability = false;
+        double priority = 2.0;
+        ConcreteVirtualTextbook textbook = new ConcreteVirtualTextbook(edition, availability, priority);
+        assertEquals(edition, textbook.getEdition(), "Edition should be set correctly by the constructor.");
+        assertEquals(availability, textbook.isAvailability(), "Availability should be set correctly by the constructor.");
+        assertEquals(priority, textbook.getPriority(), "Priority should be set correctly by the constructor.");
+    }
+
+    @Test
+    void testConstructorWithEditionAvailabilityPriority3() {
+        String edition = "Third Edition";
+        boolean availability = true;
+        double priority = 3.0;
+        ConcreteVirtualTextbook textbook = new ConcreteVirtualTextbook(edition, availability, priority);
+        assertEquals(edition, textbook.getEdition(), "Edition should be set correctly by the constructor.");
+        assertEquals(availability, textbook.isAvailability(), "Availability should be set correctly by the constructor.");
+        assertEquals(priority, textbook.getPriority(), "Priority should be set correctly by the constructor.");
+    }
+    
+    @Test
     void testConstructorWithAllFields() {
         int uniqueID = 123;
         String name = "Algorithms";
@@ -595,6 +801,34 @@ class testcases {
         String edition = "Second Edition";
         boolean availability = false;
         double priority = 5.0;
+        ConcreteVirtualTextbook textbook = new ConcreteVirtualTextbook(uniqueID, name, typeOfItem, edition, availability, priority); 
+        assertEquals(edition, textbook.getEdition(), "Edition should be set correctly by the constructor.");
+        assertEquals(availability, textbook.isAvailability(), "Availability should be set correctly by the constructor.");
+        assertEquals(priority, textbook.getPriority(), "Priority should be set correctly by the constructor.");
+    }
+    
+    @Test
+    void testConstructorWithAllFields2() {
+        int uniqueID = 456;
+        String name = "Data Structures";
+        String typeOfItem = "Reference";
+        String edition = "Third Edition";
+        boolean availability = true;
+        double priority = 4.5;
+        ConcreteVirtualTextbook textbook = new ConcreteVirtualTextbook(uniqueID, name, typeOfItem, edition, availability, priority); 
+        assertEquals(edition, textbook.getEdition(), "Edition should be set correctly by the constructor.");
+        assertEquals(availability, textbook.isAvailability(), "Availability should be set correctly by the constructor.");
+        assertEquals(priority, textbook.getPriority(), "Priority should be set correctly by the constructor.");
+    }
+
+    @Test
+    void testConstructorWithAllFields3() {
+        int uniqueID = 789;
+        String name = "Machine Learning";
+        String typeOfItem = "Academic";
+        String edition = "First Edition";
+        boolean availability = false;
+        double priority = 3.5;
         ConcreteVirtualTextbook textbook = new ConcreteVirtualTextbook(uniqueID, name, typeOfItem, edition, availability, priority); 
         assertEquals(edition, textbook.getEdition(), "Edition should be set correctly by the constructor.");
         assertEquals(availability, textbook.isAvailability(), "Availability should be set correctly by the constructor.");
@@ -614,6 +848,30 @@ class testcases {
     }
 
     @Test
+    void testRentConcretePhysicalItem2() {
+        ConcretePhysicalItem item = new ConcretePhysicalItem(15, "Aisle B", false);
+        LocalDateTime dueDateTime = LocalDateTime.now().plusDays(15);
+        Client mockClient = new Client("TestClient", "test@client.com", "TestPassword", "67890");
+        
+        item.rentPhysicalItem("AnotherBook", dueDateTime, mockClient);
+        
+        assertTrue(item.isBookRented("AnotherBook"), "Book should be rented.");
+        assertEquals(dueDateTime, item.getDueDateForBook("AnotherBook"), "Due date should be set correctly.");
+    }
+
+    @Test
+    void testRentConcretePhysicalItem3() {
+        ConcretePhysicalItem item = new ConcretePhysicalItem(25, "Aisle C", true);
+        LocalDateTime dueDateTime = LocalDateTime.now().plusDays(20);
+        Client mockClient = new Client("ExampleClient", "example@client.com", "ExamplePassword", "54321");
+        
+        item.rentPhysicalItem("ExampleBook", dueDateTime, mockClient);
+        
+        assertTrue(item.isBookRented("ExampleBook"), "Book should be rented.");
+        assertEquals(dueDateTime, item.getDueDateForBook("ExampleBook"), "Due date should be set correctly.");
+    }
+    
+    @Test
     void testReturnConcretePhysicalItem() {
         ConcretePhysicalItem item = new ConcretePhysicalItem(20, "Aisle A", true);
         LocalDateTime dueDateTime = LocalDateTime.now().plusDays(30);
@@ -623,6 +881,30 @@ class testcases {
         item.returnPhysicalItem("TestBook", mockClient);
         
         assertFalse(item.isBookRented("TestBook"), "Book should be returned and not rented.");
+    }
+    
+    @Test
+    void testReturnConcretePhysicalItem2() {
+        ConcretePhysicalItem item = new ConcretePhysicalItem(30, "Aisle D", true);
+        LocalDateTime dueDateTime = LocalDateTime.now().plusDays(10);
+        Client mockClient = new Client("UserClient", "user@client.com", "UserPassword", "98765");
+        
+        item.rentPhysicalItem("UserBook", dueDateTime, mockClient);
+        item.returnPhysicalItem("UserBook", mockClient);
+        
+        assertFalse(item.isBookRented("UserBook"), "Book should be returned and not rented.");
+    }
+
+    @Test
+    void testReturnConcretePhysicalItem3() {
+        ConcretePhysicalItem item = new ConcretePhysicalItem(5, "Aisle E", false);
+        LocalDateTime dueDateTime = LocalDateTime.now().plusDays(5);
+        Client mockClient = new Client("SampleClient", "sample@client.com", "SamplePassword", "12389");
+        
+        item.rentPhysicalItem("SampleBook", dueDateTime, mockClient);
+        item.returnPhysicalItem("SampleBook", mockClient);
+        
+        assertFalse(item.isBookRented("SampleBook"), "Book should be returned and not rented.");
     }
     
     @Test
@@ -636,6 +918,24 @@ class testcases {
     }
 
     @Test
+    void testGetVirtualItem2() {
+        ItemFactory factory = new ItemFactory();
+        ClientItem virtualItem = factory.getVirtualItem(3, "Virtual Journal", "Journal", 0, "Online", true);
+        assertTrue(virtualItem.getUniqueID() == 3);
+        assertTrue(virtualItem.getName().equals("Virtual Journal"));
+        assertTrue(virtualItem.getType().equals("Journal"));
+    }
+
+    @Test
+    void testGetVirtualItem3() {
+        ItemFactory factory = new ItemFactory();
+        ClientItem virtualItem = factory.getVirtualItem(4, "Virtual Magazine", "Magazine", 0, "Web", false);
+        assertTrue(virtualItem.getUniqueID() == 4);
+        assertTrue(virtualItem.getName().equals("Virtual Magazine"));
+        assertTrue(virtualItem.getType().equals("Magazine"));
+    }
+    
+    @Test
     void testGetPhysicalItem() {
         ItemFactory factory = new ItemFactory();
         ClientItem physicalItem = factory.getPhysicalItem(2, "Physical Textbook", "Textbook", "First Edition", true, 1.0);
@@ -644,7 +944,28 @@ class testcases {
         assertTrue(physicalItem.getName().equals("Physical Textbook"));
         assertTrue(physicalItem.getType().equals("Textbook"));
     }
-    
+
+    @Test
+    void testGetPhysicalItem2() {
+        ItemFactory factory = new ItemFactory();
+        ClientItem physicalItem = factory.getPhysicalItem(5, "History Textbook", "Textbook", "Fourth Edition", false, 2.5);
+        assertTrue(physicalItem.getUniqueID() == 5);
+        assertTrue(physicalItem.getName().equals("History Textbook"));
+        assertTrue(physicalItem.getType().equals("Textbook"));
+    }
+
+    @Test
+    void testGetPhysicalItem3() {
+        ItemFactory factory = new ItemFactory();
+        ClientItem physicalItem = factory.getPhysicalItem(6, "Geography Textbook", "Textbook", "Second Edition", true, 1.5);
+        assertTrue(physicalItem.getUniqueID() == 6);
+        assertTrue(physicalItem.getName().equals("Geography Textbook"));
+        assertTrue(physicalItem.getType().equals("Textbook"));
+    }
+	
+    /*
+     * Newsletter test cases
+     */
     @Test
     public void testGetNewsletterWithExistingName() {
         String name = "some name";
