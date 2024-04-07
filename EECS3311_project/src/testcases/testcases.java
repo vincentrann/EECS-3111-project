@@ -25,6 +25,7 @@ import Bridge_Factory_Pattern.ItemFactory;
 import BuilderPattern.ClientBuilder;
 import BuilderPattern.ClientDirector;
 import BuilderPattern.StudentBuilder;
+import FlyweightPattern.NewsletterFactory;
 import Models.Client;
 import Models.FacultyMember;
 import Models.Item;
@@ -642,6 +643,96 @@ class testcases {
         assertTrue(physicalItem.getUniqueID() == 2);
         assertTrue(physicalItem.getName().equals("Physical Textbook"));
         assertTrue(physicalItem.getType().equals("Textbook"));
+    }
+    
+    @Test
+    public void testGetNewsletterWithExistingName() {
+        String name = "some name";
+        String url = "http://someurl.com";
+        NewsletterFactory.getNewsletter(name, url);
+        Newsletter newsletter = NewsletterFactory.getNewsletter(name, url);
+        assertNotNull(newsletter);
+        assertEquals(name, newsletter.getName());
+        assertEquals(url, newsletter.getUrl());
+    }
+    
+    @Test
+    public void testGetNewsletterWithNewName() {
+        String name = "new name";
+        String url = "http://example.com/newname";
+        Newsletter newsletter = NewsletterFactory.getNewsletter(name, url);
+        assertNotNull(newsletter);
+        assertEquals(name, newsletter.getName());
+        assertEquals(url, newsletter.getUrl());
+    }
+
+    @Test
+    public void testGetNewsletterWithNullName() {
+        String name = null;
+        String url = "http://example.com/nullnewsletter";
+        Newsletter newsletter = NewsletterFactory.getNewsletter(name, url);
+        assertNotNull(newsletter);
+    }
+
+    @Test
+    public void testGetNewsletterWithEmptyName() {
+        String name = "";
+        String url = "http://url.com/empty";
+        Newsletter newsletter = NewsletterFactory.getNewsletter(name, url);
+        assertNotNull(newsletter);
+    }
+
+    @Test
+    public void testGetNewsletterWithNullUrl() {
+        String name = "null name";
+        String url = null;
+        Newsletter newsletter = NewsletterFactory.getNewsletter(name, url);
+        assertNotNull(newsletter);
+    }
+
+    @Test
+    public void testGetNewsletterWithEmptyUrl() {
+        String name = "nourl";
+        String url = "";
+        Newsletter newsletter = NewsletterFactory.getNewsletter(name, url);
+        assertNotNull(newsletter);
+    }
+
+    @Test
+    public void testGetNewsletterWithWhitespaceName() {
+        String name = "   ";
+        String url = "http://url.com/noname";
+        Newsletter newsletter = NewsletterFactory.getNewsletter(name, url);
+        assertNotNull(newsletter);
+    }
+
+    @Test
+    public void testGetNewsletterWithWhitespaceUrl() {
+        String name = "spaced name";
+        String url = "    ";
+        Newsletter newsletter = NewsletterFactory.getNewsletter(name, url);
+        assertNotNull(newsletter);
+    }
+
+    @Test
+    public void testGetNewsletterWithSameNameDifferentUrl() {
+        String name = "name";
+        String url1 = "https://url.com/newsletter1";
+        String url2 = "https://url.com/newsletter2";
+        Newsletter newsletter1 = NewsletterFactory.getNewsletter(name, url1);
+        Newsletter newsletter2 = NewsletterFactory.getNewsletter(name, url2);
+        assertSame(newsletter1, newsletter2);
+    }
+
+    @Test
+    public void testGetNewsletterWithDifferentNameDifferentUrl() {
+        String name1 = "Newsletter 1";
+        String name2 = "Newsletter 2";
+        String url1 = "https://someurl.com/newsletter1";
+        String url2 = "https://someurl.com/newsletter2";
+        Newsletter newsletter1 = NewsletterFactory.getNewsletter(name1, url1);
+        Newsletter newsletter2 = NewsletterFactory.getNewsletter(name2, url2);
+        assertNotSame(newsletter1, newsletter2);
     }
 
 }
