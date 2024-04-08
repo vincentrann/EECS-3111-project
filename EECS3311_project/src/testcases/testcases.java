@@ -688,6 +688,21 @@ class testcases {
     }
     
     @Test
+    void testRentItemApproachingDueDate() {
+        ConcretePhysicalItem item = new ConcretePhysicalItem(5, "Aisle G", true);
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime dueDateTime = now.plusDays(1); // Setting the due date to 1 day from now
+        Client mockClient = new Client("TestClient", "test@client.com", "TestPassword", "54321");
+
+        // Renting the book, should trigger notification about the approaching due date
+        item.rentPhysicalItem("ApproachingDueDateBook", dueDateTime, mockClient);
+
+        assertTrue(item.isBookRented("ApproachingDueDateBook"), "Book should be marked as rented.");
+        assertEquals(dueDateTime, item.getDueDateForBook("ApproachingDueDateBook"), "The due date should match the one provided.");
+
+    }
+    
+    @Test
     void testClientItemDelegation() {
         ConcretePhysicalItem concreteItem = new ConcretePhysicalItem(10, "TestBook", "Book", 5, "Aisle A", true);
         ClientItem clientItem = new ClientItem(concreteItem);
