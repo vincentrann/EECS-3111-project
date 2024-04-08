@@ -34,6 +34,7 @@ import Models.NonFacultyMember;
 import Models.PhysicalItem;
 import Models.Student;
 import Models.SystemDatabase;
+import Models.SystemPayment;
 import Models.TextbookInfo;
 import Models.VirtualItem;
 import Models.Visitor;
@@ -1068,4 +1069,34 @@ class testcases {
         assertEquals("High", bookRequest.getRequestPriority());
     }
 
+    /*
+     * Added tests for system payment
+     */
+    @Test
+    void testPaymentWithCredit() {
+        SystemPayment payment = SystemPayment.getInstance();
+        String result = payment.payment("credit", 100.00, "C123");
+        assertEquals("Credit payment of $100.0 completed. Payment ID: C123", result, "Credit payment should be processed correctly.");
+    }
+
+    @Test
+    void testPaymentWithDebit() {
+        SystemPayment payment = SystemPayment.getInstance();
+        String result = payment.payment("debit", 50.00, "D123");
+        assertEquals("Debit payment of $50.0 completed. Payment ID: D123", result, "Debit payment should be processed correctly.");
+    }
+
+    @Test
+    void testPaymentWithMobileWallet() {
+        SystemPayment payment = SystemPayment.getInstance();
+        String result = payment.payment("mobile wallet", 75.00, "M123");
+        assertEquals("Mobile wallet payment of $75.0 completed. Payment ID: M123", result, "Mobile wallet payment should be processed correctly.");
+    }
+
+    @Test
+    void testPaymentWithUnrecognizedType() {
+        SystemPayment payment = SystemPayment.getInstance();
+        String result = payment.payment("unknown", 30.00, "U123");
+        assertEquals("Payment type unrecognized. Transaction aborted. Payment ID: U123", result, "Unrecognized payment type should fail.");
+    }
 }
