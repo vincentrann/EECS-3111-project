@@ -26,6 +26,7 @@ import BuilderPattern.ClientBuilder;
 import BuilderPattern.ClientDirector;
 import BuilderPattern.StudentBuilder;
 import FlyweightPattern.NewsletterFactory;
+import FlyweightPattern.VirtualItemFactory;
 import Models.BookRequest;
 import Models.Client;
 import Models.FacultyMember;
@@ -1155,5 +1156,14 @@ class testcases {
         SystemPayment payment = SystemPayment.getInstance();
         String result = payment.payment("bitcoin", 500.00, "BT123");
         assertEquals("Payment type unrecognized. Transaction aborted. Payment ID: BT123", result, "Payment with unrecognized type and valid amount should fail.");
+    }
+    
+    @Test
+    void testGetExistingVirtualBook() {
+        VirtualItemFactory.getVirtualBook("Calculus", "", true); 
+        VirtualItem existingItem = VirtualItemFactory.getVirtualBook("Calculus", "", true);
+        
+        assertNotNull(existingItem, "Should retrieve an existing virtual item without creating a new one.");
+        assertTrue(existingItem instanceof VirtualItem, "Retrieved object should be an instance of VirtualItem.");
     }
 }
