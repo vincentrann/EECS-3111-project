@@ -1099,4 +1099,46 @@ class testcases {
         String result = payment.payment("unknown", 30.00, "U123");
         assertEquals("Payment type unrecognized. Transaction aborted. Payment ID: U123", result, "Unrecognized payment type should fail.");
     }
+    
+    @Test
+    void testPaymentWithCreditLowAmount() {
+        SystemPayment payment = SystemPayment.getInstance();
+        String result = payment.payment("credit", 1.00, "CL123");
+        assertEquals("Credit payment of $1.0 completed. Payment ID: CL123", result, "Credit payment for low amount should be processed correctly.");
+    }
+
+    @Test
+    void testPaymentWithDebitHighAmount() {
+        SystemPayment payment = SystemPayment.getInstance();
+        String result = payment.payment("debit", 10000.00, "DH123");
+        assertEquals("Debit payment of $10000.0 completed. Payment ID: DH123", result, "Debit payment for high amount should be processed correctly.");
+    }
+
+    @Test
+    void testPaymentWithMobileWalletExactAmount() {
+        SystemPayment payment = SystemPayment.getInstance();
+        String result = payment.payment("mobile wallet", 123.45, "MW123");
+        assertEquals("Mobile wallet payment of $123.45 completed. Payment ID: MW123", result, "Mobile wallet payment with exact amount should be processed correctly.");
+    }
+
+    @Test
+    void testPaymentWithDebitZeroAmount() {
+        SystemPayment payment = SystemPayment.getInstance();
+        String result = payment.payment("debit", 0.00, "DZ123");
+        assertEquals("Debit payment of $0.0 completed. Payment ID: DZ123", result, "Debit payment with zero amount should be processed correctly.");
+    }
+
+    @Test
+    void testPaymentWithCreditMaximumAmount() {
+        SystemPayment payment = SystemPayment.getInstance();
+        String result = payment.payment("credit", 999999.99, "CM123");
+        assertEquals("Credit payment of $999999.99 completed. Payment ID: CM123", result, "Credit payment with maximum amount should be processed correctly.");
+    }
+    
+    @Test
+    void testPaymentWithUnrecognizedTypeAndAmount() {
+        SystemPayment payment = SystemPayment.getInstance();
+        String result = payment.payment("bitcoin", 500.00, "BT123");
+        assertEquals("Payment type unrecognized. Transaction aborted. Payment ID: BT123", result, "Payment with unrecognized type and valid amount should fail.");
+    }
 }
