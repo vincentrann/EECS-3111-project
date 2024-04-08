@@ -1077,14 +1077,13 @@ class testcases {
     @Test
     public void testBookRequestConstructor() {
         // Create a book request
-        BookRequest bookRequest = new BookRequest("Harry Potter", "I would like to borrow this book.", "High");
+        BookRequest bookRequest = new BookRequest("Chemistry", "I need this book for my science class", "High");
         
-        // Check if the values are set correctly
+
         assertEquals("Chemistry", bookRequest.getRequestedBook());
         assertEquals("I need this book for my science class", bookRequest.getRequestedMessage());
         assertEquals("High", bookRequest.getRequestPriority());
     }
-
     /*
      * Added tests for system payment
      */
@@ -1166,4 +1165,6 @@ class testcases {
         assertNotNull(existingItem, "Should retrieve an existing virtual item without creating a new one.");
         assertTrue(existingItem instanceof VirtualItem, "Retrieved object should be an instance of VirtualItem.");
     }
+    
+    
 }
