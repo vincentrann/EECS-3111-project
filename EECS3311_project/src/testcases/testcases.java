@@ -26,6 +26,7 @@ import BuilderPattern.ClientBuilder;
 import BuilderPattern.ClientDirector;
 import BuilderPattern.StudentBuilder;
 import FlyweightPattern.NewsletterFactory;
+import Models.BookRequest;
 import Models.Client;
 import Models.FacultyMember;
 import Models.Item;
@@ -1054,6 +1055,17 @@ class testcases {
         Newsletter newsletter1 = NewsletterFactory.getNewsletter(name1, url1);
         Newsletter newsletter2 = NewsletterFactory.getNewsletter(name2, url2);
         assertNotSame(newsletter1, newsletter2);
+    }
+
+    @Test
+    public void testBookRequestConstructor() {
+        // Create a book request
+        BookRequest bookRequest = new BookRequest("Harry Potter", "I would like to borrow this book.", "High");
+        
+        // Check if the values are set correctly
+        assertEquals("Chemistry", bookRequest.getRequestedBook());
+        assertEquals("I need this book for my science class", bookRequest.getRequestedMessage());
+        assertEquals("High", bookRequest.getRequestPriority());
     }
 
 }

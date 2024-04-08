@@ -10,5 +10,17 @@ public class BookRequest {
 		this.requestMessage = requestMessage;
 		this.requestPriority = requestPriority;
 	}
+
+	public String getRequestedBook() {
+		return this.requestedBook;
+	}
+	
+	public String getRequestedMessage() {
+		return this.requestMessage;
+	}
+	
+	public String getRequestPriority() {
+		return this.requestPriority;
+	}
 	
 }
