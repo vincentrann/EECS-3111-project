@@ -1078,14 +1078,13 @@ class testcases {
     @Test
     public void testBookRequestConstructor() {
         // Create a book request
-        BookRequest bookRequest = new BookRequest("Harry Potter", "I would like to borrow this book.", "High");
+        BookRequest bookRequest = new BookRequest("Harry Potter", "would like to borrow this book.", "High");
         
         // Check if the values are set correctly
         assertEquals("Harry Potter", bookRequest.getRequestedBook());
         assertEquals("I would like to borrow this book.", bookRequest.getRequestedMessage());
         assertEquals("High", bookRequest.getRequestPriority());
     }
-
     /*
      * Added tests for system payment
      */
