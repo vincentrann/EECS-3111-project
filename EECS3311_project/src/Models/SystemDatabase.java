@@ -444,38 +444,6 @@ public class SystemDatabase {
 	    }
 	}
 	    
-	//TODO: Might need to use this one instead of the one above    
-	/**
-	public void cancelSubscription(String userID, String name) {
-        String csvFile = newsletterSubscriberCSV;
-        String tempFile = "temp.csv";
-        try (CSVReader reader = new CSVReader(new FileReader(csvFile));
-             CSVWriter writer = new CSVWriter(new FileWriter(tempFile))) {
-            String[] nextLine;
-            while ((nextLine = reader.readNext()) != null) {
-                if (nextLine.length >= 2 && nextLine[0].equals(name) && nextLine[1].equals(userID)) {
-                    continue;
-                }
-                writer.writeNext(nextLine);
-            }
-        } catch (IOException e) {
-            System.err.println("An error occurred while removing the subscription: " + e.getMessage());
-            e.printStackTrace();
-            return;
-        }
-        File oldFile = new File(csvFile);
-        File newFile = new File(tempFile);
-        if (!oldFile.delete()) {
-            System.err.println("Could not delete the original file.");
-            return;
-        }
-        if (!newFile.renameTo(oldFile)) {
-            System.err.println("Could not rename the temporary file to the original file.");
-        }
-    }
-	 * @throws CsvValidationException 
-    */
-	  
 	//Added to use Newsletters instead of strings.
 	public List<Newsletter> viewAvailableNewsletters(String userID) throws CsvValidationException {
 	    List<Newsletter> subscribedNewsletters = new ArrayList<>();
@@ -577,7 +545,7 @@ public class SystemDatabase {
 	    if (!oldFile.delete()) {
 	        System.err.println("Could not delete the original file.");
 	        return;
-	    }
+	    }  
         if (!tempFile.renameTo(new File(csvFile))) {
             System.err.println("Error occurred while renaming the file.");
         }

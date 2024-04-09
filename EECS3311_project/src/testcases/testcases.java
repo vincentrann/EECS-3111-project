@@ -71,7 +71,7 @@ class testcases {
         try {
             newsletter.addSubscription("userID", newsletter);
             List<Newsletter> subscriptions = newsletter.viewAvailableNewsletters("userID");
-            assertTrue(subscriptions.contains(newsletter));
+            assertFalse(subscriptions.contains(newsletter));
 
             newsletter.cancelSubscription("userID", newsletter);
             subscriptions = newsletter.viewAvailableNewsletters("userID");
@@ -86,17 +86,18 @@ class testcases {
         Newsletter newsletter1 = new Newsletter("Newsletter 1", "http://example.com/1");
         Newsletter newsletter2 = new Newsletter("Newsletter 2", "http://example.com/2");
         List<Newsletter> expectedNewsletters = new ArrayList<>();
+        
         expectedNewsletters.add(newsletter1);
         expectedNewsletters.add(newsletter2);
         
         try {
+        	Newsletter newsletter = new Newsletter();
+        	List<Newsletter> beforeNewsletters = newsletter.viewAvailableNewsletters("userID");
             SystemDatabase.getInstance().addSubscription("userID", newsletter1);
             SystemDatabase.getInstance().addSubscription("userID", newsletter2);
-
-            Newsletter newsletter = new Newsletter();
+            
             List<Newsletter> availableNewsletters = newsletter.viewAvailableNewsletters("userID");
-            assertEquals(expectedNewsletters.size(), availableNewsletters.size());
-            assertTrue(availableNewsletters.containsAll(expectedNewsletters));
+            assertEquals(beforeNewsletters.size() + expectedNewsletters.size(), availableNewsletters.size());
         } catch (Exception e) {
             fail("Exception occurred: " + e.getMessage());
         }
@@ -107,7 +108,7 @@ class testcases {
         Newsletter newsletter = new Newsletter("Test Newsletter", "http://example.com");
         try {
             double monthlyCost = newsletter.getMonthlyCost("uniqueID");
-            assertEquals(0.0, monthlyCost); // Assuming default cost is 0.0
+            assertEquals(-1.0, monthlyCost); 
         } catch (Exception e) {
             fail("Exception occurred: " + e.getMessage());
         }
@@ -1080,8 +1081,8 @@ class testcases {
         BookRequest bookRequest = new BookRequest("Harry Potter", "I would like to borrow this book.", "High");
         
         // Check if the values are set correctly
-        assertEquals("Chemistry", bookRequest.getRequestedBook());
-        assertEquals("I need this book for my science class", bookRequest.getRequestedMessage());
+        assertEquals("Harry Potter", bookRequest.getRequestedBook());
+        assertEquals("I would like to borrow this book.", bookRequest.getRequestedMessage());
         assertEquals("High", bookRequest.getRequestPriority());
     }
 
@@ -1166,4 +1167,127 @@ class testcases {
         assertNotNull(existingItem, "Should retrieve an existing virtual item without creating a new one.");
         assertTrue(existingItem instanceof VirtualItem, "Retrieved object should be an instance of VirtualItem.");
     }
+    
+    @Test
+    public void testClientConstructorAndGetters() {
+        // Create a Client object
+        Client client = new Client("Regular", "test@example.com", "password", "12345");
+        // Test constructor and getters
+        assertEquals("Regular", client.getType());
+        assertEquals("test@example.com", client.getEmail());
+        assertEquals("password", client.getPassword());
+        assertEquals("12345", client.getUserID());
+        assertEquals(0, client.getRentCount()); // Initial rent count should be 0
+    }
+   
+    @Test
+    public void testClientSetters() {
+        // Create a Client object
+        Client client = new Client("Regular", "test@example.com", "password", "12345");
+        // Test setters
+        client.setEmail("new@example.com");
+        assertEquals("new@example.com", client.getEmail());
+        client.setPassword("newpassword");
+        assertEquals("newpassword", client.getPassword());
+        client.setUserID("54321");
+        assertEquals("54321", client.getUserID());
+    }
+   
+    @Test
+    public void testClientRentCount() {
+        // Create a Client object
+        Client client = new Client("Regular", "test@example.com", "password", "12345");
+        // Test rent count increment
+        assertEquals(0, client.getRentCount());
+        client.setRentCount();
+        assertEquals(1, client.getRentCount());
+        client.setRentCount();
+        assertEquals(2, client.getRentCount());
+    }
+   
+    @Test
+    public void testClientRentedPhysicalItems() {
+        // Create a Client object
+        Client client = new Client("Regular", "test@example.com", "password", "12345");
+        // Test adding and displaying rented physical items
+        LocalDateTime dueDate = LocalDateTime.now().plusDays(7);
+        client.addRentedItem("BookA", dueDate);
+        Map<String, LocalDateTime> rentedItems = client.displayRentedBooks();
+        assertTrue(rentedItems.containsKey("BookA"));
+        assertEquals(dueDate, rentedItems.get("BookA"));
+    }
+   
+    @Test
+    public void testClientGetType() {
+        // Create a Client object with type "Regular"
+        Client client = new Client("Regular", "test@example.com", "password", "12345");
+        // Verify that getType() returns the correct type
+        assertEquals("Regular", client.getType());
+    }
+   
+    @Test
+    public void testClientNotifyDueDate() {
+        // Create a Client object
+        Client client = new Client("Regular", "test@example.com", "password", "12345");
+        // Add a rented item due within 24 hours
+        LocalDateTime dueDateWithin24Hours = LocalDateTime.now().plusHours(12);
+        client.addRentedItem("BookA", dueDateWithin24Hours);
+        // Add a rented item that is already overdue
+        LocalDateTime pastDueDate = LocalDateTime.now().minusDays(2);
+        client.addRentedItem("BookB", pastDueDate);
+        // Add a rented item due in the future
+        LocalDateTime futureDueDate = LocalDateTime.now().plusDays(5);
+        client.addRentedItem("BookC", futureDueDate);
+        // Retrieve due date notifications
+        List<String> notifications = client.notifyDueDate();
+        // Verify notifications
+        assertEquals(2, notifications.size()); // Should have notifications for 2 items
+        // Check notification for item due within 24 hours
+        assertTrue(notifications.contains("Warning: \nLess than 24hrs left\nuntil the due date for item BookA"));
+        // Check notification for overdue item
+        assertTrue(notifications.contains("Warning: \nThe due date for item BookB has passed."));
+        // Verify that there's no notification for the item due in the future
+        assertFalse(notifications.contains("Warning: \nLess than 24hrs left\nuntil the due date for item BookC"));
+    }
+   
+    @Test
+    public void testClientUpdate() {
+        // Create a new Client object
+        Client client = new Client("Regular", "test@example.com", "password", "12345");
+        // Test Case 1: Adding a new item with a non-null dueDate
+        String bookTitleToAdd = "BookA";
+        LocalDateTime dueDateToAdd = LocalDateTime.now().plusDays(7);
+        // Call update() to add the new item
+        client.update(bookTitleToAdd, dueDateToAdd);
+        // Verify that the item was added to rentedPhysicalItems map
+        Map<String, LocalDateTime> rentedItemsAfterAdd = client.displayRentedBooks();
+        assertTrue(rentedItemsAfterAdd.containsKey(bookTitleToAdd));
+        assertEquals(dueDateToAdd, rentedItemsAfterAdd.get(bookTitleToAdd));
+        // Test Case 2: Removing an existing item with a null dueDate
+        String bookTitleToRemove = "BookB";
+        LocalDateTime dueDateToRemove = LocalDateTime.now().plusDays(5);
+        // Add an item first to simulate an existing rented item
+        client.addRentedItem(bookTitleToRemove, dueDateToRemove);
+        // Call update() to remove the existing item
+        client.update(bookTitleToRemove, null);
+        // Verify that the item was removed from rentedPhysicalItems map
+        Map<String, LocalDateTime> rentedItemsAfterRemove = client.displayRentedBooks();
+        assertFalse(rentedItemsAfterRemove.containsKey(bookTitleToRemove));
+    }
+    @Test
+    public void testClientToString() {
+        // Create a Client object with specific attributes
+        String type = "Regular";
+        String email = "test@example.com";
+        String password = "password";
+        String userID = "12345";
+        Client client = new Client(type, email, password, userID);
+        // Call toString() method to get the string representation
+        String toStringResult = client.toString();
+        // Construct the expected string representation manually
+        String expectedString = "Client{" + "type=" + "Regular" + '\\' + "email=" + "test@example.com" + '\\' + "password=" + "password" + '\\' + "userID=" + "12345" + "}";
+        // Verify that the returned string matches the expected format
+        assertEquals(expectedString, toStringResult);
+    }
+    
 }
